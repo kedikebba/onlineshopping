@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Product {
 
@@ -18,16 +17,24 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Product_Id")
     private long id;
-    @Column(name = "Product_Name")
+    @Column(name = "Product Name")
     private String productName;
     private double price;
-    @Column(name = "Product_Id")
+    @Column(name = "Created Date")
     private LocalDate createdDate = LocalDate.now();
     @ManyToOne
     @JoinColumn(name = "Category_Id")
     private Category category;
     private int quantity;
+    @OneToOne
     private User vendor;
 
-
+    public Product(String productName, double price, LocalDate createdDate, Category category, int quantity, User vendor) {
+        this.productName = productName;
+        this.price = price;
+        this.createdDate = createdDate;
+        this.category = category;
+        this.quantity = quantity;
+        this.vendor = vendor;
+    }
 }
