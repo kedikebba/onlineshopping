@@ -1,40 +1,44 @@
 package edu.miu.pm.onlineshopping.admin.model;
 
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Client {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int clientId;
 	
 	private String firstName;
 	private String lastName;
-	private Contact contact;
-	private Address address;
+	private String userName;
+	private String password;
 	private Role role;
+	
+	@OneToOne
+	private Address address;
 	
 	public Client() {
 		super();
 	}
 
-	public Client(int clientId, String firstName, String lastName, Contact contact, Address address, Role role) {
+	public Client(String firstName, String lastName, String userName, String password, Role role, Address address) {
 		super();
-		this.clientId = clientId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.contact = contact;
-		this.address = address;
+		this.userName = userName;
+		this.password = password;
 		this.role = role;
+		this.address = address;
 	}
 
 	public int getClientId() {
 		return clientId;
-	}
-
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
 	}
 
 	public String getFirstName() {
@@ -53,20 +57,20 @@ public class Client {
 		this.lastName = lastName;
 	}
 
-	public Contact getContact() {
-		return contact;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public Address getAddress() {
-		return address;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Role getRole() {
@@ -77,14 +81,20 @@ public class Client {
 		this.role = role;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public String toString() {
-		return "Client [clientId=" + clientId + ", firstName=" + firstName + ", lastName=" + lastName + ", contact="
-				+ contact + ", address=" + address + ", role=" + role + "]";
+		return "Client [clientId=" + clientId + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
+				+ userName + ", password=" + password + ", role=" + role + ", address=" + address + "]";
 	}
-	
-	
-	
-	
+
+
 
 }
