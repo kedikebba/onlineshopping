@@ -1,65 +1,97 @@
 package edu.miu.pm.onlineshopping.admin.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class EndUser {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	
 	private String firstName;
 	private String lastName;
-	private Contact contact;
+	private String userName;
+	private String password;
+	private Role role=Role.ENDUSER;
+	
+	@OneToOne
 	private Address address;
+	
 	public EndUser() {
 		super();
 	}
-	public EndUser(int userId, String firstName, String lastName, Contact contact, Address address) {
+	
+	public EndUser(String firstName, String lastName, String userName, String password, Address address) {
 		super();
-		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.contact = contact;
+		this.userName = userName;
+		this.password = password;
 		this.address = address;
 	}
+
 	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Contact getContact() {
-		return contact;
+
+	public String getUserName() {
+		return userName;
 	}
-	public void setContact(Contact contact) {
-		this.contact = contact;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Address getAddress() {
 		return address;
 	}
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", contact=" + contact
-				+ ", address=" + address + "]";
+		return "EndUser [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
+				+ userName + ", password=" + password + ", role=" + role + ", address=" + address + "]";
 	}
-	
 	
 
 }
