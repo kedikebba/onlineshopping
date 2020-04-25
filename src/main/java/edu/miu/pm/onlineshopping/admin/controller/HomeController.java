@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class HomeController {
 	
-	@RequestMapping("home")
+	@RequestMapping("/home")
 	public ModelAndView homePage() {
 		ModelAndView mav=new ModelAndView("home");
 		return mav;
