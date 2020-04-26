@@ -1,29 +1,29 @@
 package edu.miu.pm.onlineshopping.product.model;
 
 import edu.miu.pm.onlineshopping.admin.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
+@Entity(name="Products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Product_Id")
     private long id;
-    @Column(name = "Product Name")
+//    @Column(name = "Product Name")
     private String productName;
     private double price;
-    @Column(name = "Created Date")
-    private LocalDate createdDate = LocalDate.now();
+//    @Column(name = "Created Date")
+    private LocalDate createdDate;
     @ManyToOne
-    @JoinColumn(name = "Category_Id")
+//    @JoinColumn(name = "Category_Id")
+    @JoinColumn
     private Category category;
     private int quantity;
     @OneToOne
@@ -37,4 +37,5 @@ public class Product {
         this.quantity = quantity;
         this.vendor = vendor;
     }
+
 }

@@ -1,25 +1,34 @@
 package edu.miu.pm.onlineshopping.product.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "categories")
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Category_Id")
     private long id;
-    @Column(name = "Category_Name")
+//    @Column(name = "Category_Name")
     private String categoryName;
     @OneToMany(mappedBy = "category")
     private List<Product> productList = new ArrayList<>();
+
+    public Category(String categoryName, List<Product> productList) {
+        this.categoryName = categoryName;
+        this.productList = productList;
+    }
+
+    public void setProductList(Product product){
+        productList.add(product);
+    }
 }

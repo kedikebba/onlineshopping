@@ -9,211 +9,160 @@
 
 
 <div class="container">
-    <h1>Welcome to Inventory page!</h1>
-<!--    <div class="row">-->
-<!--        <div class="col-10">-->
-<!--            <div class="d-flex flex-row justify-content-between flex-wrap">-->
-<!--                &lt;!&ndash; Card Regular &ndash;&gt;-->
-<!--                <div class="card card-cascade m-3 product" th:each="product : ${products}">-->
+    <h1>Welcome to ONline Shopping!</h1>
+    <div class="row">
+        <div class="col-10">
+            <div class="d-flex flex-row justify-content-between flex-wrap">
+                <!-- Card Regular -->
+                <div class="card card-cascade m-3 product" th:each="product : ${products}">
 
-<!--                    &lt;!&ndash; Card image &ndash;&gt;-->
-<!--                    <div class="view view-cascade overlay">-->
-<!--                        <span th:if="${product.images}">-->
-<!--                            <img class="card-img-top" th:src="${product.images[0].imageURL}" alt="Card image cap">-->
-<!--                        </span>-->
-<!--                        <span th:unless="${product.images}">-->
-<!--                            <img class="card-img-top" th:src="${/images/products/no-image-available.png}" alt="Card image cap">-->
-<!--                        </span>-->
-<!--                        <a>-->
-<!--                            <div class="mask rgba-white-slight"></div>-->
-<!--                        </a>-->
-<!--                    </div>-->
+                    <!-- Card content -->
+                    <div class="card-body card-body-cascade text-center">
 
-<!--                    &lt;!&ndash; Card content &ndash;&gt;-->
-<!--                    <div class="card-body card-body-cascade text-center">-->
+                        <!-- Product Name -->
+                        <h4 class="card-title"><strong th:text="${product.productName}"></strong></h4>
 
-<!--                        &lt;!&ndash; Title &ndash;&gt;-->
-<!--                        <h4 class="card-title"><strong th:text="${product.title}"></strong></h4>-->
-<!--                        &lt;!&ndash; Subtitle &ndash;&gt;-->
-<!--                        <h6 class="font-weight-bold red-text py-2">$<span th:text="${product.discountPrice}"></span></h6>-->
-<!--                        &lt;!&ndash; Text &ndash;&gt;-->
+                        <!-- Description -->
 <!--                        <p class="card-text" th:text="${product.description}">Lorem ipsum dolor sit amet, consectetur-->
 <!--                            adipisicing elit. Voluptatibus, ex, recusandae. Facere modi sunt, quod quibusdam.-->
 <!--                        </p>-->
 
 
-<!--                    </div>-->
+                    </div>
 
-<!--                    &lt;!&ndash; Card footer &ndash;&gt;-->
-<!--                    <div class="card-footer text-muted text-center">-->
-<!--                        <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#modalQuickView' + ${product.Id}">-->
-<!--                            See Product Detail-->
-<!--                        </button>-->
-<!--                    </div>-->
+                    <!-- Card footer -->
+                    <div class="card-footer text-muted text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#modalQuickView' + ${product.price}">
+                            See Product Detail
+                        </button>
+                    </div>
 
-<!--                    &lt;!&ndash; Modal: modalQuickView &ndash;&gt;-->
-<!--                    <div class="modal fade" th:id="'modalQuickView' + ${product.Id}" id="modalQuickView" tabindex="-1" role="dialog"-->
-<!--                         aria-labelledby="exampleModalLabel"-->
-<!--                         aria-hidden="true">-->
-<!--                        <div class="modal-dialog modal-lg" role="document">-->
-<!--                            <div class="modal-content">-->
-<!--                                <div class="modal-body">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-lg-5">-->
-<!--                                            &lt;!&ndash;Carousel Wrapper&ndash;&gt;-->
-<!--                                            <div id="carousel-thumb"-->
-<!--                                                 class="carousel slide carousel-fade carousel-thumbnails"-->
-<!--                                                 data-ride="carousel">-->
-<!--                                                &lt;!&ndash;Slides&ndash;&gt;-->
-<!--                                                <div class="carousel-inner" role="listbox">-->
+                    <!-- Modal: modalQuickView -->
+                    <div class="modal fade" th:id="'modalQuickView' + ${product.Id}" id="modalQuickView" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <!--Carousel Wrapper-->
+                                            <div id="carousel-thumb"
+                                                 class="carousel slide carousel-fade carousel-thumbnails"
+                                                 data-ride="carousel">
 
-<!--                                                    <div class="carousel-item" th:each="image,iStat : ${product.images}" th:class="${iStat.index}==0 ? 'carousel-item active' : 'carousel-item'">-->
-<!--                                                        <img class="d-block w-100"-->
-<!--                                                             th:src="${image.imageURL}"-->
-<!--                                                             alt="Product Image">-->
-<!--                                                    </div>-->
+                                                <!--Controls-->
+                                                <a class="carousel-control-prev" href="#carousel-thumb" role="button"
+                                                   data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carousel-thumb" role="button"
+                                                   data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                <!--/.Controls-->
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#carousel-thumb" data-slide-to="0" class="active">
+                                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(23).jpg"
+                                                             width="60">
+                                                    </li>
+                                                    <li data-target="#carousel-thumb" data-slide-to="1">
+                                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(24).jpg"
+                                                             width="60">
+                                                    </li>
+                                                    <li data-target="#carousel-thumb" data-slide-to="2">
+                                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(25).jpg"
+                                                             width="60">
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                            <!--/.Carousel Wrapper-->
 
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash;/.Slides&ndash;&gt;-->
-<!--                                                &lt;!&ndash;Controls&ndash;&gt;-->
-<!--                                                <a class="carousel-control-prev" href="#carousel-thumb" role="button"-->
-<!--                                                   data-slide="prev">-->
-<!--                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                                    <span class="sr-only">Previous</span>-->
-<!--                                                </a>-->
-<!--                                                <a class="carousel-control-next" href="#carousel-thumb" role="button"-->
-<!--                                                   data-slide="next">-->
-<!--                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                                    <span class="sr-only">Next</span>-->
-<!--                                                </a>-->
-<!--                                                &lt;!&ndash;/.Controls&ndash;&gt;-->
-<!--                                                <ol class="carousel-indicators">-->
-<!--                                                    <li data-target="#carousel-thumb" data-slide-to="0" class="active">-->
-<!--                                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(23).jpg"-->
-<!--                                                             width="60">-->
-<!--                                                    </li>-->
-<!--                                                    <li data-target="#carousel-thumb" data-slide-to="1">-->
-<!--                                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(24).jpg"-->
-<!--                                                             width="60">-->
-<!--                                                    </li>-->
-<!--                                                    <li data-target="#carousel-thumb" data-slide-to="2">-->
-<!--                                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(25).jpg"-->
-<!--                                                             width="60">-->
-<!--                                                    </li>-->
-<!--                                                </ol>-->
-<!--                                            </div>-->
-<!--                                            &lt;!&ndash;/.Carousel Wrapper&ndash;&gt;-->
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <h2 class="h2-responsive product-name">
+                                                <strong th:text="${product.productName}">Product Name</strong>
+                                            </h2>
+                                            <h4 class="h4-responsive">
+                                              <span class="green-text">
+                                                <strong>$<span th:text="${product.Price}"></span></strong>
+                                              </span>
+                                            </h4>
 
-<!--                                            <div>-->
-<!--                                                <br>-->
-<!--                                                <span class="float-right">-->
+                                            <!--Accordion wrapper-->
+                                            <div class="accordion md-accordion" id="accordionEx" role="tablist"
+                                                 aria-multiselectable="true">
 
-<!--                                                   <span class="" th:if="${product.ratingsAvg >= 1}"><i class="text-warning fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg >= 2}"><i class="text-warning fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg >= 3}"><i class="text-warning fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg >= 4}"><i class="text-warning fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg >= 5}"><i class="text-warning fa fa-star"></i></span>-->
+                                                <!-- Accordion card -->
+                                                <div class="card">
 
-<!--                                                   <span class="" th:if="${product.ratingsAvg < 1}"><i class="text-light fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg < 2}"><i class="text-light fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg < 3}"><i class="text-light fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg < 4}"><i class="text-light fa fa-star"></i></span>-->
-<!--                                                   <span class="" th:if="${product.ratingsAvg < 5}"><i class="text-light fa fa-star"></i></span>-->
-<!--                                               </span>-->
-<!--                                                <a class="text-center" th:href="@{'/products/review/' + ${product.Id}}" th:text="${product.reviewList.size()}+' User Reviews'">User Reviews</a>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-lg-7">-->
-<!--                                            <h2 class="h2-responsive product-name">-->
-<!--                                                <strong th:text="${product.title}">Product Name</strong>-->
-<!--                                            </h2>-->
-<!--                                            <h4 class="h4-responsive">-->
-<!--                                              <span class="green-text">-->
-<!--                                                <strong>$<span th:text="${product.discountPrice}"></span></strong>-->
-<!--                                              </span>-->
-<!--                                                <span class="grey-text">-->
-<!--                                                <small>-->
-<!--                                                  <s>$<span th:text="${product.oldPrice}"></span></s>-->
-<!--                                                </small>-->
-<!--                                              </span>-->
-<!--                                            </h4>-->
+                                                    <!-- Card header -->
+                                                    <div class="card-header" role="tab" id="headingOne1">
+                                                        <a data-toggle="collapse" data-parent="#accordionEx"
+                                                           href="#collapseOne1" aria-expanded="true"
+                                                           aria-controls="collapseOne1">
+                                                            <h5 class="mb-0">
+                                                                Product Description <i
+                                                                    class="fas fa-angle-down rotate-icon"></i>
+                                                            </h5>
+                                                        </a>
+                                                    </div>
 
-<!--                                            &lt;!&ndash;Accordion wrapper&ndash;&gt;-->
-<!--                                            <div class="accordion md-accordion" id="accordionEx" role="tablist"-->
-<!--                                                 aria-multiselectable="true">-->
+                                                    <!-- Card body -->
+                                                    <div id="collapseOne1" class="collapse show" role="tabpanel"
+                                                         aria-labelledby="headingOne1"
+                                                         data-parent="#accordionEx">
+                                                        <div class="card-body" th:text="${product.category}">
 
-<!--                                                &lt;!&ndash; Accordion card &ndash;&gt;-->
-<!--                                                <div class="card">-->
+                                                        </div>
+                                                    </div>
 
-<!--                                                    &lt;!&ndash; Card header &ndash;&gt;-->
-<!--                                                    <div class="card-header" role="tab" id="headingOne1">-->
-<!--                                                        <a data-toggle="collapse" data-parent="#accordionEx"-->
-<!--                                                           href="#collapseOne1" aria-expanded="true"-->
-<!--                                                           aria-controls="collapseOne1">-->
-<!--                                                            <h5 class="mb-0">-->
-<!--                                                                Product Description <i-->
-<!--                                                                    class="fas fa-angle-down rotate-icon"></i>-->
-<!--                                                            </h5>-->
-<!--                                                        </a>-->
-<!--                                                    </div>-->
+                                                </div>
+                                                <!-- Accordion card -->
 
-<!--                                                    &lt;!&ndash; Card body &ndash;&gt;-->
-<!--                                                    <div id="collapseOne1" class="collapse show" role="tabpanel"-->
-<!--                                                         aria-labelledby="headingOne1"-->
-<!--                                                         data-parent="#accordionEx">-->
-<!--                                                        <div class="card-body" th:text="${product.description}">-->
+                                            </div>
+                                            <!-- Accordion wrapper -->
 
-<!--                                                        </div>-->
-<!--                                                    </div>-->
+                                            <!--Accordion wrapper-->
+                                            <div class="accordion md-accordion" id="accordionEx2" role="tablist"
+                                                 aria-multiselectable="true">
 
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash; Accordion card &ndash;&gt;-->
+                                                <!-- Accordion card -->
+                                                <div class="card">
 
-<!--                                            </div>-->
-<!--                                            &lt;!&ndash; Accordion wrapper &ndash;&gt;-->
+                                                    <!-- Card header -->
+                                                    <div class="card-header" role="tab" id="headingOne2">
+                                                        <a data-toggle="collapse" data-parent="#accordionEx2"
+                                                           href="#collapseOne2" aria-expanded="true"
+                                                           aria-controls="collapseOne1">
+                                                            <h5 class="mb-0">
+                                                                Vendor <i
+                                                                    class="fas fa-angle-down rotate-icon"></i>
+                                                            </h5>
+                                                        </a>
+                                                    </div>
 
-<!--                                            &lt;!&ndash;Accordion wrapper&ndash;&gt;-->
-<!--                                            <div class="accordion md-accordion" id="accordionEx2" role="tablist"-->
-<!--                                                 aria-multiselectable="true">-->
-
-<!--                                                &lt;!&ndash; Accordion card &ndash;&gt;-->
-<!--                                                <div class="card">-->
-
-<!--                                                    &lt;!&ndash; Card header &ndash;&gt;-->
-<!--                                                    <div class="card-header" role="tab" id="headingOne2">-->
-<!--                                                        <a data-toggle="collapse" data-parent="#accordionEx2"-->
-<!--                                                           href="#collapseOne2" aria-expanded="true"-->
-<!--                                                           aria-controls="collapseOne1">-->
-<!--                                                            <h5 class="mb-0">-->
-<!--                                                                Seller <i-->
-<!--                                                                    class="fas fa-angle-down rotate-icon"></i>-->
-<!--                                                            </h5>-->
-<!--                                                        </a>-->
-<!--                                                    </div>-->
-
-<!--                                                    &lt;!&ndash; Card body &ndash;&gt;-->
-<!--                                                    <div id="collapseOne2" class="collapse show" role="tabpanel"-->
-<!--                                                         aria-labelledby="headingOne1"-->
-<!--                                                         data-parent="#accordionEx">-->
-<!--                                                        <div class="card-body">-->
-<!--                                                            <span th:text="${product.seller.firstName}"></span>-->
-
-<!--                                                            <div th:if="${currentUser}" class="float-right">-->
-<!--                                                                <span id="userId" th:data="${product.seller.Id}"></span>-->
-<!--                                                                <button type="button" th:style ="${product.seller.followers.contains(currentUser)} ? 'display: none;' : ''" th:data="${product.seller.Id}" th:classappend="'follow'+ ${product.seller.Id}"  class="btn btn-default btn-sm follow" >Follow</button>-->
-<!--                                                                <button type="button" th:style ="${!product.seller.followers.contains(currentUser)} ? 'display: none;' : ''" th:data="${product.seller.Id}" th:classappend="'unfollow'+ ${product.seller.Id}" class="btn btn-light btn-sm unfollow" >Unfollow</button>-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash; Accordion card &ndash;&gt;-->
-
-<!--                                            </div>-->
-<!--                                            &lt;!&ndash; Accordion wrapper &ndash;&gt;-->
+                                                    <!-- Card body -->
+                                                    <div id="collapseOne2" class="collapse show" role="tabpanel"
+                                                         aria-labelledby="headingOne1"
+                                                         data-parent="#accordionEx">
+                                                        <div class="card-body">
+                                                            <span th:text="${product.vendor.firstName}"></span>
 
 
-<!--                                            &lt;!&ndash; Add to Cart &ndash;&gt;-->
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!-- Accordion card -->
+
+                                            </div>
+                                            <!-- Accordion wrapper -->
+
+
+                                            <!-- Add to Cart -->
 <!--                                            <div class="card-body">-->
 <!--                                                <div class="row">-->
 <!--                                                    <div class="col-md-6">-->
@@ -242,21 +191,21 @@
 <!--                                                    </button>-->
 <!--                                                </div>-->
 <!--                                            </div>-->
-<!--                                            &lt;!&ndash; /.Add to Cart &ndash;&gt;-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                                            <!-- /.Add to Cart -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<!--                </div>-->
-<!--                &lt;!&ndash; Card Regular &ndash;&gt;-->
+                </div>
+                <!-- Card Regular -->
 
 
-<!--            </div>-->
+            </div>
 
-<!--        </div>-->
+        </div>
 <!--        <div class="col-lg-2 col-md-3 mt-5" th:if="${advert}">-->
 <!--            <div class="card card-bordered" th:object="${advert}">-->
 <!--                <img class="card-img-top img-fluid" th:src="*{imageUrl.imageURL}" alt="image">-->
@@ -270,8 +219,8 @@
 <!--            <div class="col"></div>-->
 <!--        </div>-->
 
-<!--    </div>-->
-<!--</div>-->
+    </div>
+</div>
 
 
 <div th:replace="fragments/footer :: footer">
