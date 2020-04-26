@@ -33,9 +33,9 @@ public class MailService {
 	private static final boolean ISHTML = true;
 	private static final boolean ISMULTIPART = true;
 	private static final String encoding = "UTF-8";
-	
 
-	private JavaMailSender mailSender =  new JavaMailSenderImpl();
+    @Autowired
+	private JavaMailSender mailSender;
 
 	@Autowired
 	private MessageContentBuilder contentBuilder;
