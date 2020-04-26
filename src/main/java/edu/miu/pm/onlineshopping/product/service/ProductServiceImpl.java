@@ -20,6 +20,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchProduct(String search) {
-        return productRespository.findAllByProductNameOrCategory_CategoryName(search, search);
+        return productRespository.findAllByProductNameOrCategory_CategoryNameOrVendor_FirstName(search, search, search);
     }
 }

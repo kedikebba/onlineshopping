@@ -25,8 +25,8 @@ public class ProductController {
 //    }
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getInventory(){
-        for(Product produt: productService.getAllProducts())
-            System.out.println(produt.getProductName());
+//        for(Product produt: productService.getAllProducts())
+//            System.out.println(produt.getProductName());
 
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
@@ -41,8 +41,8 @@ public class ProductController {
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProduct(@RequestParam("search") String search){
 
-        for(Product produt: productService.searchProduct(search))
-            System.out.println(produt.getProductName());
+//        for(Product produt: productService.searchProduct(search))
+////            System.out.println(produt.getProductName());
         return new ResponseEntity<>(productService.searchProduct(search), HttpStatus.OK);
     }
 }
