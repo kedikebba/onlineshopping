@@ -7,5 +7,5 @@ public class Order {
     private double totalPrice;
     private OrderStatus orderStatus;
     private double tax;
-    private User buyer;
+//    private User buyer;
 }
