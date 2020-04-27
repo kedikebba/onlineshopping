@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.admin.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class Vendor {
 	private String userName;
 	private String password;
 	
-	@OneToOne
+	@OneToOne(cascade= {CascadeType.ALL})
 	private Address address;
 	
 	private boolean registrationFeeStatus;
@@ -71,7 +72,7 @@ public class Vendor {
 		this.address = address;
 	}
 
-	public boolean isRegistrationFeeStatus() {
+	public boolean getRegistrationFeeStatus() {
 		return registrationFeeStatus;
 	}
 

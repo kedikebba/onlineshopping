@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.admin.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class EndUser {
 	private String password;
 	private Role role=Role.ENDUSER;
 	
-	@OneToOne
+	@OneToOne(cascade= {CascadeType.ALL})
 	private Address address;
 	
 	public EndUser() {
