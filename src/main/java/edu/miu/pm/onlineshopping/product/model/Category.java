@@ -1,6 +1,7 @@
 package edu.miu.pm.onlineshopping.product.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -21,6 +22,7 @@ public class Category {
 //    @Column(name = "Category_Name")
     private String categoryName;
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Product> productList = new ArrayList<>();
 
     public Category(String categoryName, List<Product> productList) {

@@ -26,11 +26,9 @@ public class Product {
     @ManyToOne
 //    @JoinColumn(name = "Category_Id")
     @JoinColumn
-    @JsonIgnore
     private Category category;
     private int quantity;
     @OneToOne
-    @JsonIgnore
     private User vendor;
 
     public Product(String productName, double price, LocalDate createdDate, Category category, int quantity, User vendor) {

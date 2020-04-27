@@ -10,5 +10,6 @@ import java.util.List;
 public interface ProductRespository extends JpaRepository<Product, Long> {
 
 //    List<Product> findALLByProductNameOrCategoryOrderByCategory(String search1, String search2);
-    List<Product> findAllByProductNameOrCategory_CategoryNameOrVendor_FirstName(String search1, String search2, String search3);
+//    List<Product> findAllByProductNameOrCategory_CategoryNameOrVendor_FirstName(String search1, String search2, String search3);
+    List<Product> findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(String search1, String search2, String search3);
 }
