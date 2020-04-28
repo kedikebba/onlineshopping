@@ -8,7 +8,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Component
-public class ThymeleafMessageContentBuilder implements MessageContentBuilder {
+public class TemplateMessageContentBuilder implements MessageContentBuilder {
 
 	@Autowired
 	private TemplateEngine templateEngine;
