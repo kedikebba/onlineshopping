@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 /**
  * e.g  using
  * 	try {
- * 			mailService.sendMailText(RECIPIENTS, SUBJECT, "Ez egy lev�l t�rzs", new String[] {"proba.txt"});
+ * 			mailService.sendMailText(RECIPIENTS, SUBJECT, "context here", attachment);
  *                } catch (Exception ex) {
  * 			System.out.println(ex.getMessage());
  *        }
