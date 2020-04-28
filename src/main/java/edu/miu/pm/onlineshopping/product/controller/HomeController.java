@@ -12,6 +12,6 @@ public class HomeController {
     @GetMapping("/home")
     public String getHome(){
 
-        return "redirect:/products";
+        return "redirect:/products/api/v1/list";
     }
 }

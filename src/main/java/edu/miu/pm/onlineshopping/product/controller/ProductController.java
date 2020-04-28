@@ -5,44 +5,48 @@ import edu.miu.pm.onlineshopping.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
+//@RestController
+@RequestMapping("products/api/v1")
 public class ProductController {
 
-    @Autowired
     private ProductService productService;
 
-//    @GetMapping("/products")
-//    public String getInventory(Model model){
-//        model.addAttribute("products", productService.getAllProducts());
-//        return "product_inventory";
-//    }
-    @GetMapping("/products")
-    public ResponseEntity<List<Product>> getInventory(){
-//        for(Product produt: productService.getAllProducts())
-//            System.out.println(produt.getProductName());
-
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
-//    @GetMapping("/search")
-//    public String searchProduct(@RequestParam String search, Model model){
-//        model.addAttribute("products", productService.searchProduct(search));
+        @GetMapping("/list")
+    public String getInventory(Model model){
+        model.addAttribute("products", productService.getAllProducts());
+        return "product_inventory";
+    }
+//    @GetMapping("/list")
+//    public ResponseEntity<List<Product>> getInventory(){
 //
-//        return "product_inventory";
+//        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
 //    }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProduct(@RequestParam("search") String search){
+    public String searchProduct(@RequestParam String search, Model model){
+        model.addAttribute("products", productService.searchProduct(search));
 
-//        for(Product produt: productService.searchProduct(search))
-////            System.out.println(produt.getProductName());
-        return new ResponseEntity<>(productService.searchProduct(search), HttpStatus.OK);
+        return "product_inventory";
     }
+
+//    @GetMapping("/search")
+//    public ResponseEntity<List<Product>> searchProduct(@RequestParam("search") String search){
+//
+//        return new ResponseEntity<>(productService.searchProduct(search), HttpStatus.OK);
+//    }
 }

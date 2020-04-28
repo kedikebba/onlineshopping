@@ -5,6 +5,7 @@
 
 <div th:fragment="navbar-default">
     <!--Navbar -->
+    <!-- Top left menu -->
     <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
@@ -25,26 +26,28 @@
                 </li>
 
             </ul>
+
+            <!--Navbar/Top Right/Search -->
             <ul class="navbar-nav ml-auto nav-flex-icons" th:unless="${user!=null && user.role.id==3} ">
 
-                <input type="text" />
-                <li class="nav-item mr-3">
-                    <a th:href="@{/search}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">
-                        <span  class="">Search</span>
-                    </a>
-                </li>
+                <form th:action="@{/products/api/v1/search}">
+                    <input type="text" th:name="search"/>
+                    <button type="submit">Search</button>
+                </form>
+
+
 
                 <!-- Button trigger modal-->
-                <li class="nav-item mr-3">
-                    <a th:href="@{/login}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">
-                        <span  class="">Login</span>
-                    </a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a th:href="@{/register}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">
-                        <span  class="">Register</span>
-                    </a>
-                </li>
+<!--                <li class="nav-item mr-3">-->
+<!--                    <a th:href="@{/login}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">-->
+<!--                        <span  class="">Login</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item mr-3">-->
+<!--                    <a th:href="@{/register}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">-->
+<!--                        <span  class="">Register</span>-->
+<!--                    </a>-->
+<!--                </li>-->
             </ul>
 
 
@@ -94,7 +97,7 @@
     </nav>
     <!--/.Navbar -->
 
-    <!-- Modal: modalAbandonedCart-->
+    <!-- Modal: Products in the cart-->
     <div class="modal fade right" id="modalAbandonedCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true" data-backdrop="false">
         <div class="modal-dialog modal-side modal-top-right modal-notify modal-info" role="document">
@@ -125,7 +128,7 @@
                                 <span class="cartCount" th:text="${productItems.size()}"></span>
                                 <span class=""> items in the cart</span>
                             </p>
-                            <p>Do you need more time to make a purchase decision?</p>
+<!--                            <p>Do you need more time to make a purchase decision?</p>-->
 
                         </div>
                     </div>
@@ -140,7 +143,7 @@
             <!--/.Content-->
         </div>
     </div>
-    <!-- Modal: modalAbandonedCart-->
+    <!-- Modal: Products in the cart-->
 
 
 
