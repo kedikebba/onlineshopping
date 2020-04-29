@@ -1,6 +1,6 @@
-package edu.miu.pm.onlineshopping.product.repository;
+package edu.miu.pm.onlineshopping.shoppingcart.repository;
 
-import edu.miu.pm.onlineshopping.product.model.Category;
+import edu.miu.pm.onlineshopping.shoppingcart.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

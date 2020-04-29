@@ -1,9 +1,9 @@
-package edu.miu.pm.onlineshopping.product.model;
+package edu.miu.pm.onlineshopping.shoppingcart.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import edu.miu.pm.onlineshopping.admin.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;

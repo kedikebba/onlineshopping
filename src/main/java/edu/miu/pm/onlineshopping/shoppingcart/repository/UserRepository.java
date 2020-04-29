@@ -1,6 +1,6 @@
-package edu.miu.pm.onlineshopping.admin.controller.repository;
+package edu.miu.pm.onlineshopping.shoppingcart.repository;
 
-import edu.miu.pm.onlineshopping.admin.User;
+import edu.miu.pm.onlineshopping.shoppingcart.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

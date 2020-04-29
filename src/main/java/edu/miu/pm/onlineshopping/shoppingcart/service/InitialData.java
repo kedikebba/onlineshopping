@@ -1,18 +1,18 @@
-package edu.miu.pm.onlineshopping.product;
+package edu.miu.pm.onlineshopping.shoppingcart.service;
 
-import edu.miu.pm.onlineshopping.admin.User;
-import edu.miu.pm.onlineshopping.admin.controller.repository.UserRepository;
-import edu.miu.pm.onlineshopping.product.model.Category;
-import edu.miu.pm.onlineshopping.product.model.Product;
-import edu.miu.pm.onlineshopping.product.repository.CategoryRepository;
-import edu.miu.pm.onlineshopping.product.repository.ProductRespository;
+
+import edu.miu.pm.onlineshopping.shoppingcart.model.Category;
+import edu.miu.pm.onlineshopping.shoppingcart.model.Product;
+import edu.miu.pm.onlineshopping.shoppingcart.model.User;
+import edu.miu.pm.onlineshopping.shoppingcart.repository.CategoryRepository;
+import edu.miu.pm.onlineshopping.shoppingcart.repository.ProductRespository;
+import edu.miu.pm.onlineshopping.shoppingcart.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Component
 public class InitialData implements ApplicationRunner {
