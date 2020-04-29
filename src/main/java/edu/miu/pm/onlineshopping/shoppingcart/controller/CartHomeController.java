@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/product")
-public class HomeController {
+public class CartHomeController {
 
     @GetMapping("/home")
     public String getHome(){
