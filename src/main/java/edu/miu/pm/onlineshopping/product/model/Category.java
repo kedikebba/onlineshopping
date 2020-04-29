@@ -27,8 +27,7 @@ public class Category implements  Serializable {
     private String description;
 
     private int status; // 0- inactive,  1- active
-//    @OneToMany(mappedBy = "category")
-//    private Collection<Product> product;
+
 
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
