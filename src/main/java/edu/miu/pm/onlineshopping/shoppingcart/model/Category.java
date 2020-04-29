@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "categories")
+
 public class Category {
 
     @Id
@@ -23,8 +23,8 @@ public class Category {
     private long id;
 //    @Column(name = "Category_Name")
     private String categoryName;
-    @OneToMany(mappedBy = "category")
-    @JsonIgnore
+   // @OneToMany(mappedBy = "category")
+    //@JsonIgnore
     private List<Product> productList = new ArrayList<>();
 
     public Category(String categoryName, List<Product> productList) {

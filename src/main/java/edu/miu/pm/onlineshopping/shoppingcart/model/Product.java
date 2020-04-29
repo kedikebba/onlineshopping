@@ -23,12 +23,12 @@ public class Product {
     private double price;
 //    @Column(name = "Created Date")
     private LocalDate createdDate;
-    @ManyToOne
+   // @ManyToOne
 //    @JoinColumn(name = "Category_Id")
-    @JoinColumn
+   // @JoinColumn
     private Category category;
     private int quantity;
-    @OneToOne
+    //@OneToOne
     private User vendor;
 
     public Product(String productName, double price, LocalDate createdDate, Category category, int quantity, User vendor) {
