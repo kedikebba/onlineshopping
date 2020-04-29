@@ -35,9 +35,9 @@ public class Order {
 //    private User buyer;
     private String buyerName;
 
-    public void setCartItems(CartItem cartItem){
-        this.cartItems.put(cartItem.getProductId(), cartItem.getQuantity());
-    }
+//    public void setCartItems(CartItem cartItem){
+//        this.cartItems.put(cartItem.getProductId(), cartItem.getQuantity());
+//    }
 
 
 }

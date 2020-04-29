@@ -8,4 +8,6 @@ public interface OrderService {
 
     //retrurns number of items in the cart
     Order addItemToCart(String user, CartItem cartItem);
+
+    Order removeCartItem(String user, CartItem cartItem);
 }

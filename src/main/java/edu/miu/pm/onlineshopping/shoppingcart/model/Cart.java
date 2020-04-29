@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Cart {
 
-    private List<ProductDetail> productDetails;
+    private List<CartItem> cartItems;
     private double totalPrice;
 
 
