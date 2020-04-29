@@ -26,14 +26,14 @@ public class Product implements  Serializable {
     private String status;
     private String productImage;
 
-//    @ManyToOne
-//    private User user; //vendor of the product.
-//    public void setUser(User user) {
-//        this.user = user;
-//        }
-//    public User getUser() {
-//        return user;
-//    }
+    //Boolean approvedStatus - False
+    //boolean isAvailable - Set when Qty >= 1 - True else False
+    //int soldQty - Default - 0
+    //Vendor - ManyToOne
+    //Date - Creation
+
+
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId")

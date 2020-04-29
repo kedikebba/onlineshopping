@@ -33,10 +33,6 @@ public class ProductDetail {
     @JoinColumn(name = "productId", nullable = false)
     private  Product product;
 
-//    @ManyToOne()
-//    @JoinColumn(name = "userId", referencedColumnName="id",  nullable = false)
-//    private User userId; //vendor of the product.
-
 
     public ProductDetail(@NotNull @NotEmpty String detailName, String description, int quantity, Product product) {
         this.detailName = detailName;
