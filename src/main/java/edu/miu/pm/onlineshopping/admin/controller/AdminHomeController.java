@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@RequestMapping("admin")
 public class AdminHomeController {
 	
 	@RequestMapping("/home")

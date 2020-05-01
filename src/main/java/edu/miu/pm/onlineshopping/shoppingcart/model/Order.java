@@ -1,10 +1,14 @@
 package edu.miu.pm.onlineshopping.shoppingcart.model;
 
+import edu.miu.pm.onlineshopping.admin.model.EndUser;
+import edu.miu.pm.onlineshopping.product.model.Product;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Setter
@@ -16,10 +20,12 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "Order_Id")
+    @Column(name = "Order_Id")
     private long id;
+    @Column(name = "Order_Number")
+    private String orderNumber;
 
-//    @Column(name = "Total_Price")
+    @Column(name = "Total_Price")
     private double totalPrice;
 
     @ElementCollection
@@ -30,10 +36,16 @@ public class Order {
     private Map<Long, Integer> cartItems = new HashMap<>();
     private LocalDate orderCompletedDate;
     private Enum orderStatus = OrderStatus.PENDING;
-//    @ManyToOne
-//    @JoinColumn(name="User_ID")
-//    private User buyer;
-    private String buyerName;
+    @ManyToOne
+    @JoinColumn(name="EndUser_ID")
+    private EndUser buyer;
+    private boolean isSufficientStockExist;
+    @OneToMany
+    private List<Product> stockErrors = new ArrayList<>();
+    private LocalDate deliveryDate;
+
+    @OneToOne
+    private PaymentStatus paymentStatus;
 
 //    public void setCartItems(CartItem cartItem){
 //        this.cartItems.put(cartItem.getProductId(), cartItem.getQuantity());

@@ -1,4 +1,5 @@
 package edu.miu.pm.onlineshopping.payment.paypal.model;
+
 public class Order {
     private double price;
     private String currency;

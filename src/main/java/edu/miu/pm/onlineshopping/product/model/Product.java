@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.product.model;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import lombok.*;
 
 
@@ -33,7 +34,8 @@ public class Product implements  Serializable {
     //Date - Creation
 
 
-
+    @ManyToOne
+    private Vendor vendor;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId")

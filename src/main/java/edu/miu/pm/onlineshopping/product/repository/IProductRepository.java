@@ -54,4 +54,7 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             "and p.status = ?3 order by p.productName")
     List<Product> findByPrice(Double minProductPrice,Double maxProductPrice, Integer status);
 
+    //added by Getaneh - to use for search
+    List<Product> findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(String search1, String search2, String search3);
+
 }
