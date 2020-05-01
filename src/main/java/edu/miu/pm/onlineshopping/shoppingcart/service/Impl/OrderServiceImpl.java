@@ -121,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
            if (!product.isPresent()){
                stockErrors.add(product.get());
            }
-           else if ((product.get().getQuantity() - order.getCartItems().get(id) < 0){
+           else if ((product.get().getQuantity() - order.getCartItems().get(id) < 0)){
                stockErrors.add(product.get());
             }
         }
