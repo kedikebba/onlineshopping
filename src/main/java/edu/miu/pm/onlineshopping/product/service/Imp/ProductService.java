@@ -88,6 +88,7 @@ public class ProductService implements  IProductService {
     public List<Product> findByPrice(Double minProductPrice, Double maxProductPrice, Integer status) {
         return productRepository.findByPrice(minProductPrice,maxProductPrice,status);
     }
+
 //    @Override
 //    public Product save(Product product, User user) {
 //
@@ -99,5 +100,16 @@ public class ProductService implements  IProductService {
 //
 //        return product;
 //    }
+
+    //Added by Getaneh
+    @Override
+    public List<Product> searchProduct(String search) {
+        return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
 
 }

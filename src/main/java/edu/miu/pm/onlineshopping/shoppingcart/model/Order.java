@@ -41,7 +41,7 @@ public class Order {
     private EndUser buyer;
     private boolean isSufficientStockExist;
     @OneToMany
-    private List<Product> stockErrors = new ArrayList<>();
+    private List<Product> stockErrors;
     private LocalDate deliveryDate;
 
     @OneToOne

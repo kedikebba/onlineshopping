@@ -2,7 +2,7 @@ package edu.miu.pm.onlineshopping.shoppingcart.service.Impl;
 
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.product.model.Product;
-import edu.miu.pm.onlineshopping.product.repository.IProductRepository;
+import edu.miu.pm.onlineshopping.product.service.IProductService;
 import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
 import edu.miu.pm.onlineshopping.shoppingcart.model.Order;
 import edu.miu.pm.onlineshopping.shoppingcart.model.OrderStatus;
@@ -17,12 +17,12 @@ import java.util.*;
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
-    private IProductRepository productRepository;
+    private IProductService productService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, IProductRepository productRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService) {
         this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
+        this.productService = productService;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class OrderServiceImpl implements OrderService {
 //            pendingOrder.setCartItems(cartItem);
             double price = 0;
             for(Long id: pendingOrder.getCartItems().keySet()){
-                Optional<Product> product = productRepository.findById(id);
-                price += (product.get().getPrice() * pendingOrder.getCartItems().get(id));
+                Product product = productService.findById(id);
+                price += (product.getPrice() * pendingOrder.getCartItems().get(id));
             }
             pendingOrder.setTotalPrice(price + price*tax);
             numberOfItemsInCart = pendingOrder.getCartItems().keySet().size();
@@ -53,10 +53,11 @@ public class OrderServiceImpl implements OrderService {
             cartMap.put(cartItem.getProductId(), cartItem.getQuantity());
             newOrder.setCartItems(cartMap);
 //            newOrder.setCartItems(cartItem);
-            Optional<Product> product = productRepository.findById(cartItem.getProductId());
-            product.ifPresent(item -> newOrder.setTotalPrice(item.getPrice() * cartItem.getQuantity() +
-                                        item.getPrice() * cartItem.getQuantity() * tax)
-                            );
+            Product product = productService.findById(cartItem.getProductId());
+            if (product != null){
+                newOrder.setTotalPrice(product.getPrice() * cartItem.getQuantity() +
+                                         product.getPrice() * cartItem.getQuantity() * tax);
+            }
 
             numberOfItemsInCart = 1;
           return orderRepository.save(newOrder);
@@ -75,8 +76,8 @@ public class OrderServiceImpl implements OrderService {
             double tax = 0.02;
             double price = 0;
             for (Long id : pendingOrder.getCartItems().keySet()) {
-                Optional<Product> product = productRepository.findById(id);
-                price += (product.get().getPrice() * pendingOrder.getCartItems().get(id));
+                Product product = productService.findById(id);
+                price += (product.getPrice() * pendingOrder.getCartItems().get(id));
             }
             pendingOrder.setTotalPrice(price + price * tax);
 
@@ -94,20 +95,21 @@ public class OrderServiceImpl implements OrderService {
     //Product Related implementation
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productService.findAll();
     }
 
     @Override
     public List<Product> searchProduct(String search) {
 //        return productRespository.findAllByProductNameOrCategory_CategoryNameOrVendor_FirstName(search, search, search);
-        return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
+//        return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
+        return productService.searchProduct(search);
     }
 
     @Override
     public List<Product> getProducts(Set<Long> keySet) {
         List<Product> products = new ArrayList<>();
         for(Long id: keySet){
-            products.add(productRepository.findById(id).get());
+            products.add(productService.findById(id));
         }
 
         return products;
@@ -117,16 +119,39 @@ public class OrderServiceImpl implements OrderService {
     public Order checkStock(Order order) {
         List<Product> stockErrors = new ArrayList<>();
         for (Long id: order.getCartItems().keySet()){
-            Optional<Product> product = productRepository.findById(id);
-           if (!product.isPresent()){
-               stockErrors.add(product.get());
+            Product product = productService.findById(id);
+           if (product == null ){
+               stockErrors.add(product);
+               order.setSufficientStockExist(false);
+
            }
-           else if ((product.get().getQuantity() - order.getCartItems().get(id) < 0)){
-               stockErrors.add(product.get());
+           else if ((product.getQuantity() - order.getCartItems().get(id) < 0)){
+               stockErrors.add(product);
+               order.setSufficientStockExist(false);
             }
         }
         order.setStockErrors(stockErrors);
+
         return order;
+    }
+
+    @Override
+    public void updateStock(Order order) {
+
+        for (Long id: order.getCartItems().keySet()){
+            Product product = productService.findById(id);
+            if(product != null){
+                product.setQuantity(product.getQuantity() - order.getCartItems().get(id));
+                productService.saveProduct(product);
+            }
+        }
+    }
+
+    @Override
+    public Order generateOrderNumber(Order order) {
+
+
+        return null;
     }
 
 }

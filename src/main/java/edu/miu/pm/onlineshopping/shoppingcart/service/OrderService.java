@@ -24,4 +24,8 @@ public interface OrderService {
     List<Product> getProducts(Set<Long> keySet);
 
     Order checkStock(Order order);
+
+    void updateStock(Order order);
+
+    Order generateOrderNumber(Order order);
 }

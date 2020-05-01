@@ -91,10 +91,19 @@ public class OrderController {
         order = orderService.checkStock(order);
 
         //if there is a problem with stock return Order object with isSufficientStockExist = true
+        if (!order.getStockErrors().isEmpty()){
+            order.setSufficientStockExist(true);
+            return new ResponseEntity<>(order, HttpStatus.BAD_REQUEST);
+        }
         //if stock is ok - send payment module order object
         //if there is a problem with payment - return the order with the error in it
+
         //if payment is ok - reduce quantity of product
+        orderService.updateStock(order);
+
         //generate order number
+        order = orderService.generateOrderNumber(order);
+
         //generate orderComplete date
         //change the order status to COMPLETED,
         //generate delivery date - in 3 days
