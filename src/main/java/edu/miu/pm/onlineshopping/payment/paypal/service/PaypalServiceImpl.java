@@ -29,7 +29,7 @@ public class PaypalServiceImpl implements  PaypalService {
                 .setEmail("addisu.marilign@gmail.com");;
         // .setPhone("6418198076");
         payer.setPayerInfo(payerInfo);
-        
+
 
         Amount amount= new Amount();
         total= new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
