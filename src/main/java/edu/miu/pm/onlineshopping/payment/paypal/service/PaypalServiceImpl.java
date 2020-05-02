@@ -20,6 +20,17 @@ public class PaypalServiceImpl implements  PaypalService {
     public Payment createPayment(Double total, String currency, String method, String intent, String description,
                                  String cancelUrl, String successUrl) throws PayPalRESTException {
 
+        //1. Creating payer:
+        Payer payer= new Payer();
+        payer.setPaymentMethod(method).toString();
+        PayerInfo payerInfo = new PayerInfo();
+        payerInfo.setFirstName("Addisu")
+                .setLastName("Marilign")
+                .setEmail("addisu.marilign@gmail.com");;
+        // .setPhone("6418198076");
+        payer.setPayerInfo(payerInfo);
+        
+
         Amount amount= new Amount();
         total= new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
         amount.setCurrency(currency);
@@ -33,8 +44,6 @@ public class PaypalServiceImpl implements  PaypalService {
         List<Transaction> transactions= new ArrayList<>();
         transactions.add(transaction);
 
-        Payer payer= new Payer();
-        payer.setPaymentMethod(method).toString();
 
         Payment payment = new Payment();
         payment.setIntent(intent.toString());
