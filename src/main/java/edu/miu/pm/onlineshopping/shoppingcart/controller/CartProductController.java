@@ -1,7 +1,8 @@
 package edu.miu.pm.onlineshopping.shoppingcart.controller;
 
-import edu.miu.pm.onlineshopping.shoppingcart.model.Product;
-import edu.miu.pm.onlineshopping.shoppingcart.service.ProductService;
+import edu.miu.pm.onlineshopping.product.model.Product;
+
+import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,9 @@ import java.util.List;
 @RequestMapping("products/api/v1")
 public class CartProductController {
 
-    private ProductService productService;
-
     @Autowired
-    public CartProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private OrderService orderService;
+
 
 //        @GetMapping("/list")
 //    public String getInventory(Model model){
@@ -32,7 +30,7 @@ public class CartProductController {
     @GetMapping("/list")
     public ResponseEntity<List<Product>> getInventory(){
 
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getAllProducts(), HttpStatus.OK);
     }
 
 //    @GetMapping("/search")
@@ -45,6 +43,6 @@ public class CartProductController {
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProduct(@RequestParam("search") String search){
 
-        return new ResponseEntity<>(productService.searchProduct(search), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.searchProduct(search), HttpStatus.OK);
     }
 }
