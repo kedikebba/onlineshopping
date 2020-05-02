@@ -100,4 +100,15 @@ public class ProductService implements  IProductService {
 //        return product;
 //    }
 
+    //Added by Getaneh
+    @Override
+    public List<Product> searchProduct(String search) {
+        return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
 }
