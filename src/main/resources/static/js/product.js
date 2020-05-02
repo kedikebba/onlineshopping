@@ -1,4 +1,4 @@
-// Material Select Initialization
+
 $(document).ready(function() {
     //$('.mdb-select').materialSelect();
     var selected =1;
@@ -216,82 +216,5 @@ $(document).ready(function() {
         //alert(order_id)
         window.location.href = contextRoot + "/cancelOrder?orderId="+order_id;
     });
-
-
-
-    $("#add-review").click(function(e){
-        e.preventDefault();
-        console.log(JSON.stringify( $("#ratingForm").serialize() ));
-
-
-        $.ajax({
-                url: "/products/review/add",
-                contentType: 'application/json',
-                dataType: 'json',
-                type: "post",
-                data: JSON.stringify($("form#ratingForm").serialize()),
-                success: function(data){
-                    console.log(data);
-
-                },
-                error: function (error) {
-                    console.log('error========================================')
-                    console.log(error);
-
-                }
-            }
-
-        );
-    });
-
-
-    $(".follow").click(function(){
-        user_id = $("#userId").attr("data");
-        btnId = $(this).attr("data");
-
-        $.ajax({
-                url: "/products/user/follow/"+user_id,
-                contentType: 'application/json',
-                dataType: 'json',
-                type: "put",
-                success: function(data){
-                    console.log(data);
-                    $(".follow"+btnId).addClass('d-none');
-                    $(".follow"+btnId).removeClass('d-inline-block');
-                    $(".unfollow"+btnId).addClass('d-inline-block');
-                },
-                error: function (error) {
-                    console.log('error========================================')
-                    console.log(error);
-                }
-            }
-        );
-    });
-
-
-    $(".unfollow").click(function(){
-        user_id = $("#userId").attr("data");
-        btnId = $(this).attr("data");
-
-        $.ajax({
-                url: "/products/user/unfollow/"+user_id,
-                contentType: 'application/json',
-                dataType: 'json',
-                type: "put",
-                success: function(data){
-                    console.log(data);
-                    $(".follow"+btnId).addClass('d-inline-block');
-                    $(".unfollow"+btnId).addClass('d-none');
-                    $(".unfollow"+btnId).removeClass('d-inline-block')
-                },
-                error: function (error) {
-                    console.log('error========================================')
-                    console.log(error);
-                }
-            }
-        );
-    });
-
-
 
 });

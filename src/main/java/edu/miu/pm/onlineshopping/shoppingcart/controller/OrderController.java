@@ -37,20 +37,6 @@ public class OrderController {
         cart.setTotalPrice(order.getTotalPrice());
 
        return new ResponseEntity<>(cart, HttpStatus.OK);
-
-//       List<Product> products = productService.getProducts(order.getCartItems().keySet());
-//       List<CartItem> cartItems = new ArrayList<>();
-//       for(Product product: products){
-//           CartItem item = new CartItem();
-//           item.setProductName(product.getProductName());
-//           item.setQuantity(order.getCartItems().get(product.getId()));
-//           cartItems.add(item);
-//       }
-//       Cart cart = new Cart();
-//       cart.setCartItems(cartItems);
-//       cart.setTotalPrice(order.getTotalPrice());
-//
-//       return cart;
     }
     @PutMapping("/editCart")
     public ResponseEntity<Cart> editCart(@RequestBody Cart cart){
