@@ -28,16 +28,20 @@ public class Order {
     @Column(name = "Total_Price")
     private double totalPrice;
 
-    @ElementCollection
-    @CollectionTable(name = "productId_quantity_map",
-            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "product_id")
-    @Column(name = "quantity")
-    private Map<Long, Integer> cartItems = new HashMap<>();
+//    @ElementCollection
+//    @CollectionTable(name = "productId_quantity_map",
+//            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")})
+//    @MapKeyColumn(name = "product_id")
+//    @Column(name = "quantity")
+//    private Map<Long, Integer> cartItems = new HashMap<>();
+
+    @OneToMany
+    private List<CartItem> cartItems;
+
     private LocalDate orderCompletedDate;
     private Enum orderStatus = OrderStatus.PENDING;
     @ManyToOne
-    @JoinColumn(name="EndUser_ID")
+    @JoinColumn
     private EndUser buyer;
     private boolean isSufficientStockExist;
     @OneToMany

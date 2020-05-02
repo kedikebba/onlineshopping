@@ -5,14 +5,17 @@ import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.shoppingcart.model.Cart;
 import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
 import edu.miu.pm.onlineshopping.shoppingcart.model.Order;
+import edu.miu.pm.onlineshopping.shoppingcart.model.OrderStatus;
 import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("order/api/v1")
@@ -28,7 +31,10 @@ public class OrderController {
         buyer.setFirstName("John");
        Order order = orderService.addItemToCart(buyer, cartItem);
 
-       Cart cart = getCartFromOrder(order);
+//       Cart cart = getCartFromOrder(order);
+        Cart cart = new Cart();
+        cart.setCartItems(order.getCartItems());
+        cart.setTotalPrice(order.getTotalPrice());
 
        return new ResponseEntity<>(cart, HttpStatus.OK);
 
@@ -54,15 +60,19 @@ public class OrderController {
         for (int i=0; i<cart.getCartItems().size(); i++){
             order = orderService.addItemToCart(buyer, cart.getCartItems().get(i));
         }
-        Cart responseCart = getCartFromOrder(order);
+//        Cart responseCart = getCartFromOrder(order);
+        Cart responseCart = new Cart();
+        cart.setCartItems(order.getCartItems());
+        cart.setTotalPrice(order.getTotalPrice());
         return new ResponseEntity<>(responseCart, HttpStatus.OK);
 
     }
 
     @DeleteMapping("/removeItem")
     public ResponseEntity<Cart> deleteCartItem(@RequestBody CartItem cartItem){
-        String buyerName = "John";
-        Order order = orderService.removeCartItem(buyerName, cartItem);
+       EndUser buyer = new EndUser();
+       //get the user from loggedInUser...
+        Order order = orderService.removeCartItem(buyer, cartItem);
 
         if (order == null){
             CartItem emptyItem = new CartItem();
@@ -73,7 +83,10 @@ public class OrderController {
             cart.setCartItems(items);
             return new ResponseEntity<>(cart, HttpStatus.OK);
         }
-        Cart cart = getCartFromOrder(order);
+//        Cart cart = getCartFromOrder(order);
+        Cart cart = new Cart();
+        cart.setCartItems(order.getCartItems());
+        cart.setTotalPrice(order.getTotalPrice());
 
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
@@ -105,28 +118,36 @@ public class OrderController {
         order = orderService.generateOrderNumber(order);
 
         //generate orderComplete date
+        order.setOrderCompletedDate(LocalDate.now());
         //change the order status to COMPLETED,
+        order.setOrderStatus(OrderStatus.COMPLETED);
         //generate delivery date - in 3 days
+        order.setDeliveryDate(LocalDate.now().plusDays(3));// 3 days delivery
         //save order to database
+        order = orderService.saveOrder(order);
         //return the order
 
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    public Cart getCartFromOrder(Order order){
-        List<Product> products = orderService.getProducts(order.getCartItems().keySet());
-        List<CartItem> cartItems = new ArrayList<>();
-        for(Product product: products){
-            CartItem item = new CartItem();
-            item.setProductName(product.getProductName());
-            item.setQuantity(order.getCartItems().get(product.getProductId()));
-            cartItems.add(item);
-        }
-        Cart cart = new Cart();
-        cart.setCartItems(cartItems);
-        cart.setTotalPrice(order.getTotalPrice());
-
-        return cart;
-    }
+//    public Cart getCartFromOrder(Order order){
+////        List<Product> products = orderService.getProducts(order.getCartItems().keySet());
+//        List<Long> keyList = order.getCartItems().stream()
+//                                                .map(item -> item.getProductId())
+//                                                .collect(Collectors.toList());
+//        List<Product> products = orderService.getProducts(keyList);
+//        List<CartItem> cartItems = new ArrayList<>();
+//        for(Product product: products){
+//            CartItem item = new CartItem();
+//            item.setProductName(product.getProductName());
+//            item.setQuantity(order.getCartItems().get(product.getProductId()));
+//            cartItems.add(item);
+//        }
+//        Cart cart = new Cart();
+//        cart.setCartItems(cartItems);
+//        cart.setTotalPrice(order.getTotalPrice());
+//
+//        return cart;
+//    }
 
 }

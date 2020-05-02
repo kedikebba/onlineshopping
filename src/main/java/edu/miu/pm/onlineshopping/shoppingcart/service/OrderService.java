@@ -12,20 +12,22 @@ public interface OrderService {
 
 
     //retrurns number of items in the cart
-    Order addItemToCart(EndUser user, CartItem cartItem);
+    Order addItemToCart(EndUser buyer, CartItem cartItem);
 
-    Order removeCartItem(String user, CartItem cartItem);
+    Order removeCartItem(EndUser buyer, CartItem cartItem);
     
     //Related to Saearch-product
     List<Product> getAllProducts();
 
     List<Product> searchProduct(String search);
 
-    List<Product> getProducts(Set<Long> keySet);
+    List<Product> getProducts(List<Long> keyList);
 
     Order checkStock(Order order);
 
     void updateStock(Order order);
 
     Order generateOrderNumber(Order order);
+
+    Order saveOrder(Order order);
 }
