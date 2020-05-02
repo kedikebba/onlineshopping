@@ -100,10 +100,11 @@ public class ProductService implements  IProductService {
 //        return product;
 //    }
 
-    //Added by Getaneh
+    //Added by Getaneh - I changed this to return null to clear error, please remove null and un-coment the below return
     @Override
     public List<Product> searchProduct(String search) {
-        return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
+        return null;
+       // return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
     }
 
     @Override
