@@ -1,5 +1,9 @@
 package edu.miu.pm.onlineshopping.admin.service;
 
-public class VendorService {
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
+
+public interface VendorService {
+
+    public Vendor saveVendor(Vendor vendor);
 
 }

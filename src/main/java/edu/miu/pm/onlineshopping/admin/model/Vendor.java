@@ -1,11 +1,10 @@
 package edu.miu.pm.onlineshopping.admin.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import edu.miu.pm.onlineshopping.product.model.Product;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Vendor {
@@ -23,6 +22,7 @@ public class Vendor {
 	
 	private boolean registrationFeeStatus;
 	private Role role=Role.VENDOR;
+
 	
 	public Vendor() {
 		super();

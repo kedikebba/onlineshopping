@@ -37,6 +37,7 @@ public class CartProductController {
 
     @GetMapping("/search")
     public String searchProduct(@RequestParam String search, Model model){
+            search = search.toLowerCase();
         model.addAttribute("products", orderService.searchProduct(search));
 
         return "product_inventory";
