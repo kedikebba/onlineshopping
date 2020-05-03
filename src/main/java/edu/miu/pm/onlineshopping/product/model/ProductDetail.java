@@ -28,7 +28,6 @@ public class ProductDetail {
     private  String description;
     @NotNull
     private int quantity;
-
     @OneToOne
     @JoinColumn(name = "productId", nullable = false)
     private  Product product;

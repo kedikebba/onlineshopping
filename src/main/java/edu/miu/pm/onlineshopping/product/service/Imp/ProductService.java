@@ -1,6 +1,8 @@
 package edu.miu.pm.onlineshopping.product.service.Imp;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.product.model.Product;
+import edu.miu.pm.onlineshopping.product.model.ProductDetail;
 import edu.miu.pm.onlineshopping.product.repository.IProductRepository;
 import edu.miu.pm.onlineshopping.product.service.IProductDetailService;
 import edu.miu.pm.onlineshopping.product.service.IProductService;
@@ -20,18 +22,13 @@ public class ProductService implements  IProductService {
     @Autowired
     private IProductDetailService productDetailService;
 
-//    @Autowired
-//    public ProductService(IProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//    }
+    public List<Product> getApprovedProduct() {
+        return productRepository.getAllByStatus("approved");
+    }
 
-   // public List<Product> getApprovedProduct(){
-     //   return productRepository.getAllByStatus("approved");
-    //}
-
-//    public List<Product> findByVendor(User user){
-//        return productRepository.findAllByUser(user);
-//    }
+    public List<Product> findAllByVendor(Vendor vendor) {
+        return productRepository.findAllByVendor(vendor);
+    }
 
 
     @Override
@@ -40,13 +37,19 @@ public class ProductService implements  IProductService {
     }
 
     @Override
+    public List<Product> searchProduct(String search) {
+        return null;
+    }
+
+
+    @Override
     public Product findById(Long productId) {
         return productRepository.findById(productId).orElse(null);
     }
 
     @Override
     public void delete(Long productId) {
-       productRepository.deleteById(productId);
+        productRepository.deleteById(productId);
     }
 
     @Override
@@ -56,27 +59,27 @@ public class ProductService implements  IProductService {
 
     @Override
     public List<Product> findByNameNumber(String productNumber, String productName, Integer status) {
-        return productRepository.findByNameNumber(productNumber,productName,status);
+        return productRepository.findByNameNumber(productNumber, productName, status);
     }
 
     @Override
     public List<Product> findByNamePrice(String productName, Double minProductPrice, Double maxProductPrice, Integer status) {
-        return findByNamePrice(productName,minProductPrice,maxProductPrice,status);
+        return findByNamePrice(productName, minProductPrice, maxProductPrice, status);
     }
 
     @Override
     public List<Product> findByNumberPrice(String productNumber, Double minProductPrice, Double maxProductPrice, Integer status) {
-        return productRepository.findByNumberPrice(productNumber,minProductPrice,maxProductPrice,status);
+        return productRepository.findByNumberPrice(productNumber, minProductPrice, maxProductPrice, status);
     }
 
     @Override
     public List<Product> findByName(String productName, Integer status) {
-        return productRepository.findByName(productName,status);
+        return productRepository.findByName(productName, status);
     }
 
     @Override
     public List<Product> findByNumber(String productNumber, Integer status) {
-        return findByNumber(productNumber,status);
+        return findByNumber(productNumber, status);
     }
 
     @Override
@@ -84,32 +87,42 @@ public class ProductService implements  IProductService {
         return findByStatus(status);
     }
 
-     @Override
-    public List<Product> findByPrice(Double minProductPrice, Double maxProductPrice, Integer status) {
-        return productRepository.findByPrice(minProductPrice,maxProductPrice,status);
-    }
-//    @Override
-//    public Product save(Product product, User user) {
-//
-//        productRepository.save(product);
-//        product.setUser(user);
-////save product detail.
-//        productDetailService.save(new ProductDetail(product.getDescription(),product.getDescription(), product.getQuantity(), product, user));
-//
-//
-//        return product;
-//    }
-
-    //Added by Getaneh - I changed this to return null to clear error, please remove null and un-coment the below return
     @Override
-    public List<Product> searchProduct(String search) {
-        return null;
-       // return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
+    public List<Product> findByPrice(Double minProductPrice, Double maxProductPrice, Integer status) {
+        return productRepository.findByPrice(minProductPrice, maxProductPrice, status);
     }
-
     @Override
     public Product saveProduct(Product product) {
-        return productRepository.save(product);
+        return  productRepository.save(product);
     }
+
+    @Override
+    public List<Product> findByProductNameContainsOrCategory(String categoryName) {
+        return productRepository.findByProductNameContainsOrCategory(categoryName);
+    }
+
+    @Override
+    public List<Product> findByCategoryNameContainsOrVendor(String categoryNumber) {
+        return  productRepository.findByCategoryNameContainsOrVendor(categoryNumber);
+    }
+
+    @Override
+    public List<Product> findByFirstNameContain(String firstName) {
+        return productRepository.findByFirstNameContain(firstName);
+    }
+
+    @Override
+    public List<Product> findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(String categoryName, String categoryNumber, String firstName) {
+
+
+        if(!findByProductNameContainsOrCategory(categoryName).equals("") && findByCategoryNameContainsOrVendor(categoryNumber).equals("")&& findByFirstNameContain(firstName).equals("") )
+         productRepository.findByProductNameContainsOrCategory(categoryName);
+         else  if(findByProductNameContainsOrCategory(categoryName).equals("") && !findByCategoryNameContainsOrVendor(categoryNumber).equals("") && findByFirstNameContain(firstName).equals("") )
+             return  productRepository.findByProductNameContainsOrCategory(categoryNumber);
+        else  if(findByProductNameContainsOrCategory(categoryName).equals("") && findByCategoryNameContainsOrVendor(categoryNumber).equals("") && !findByFirstNameContain(firstName).equals(""))
+          return  productRepository.findByFirstNameContain(firstName);
+            return findAll();
+    }
+
 
 }

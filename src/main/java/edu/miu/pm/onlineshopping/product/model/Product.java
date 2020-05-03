@@ -1,10 +1,14 @@
 package edu.miu.pm.onlineshopping.product.model;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -26,13 +30,14 @@ public class Product implements  Serializable {
     private String status;
     private String productImage;
 
-    //Boolean approvedStatus - False
-    //boolean isAvailable - Set when Qty >= 1 - True else False
-    //int soldQty - Default - 0
-    //Vendor - ManyToOne
-    //Date - Creation
+    private LocalDate creationDate;
+    private boolean approvedStatus;
+    private boolean isAvailable;
+    private  int soldQty;
 
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vendorId")
+    private Vendor vendor;
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -44,24 +49,24 @@ public class Product implements  Serializable {
         this.category = category;
     }
 
-    public Product(  String productNumber, String productName, double price, String description, int quantity, String status, String productPath,Category category) {
-
+    public Product(String productNumber, String productName, double price, String description, int quantity, String status, String productImage, LocalDate creationDate, Vendor vendor, Category category) {
         this.productNumber = productNumber;
         this.productName = productName;
         this.price = price;
         this.description = description;
         this.quantity = quantity;
         this.status = status;
-        this.productImage = productPath;
-        this.category=category;
-
+        this.productImage = productImage;
+        this.creationDate = creationDate;
+        this.vendor = vendor;
+        this.category = category;
     }
 
-    public long getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 
@@ -121,6 +126,46 @@ public class Product implements  Serializable {
         this.productImage = productImage;
     }
 
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public boolean isApprovedStatus() {
+        return approvedStatus;
+    }
+
+    public void setApprovedStatus(boolean approvedStatus) {
+        this.approvedStatus = approvedStatus;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public int getSoldQty() {
+        return soldQty;
+    }
+
+    public void setSoldQty(int soldQty) {
+        this.soldQty = soldQty;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -140,6 +185,11 @@ public class Product implements  Serializable {
                 ", quantity=" + quantity +
                 ", status='" + status + '\'' +
                 ", productImage='" + productImage + '\'' +
+                ", creationDate=" + creationDate +
+                ", approvedStatus=" + approvedStatus +
+                ", isAvailable=" + isAvailable +
+                ", soldQty=" + soldQty +
+                ", vendor=" + vendor +
                 ", category=" + category +
                 '}';
     }

@@ -22,13 +22,9 @@ public class Category implements  Serializable {
     private Long categoryId;
     @Column(name = "category_name")
     private String categoryName;
-
     @Column(name = "description")
     private String description;
-
-    private int status; // 0- inactive,  1- active
-
-
+    private int status;
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
 

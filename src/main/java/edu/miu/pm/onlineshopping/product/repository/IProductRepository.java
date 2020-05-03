@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.product.repository;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,14 +11,16 @@ import java.util.List;
 
 @Repository
 public interface IProductRepository extends JpaRepository<Product,Long> {
-   // List<Product> getAllByStatus(String status);
-    // List<Product> findAllByUser(User user);
+    List<Product> getAllByStatus(String status);
+
+    List<Product> findAllByVendor(Vendor vendor);
 
     @Query("SELECT p FROM Product p WHERE lower(p.productNumber) like %?1% " +
            "and LOWER(p.productName) like %?2% " +
             "and p.price >= ?3 and p.price < ?4 " +
             "and p.status = ?5 order by p.productName")
     List<Product> findAll(String productNumber, String productName, Double minProductPrice, Double maxProductPrice, Integer status);
+
     @Query("SELECT p FROM Product p WHERE lower(p.productNumber) like %?1% " +
             "and LOWER(p.productName) like %?2% " +
             "and p.status = ?3 order by p.productName")
@@ -30,8 +33,7 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
     List<Product> findByNamePrice(String productName, Double minProductPrice,
                                   Double maxProductPrice, Integer status);
 
-    @Query("SELECT p FROM Product p WHERE lower(p.productNumber) like %?1% " +
-            "and p.price >= ?2 and p.price < ?3 " +
+    @Query("SELECT p FROM Product p WHERE lower(p.productNumber) like %?1% " + "and p.price >= ?2 and p.price < ?3 " +
             "and p.status = ?4 order by p.productName")
     List<Product> findByNumberPrice(String productNumber, Double minProductPrice,
                                     Double maxProductPrice, Integer status);
@@ -54,9 +56,13 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             "and p.status = ?3 order by p.productName")
     List<Product> findByPrice(Double minProductPrice,Double maxProductPrice, Integer status);
 
-    //added by Getaneh - to use for search - Please Add it later
-    //List<Product> findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(String search1, String search2, String search3);
+    @Query("SELECT p FROM Product p join p.category c WHERE lower(c.categoryName) like %?1% order by p.productName")
+    List<Product> findByProductNameContainsOrCategory(String categoryName);
+    @Query("SELECT p FROM Product p join p.vendor v WHERE lower(v.firstName) like %?1%  order by p.productName")
+   List<Product> findByCategoryNameContainsOrVendor(String categoryNumber);
 
+    @Query("SELECT p FROM Product p join p.vendor v  WHERE lower(v.firstName) like %?1% order by p.productId")
+    List<Product> findByFirstNameContain(String firstName);
 }
 
 

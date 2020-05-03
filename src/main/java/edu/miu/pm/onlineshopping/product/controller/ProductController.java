@@ -1,7 +1,11 @@
 package edu.miu.pm.onlineshopping.product.controller;
 
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
+import edu.miu.pm.onlineshopping.admin.service.VendorService;
+import edu.miu.pm.onlineshopping.product.model.Category;
 import edu.miu.pm.onlineshopping.product.model.Product;
+import edu.miu.pm.onlineshopping.product.model.ProductDetail;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import edu.miu.pm.onlineshopping.product.service.Imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,41 +22,42 @@ public class ProductController {
 
     @Autowired
     private ICategoryService categoryService;
+//    @Autowired
+//    private VendorService vendorService;
 
-//    @Autowired
-//    private UserServiceImplementation implementation;
-//
-//    @Autowired
-//    private UserServiceImplementation userService;
     @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
 
+    // ************************************Waiting for VendorService Implementation **************************************
 //    @GetMapping(value = "/productbyvendor")
 //    public List<Product> getProductByVendor(Principal principal) {
-//        return productService.findByVendor(userService.loadUserByUsername(principal.getName()));
+//        return productService.findAllByVendor(vendorService.loadVendorByUsername(principal.getName()));
+//
 //    }
-////
-//    @GetMapping(value = "/approved_products")
-//    public List<Product> getApprovedProduct(@RequestHeader Map<String, String> header) {
-//        return  productService.getApprovedProduct();
-//    }
+
+    @GetMapping(value = "/approved_products")
+    public List<Product> getApprovedProduct(@RequestHeader Map<String, String> header) {
+        return productService.getApprovedProduct();
+    }
 
     @GetMapping(value = "/product/{id}")
     public Product getProductById(@PathVariable("id") Long productId) {
         return productService.findById(productId);
     }
 
-//    @PostMapping(value = "/product", produces = "application/json")
-//    public Product save(@RequestBody ProductRequest product, Principal principal) {
+    // ************************************Waiting for VendorService Implementation **************************************
+
+    //    @PostMapping(value = "/product", produces = "application/json")
+//    public Product save(@RequestBody ProductDetail product, Principal principal) {
 //
-//       // User user = implementation.loadUserByUsername(principal.getName());
+//        Vendor vendor = vendorService.loadVendorByUsername(principal.getName());
 //        Product product1 = new Product(categoryService.findById(product.getCategoryId()));
 //        product.updateProduct(product1);
-//        //  product1.setUser(user); //vendor of the product
-//       // product1.setStatus("unapproved");
-//       // productService.save(product1, user);
+//          product1.setVendor(vendor); //vendor of the product
+//        product1.setStatus("unapproved");
+//        productService.save(product1, vendor);
 //
 //        return product1;
 //    }
@@ -62,6 +67,7 @@ public class ProductController {
         productService.delete(productId);
         return product;
     }
+
     @GetMapping("/products/search")
     public List<Product> search(@RequestParam("productNumber") String productNumber, @RequestParam("productName") String productName,
                                 @RequestParam("minProductPrice") Double minProductPrice, @RequestParam("maxProductPrice")
@@ -92,5 +98,6 @@ public class ProductController {
             return productService.findAll();
 
     }
+
 
 }
