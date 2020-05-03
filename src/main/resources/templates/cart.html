@@ -9,22 +9,37 @@
 
 
 <div class="container">
-    <h1>Welcome to ONline Shopping!</h1>
     <div class="row">
+
+
         <div class="col-10">
-            <div class="d-flex flex-row justify-content-between flex-wrap">
+
+            <div class="d-flex flex-row justify-content-lg-start flex-wrap">
                 <!-- Card Regular -->
-                <div class="card card-cascade m-3 product" th:each="product : ${products}">
+                <div class="card card-cascade m-3 product" th:if="${cartItems}" th:each="cartItem : ${cartItems}" th:id="'card'+${cartItem.productId}">
+
+                    <!-- Card image -->
+<!--                    <div class="view view-cascade overlay">-->
+<!--                        <span th:if="${product.images}">-->
+<!--                            <img class="card-img-top" th:src="${product.images[0].imageURL}" alt="Card image cap">-->
+<!--                        </span>-->
+<!--                        <span th:unless="${product.images}">-->
+<!--                            <img class="card-img-top" th:src="${/images/products/no-image-available.png}" alt="Card image cap">-->
+<!--                        </span>-->
+<!--                        <a>-->
+<!--                            <div class="mask rgba-white-slight"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
                     <!-- Card content -->
                     <div class="card-body card-body-cascade text-center">
 
-                        <!-- Product Name -->
-                        <h4 class="card-title"><strong th:text="${product.productName}"></strong></h4>
-
-                         Description
-                        <p class="card-text" th:text="${product.productName}">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Voluptatibus, ex, recusandae. Facere modi sunt, quod quibusdam.
+                        <!-- Title -->
+                        <h4 class="card-title"><strong th:text="${cartItem.productName}"></strong></h4>
+                        <!-- Subtitle -->
+                        <h6 class="font-weight-bold red-text py-2"><span th:text="'Sub total: $'+ ${cartItem.productPrice * cartItem.quantity}"></span></h6>
+                        <!-- Text -->
+                        <p class="card-text" th:text="'Quantity: '+${cartItem.quantity}">
                         </p>
 
 
@@ -32,13 +47,15 @@
 
                     <!-- Card footer -->
                     <div class="card-footer text-muted text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#modalQuickView' + ${product.productId}">
-                            See Product Detail
-                        </button>
+                        <button class="btn btn-default btn-sm" data-toggle="modal" th:data-target="'#modalQuickView' + ${cartItem.productId}">Edit
+                            <i class="fas fa-pencil-alt ml-1"></i></button>
+                        <button type="button" th:data="${cartItem.productId}" class="btn btn-danger btn-sm delete-items">Delete</button>
+
+
                     </div>
 
                     <!-- Modal: modalQuickView -->
-                    <div class="modal fade" th:id="'modalQuickView' + ${product.productId}" id="modalQuickView" tabindex="-1" role="dialog"
+                    <div class="modal fade" th:id="'modalQuickView' + ${cartItem.productId}" id="modalQuickView" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel"
                          aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -50,7 +67,17 @@
                                             <div id="carousel-thumb"
                                                  class="carousel slide carousel-fade carousel-thumbnails"
                                                  data-ride="carousel">
+                                                <!--Slides-->
+                                                <div class="carousel-inner" role="listbox">
 
+<!--                                                    <div class="carousel-item" th:each="image,iStat : ${product.images}" th:class="${iStat.index}==0 ? 'carousel-item active' : 'carousel-item'">-->
+<!--                                                        <img class="d-block w-100"-->
+<!--                                                             th:src="${image.imageURL}"-->
+<!--                                                             alt="Product Image">-->
+<!--                                                    </div>-->
+
+                                                </div>
+                                                <!--/.Slides-->
                                                 <!--Controls-->
                                                 <a class="carousel-control-prev" href="#carousel-thumb" role="button"
                                                    data-slide="prev">
@@ -79,15 +106,14 @@
                                                 </ol>
                                             </div>
                                             <!--/.Carousel Wrapper-->
-
                                         </div>
                                         <div class="col-lg-7">
                                             <h2 class="h2-responsive product-name">
-                                                <strong th:text="${product.productName}">Product Name</strong>
+                                                <strong th:text="${cartItem.productName}">Product Name</strong>
                                             </h2>
                                             <h4 class="h4-responsive">
                                               <span class="green-text">
-                                                <strong>$<span th:text="${product.Price}"></span></strong>
+                                                <strong>$<span th:text="${cartItem.productPrice}"></span></strong>
                                               </span>
                                             </h4>
 
@@ -114,43 +140,7 @@
                                                     <div id="collapseOne1" class="collapse show" role="tabpanel"
                                                          aria-labelledby="headingOne1"
                                                          data-parent="#accordionEx">
-                                                        <div class="card-body" th:text="${product.category.categoryName}">
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- Accordion card -->
-
-                                            </div>
-                                            <!-- Accordion wrapper -->
-
-                                            <!--Accordion wrapper-->
-                                            <div class="accordion md-accordion" id="accordionEx2" role="tablist"
-                                                 aria-multiselectable="true">
-
-                                                <!-- Accordion card -->
-                                                <div class="card">
-
-                                                    <!-- Card header -->
-                                                    <div class="card-header" role="tab" id="headingOne2">
-                                                        <a data-toggle="collapse" data-parent="#accordionEx2"
-                                                           href="#collapseOne2" aria-expanded="true"
-                                                           aria-controls="collapseOne1">
-                                                            <h5 class="mb-0">
-                                                                Vendor <i
-                                                                    class="fas fa-angle-down rotate-icon"></i>
-                                                            </h5>
-                                                        </a>
-                                                    </div>
-
-                                                    <!-- Card body -->
-                                                    <div id="collapseOne2" class="collapse show" role="tabpanel"
-                                                         aria-labelledby="headingOne1"
-                                                         data-parent="#accordionEx">
-                                                        <div class="card-body">
-                                                            <span th:text="${product.vendor.firstName}"></span>
-
+                                                        <div class="card-body" th:text="${cartItem.productName}">
 
                                                         </div>
                                                     </div>
@@ -173,7 +163,7 @@
 
                                                         <select class="md-form mdb-select colorful-select dropdown-primary select-quantity" >
 
-                                                            <option th:each="i : ${#numbers.sequence(1, product.quantity)}" th:value="${i}" th:text="${i}">
+                                                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">
                                                             </option>
 
                                                         </select>
@@ -186,9 +176,11 @@
                                                     <button type="button" class="btn btn-light"
                                                             data-dismiss="modal">Close
                                                     </button>
-                                                    <button  th:data="${product.productId}" class="btn btn-primary add-to-cart" data-dismiss="modal">Add to cart
-                                                        <i class="fas fa-cart-plus ml-2"  aria-hidden="true"></i>
+                                                    <button  th:data="${cartItem.productId}" class="btn btn-default edit-cart" data-dismiss="modal">Save
+                                                        <i class="fas fa-cart-plus ml-2"  aria-hidden="true"></i></span>
                                                     </button>
+
+
                                                 </div>
                                             </div>
                                             <!-- /.Add to Cart -->
@@ -206,7 +198,7 @@
             </div>
 
         </div>
-
+<!--        <div class="col"></div>-->
     </div>
 </div>
 

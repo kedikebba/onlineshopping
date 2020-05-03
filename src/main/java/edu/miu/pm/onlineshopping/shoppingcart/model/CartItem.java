@@ -21,5 +21,7 @@ public class CartItem {
     private long id;
     private long productId;
     private int quantity;
+    private int quantityInStock;
     private String productName;
+    private double productPrice;
 }

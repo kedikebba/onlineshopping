@@ -12,7 +12,12 @@ public class EndUserServiceImpl implements EndUserService {
     public EndUserRepository endUserRepository;
 
     @Override
-    public EndUser createUser(EndUser user) {
+    public EndUser saveUser(EndUser user) {
         return endUserRepository.save(user);
+    }
+
+    @Override
+    public EndUser getEndUserbyId(int id) {
+        return endUserRepository.findById(id).get();
     }
 }

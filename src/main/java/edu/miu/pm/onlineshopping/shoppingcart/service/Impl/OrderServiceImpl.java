@@ -6,9 +6,11 @@ import edu.miu.pm.onlineshopping.product.service.IProductService;
 import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
 import edu.miu.pm.onlineshopping.shoppingcart.model.Order;
 import edu.miu.pm.onlineshopping.shoppingcart.model.OrderStatus;
+import edu.miu.pm.onlineshopping.shoppingcart.repository.CartItemRepository;
 import edu.miu.pm.onlineshopping.shoppingcart.repository.OrderRepository;
 import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,11 +22,13 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
     private IProductService productService;
+    private CartItemRepository cartItemRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService) {
+    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService, CartItemRepository cartItemRepository) {
         this.orderRepository = orderRepository;
         this.productService = productService;
+        this.cartItemRepository = cartItemRepository;
     }
 
     @Override
@@ -32,48 +36,53 @@ public class OrderServiceImpl implements OrderService {
         int numberOfItemsInCart = 0;
         double tax = 0.02;
         Order pendingOrder = getPendingOrder(user);
+        if (cartItem.getProductId() == 0){
+            return pendingOrder;
+        }
 
          if (pendingOrder != null){
-//            Map<Long, Integer> cartMaps = pendingOrder.getCartItems();
              List<CartItem> cartItems = pendingOrder.getCartItems();
-//            cartMaps.put(cartItem.getProductId(), cartItem.getQuantity());
-             cartItems.add(cartItem);
-//            pendingOrder.setCartItems(cartMaps);
-
-//            pendingOrder.setCartItems(cartItem);
+             boolean itemExixts = false;
+             for (CartItem item: cartItems){
+                if (item.getProductId() == cartItem.getProductId()){
+                    item.setQuantity(cartItem.getQuantity());
+                    saveCartItem(item);
+                    itemExixts = true;
+                }
+             }
+             if (!itemExixts){
+                 Product product = productService.findById(cartItem.getProductId());
+                 cartItem.setProductName(product.getProductName());
+                 cartItem.setProductPrice(product.getPrice());
+                 cartItem.setQuantityInStock(product.getQuantity());
+                 saveCartItem(cartItem);
+                 cartItems.add(cartItem);
+             }
             double price = 0;
-//            for(Long id: pendingOrder.getCartItems().keySet()){
-////                Product product = productService.findById(id);
-////                price += (product.getPrice() * pendingOrder.getCartItems().get(id));
-////            }
             for (CartItem item: cartItems){
                 Product product = productService.findById(item.getProductId());
                 price += product.getPrice()*item.getQuantity();
             }
             pendingOrder.setCartItems(cartItems);
             pendingOrder.setTotalPrice(price + price*tax);
-//            numberOfItemsInCart = pendingOrder.getCartItems().keySet().size();
              numberOfItemsInCart = pendingOrder.getCartItems().size();
-//          return orderRepository.save(pendingOrder);
              return saveOrder(pendingOrder);
         } else {
             Order newOrder = new Order();
             newOrder.setBuyer(user);
-//            Map<Long, Integer> cartMap = newOrder.getCartItems();
+             Product product = productService.findById(cartItem.getProductId());
+             cartItem.setProductName(product.getProductName());
+             cartItem.setProductPrice(product.getPrice());
+             cartItem.setQuantityInStock(product.getQuantity());
+            saveCartItem(cartItem);
              List<CartItem> cartItems = new ArrayList<>();
-//            cartMap.put(cartItem.getProductId(), cartItem.getQuantity());
              cartItems.add(cartItem);
              newOrder.setCartItems(cartItems);
-//            newOrder.setCartItems(cartMap);
-//            newOrder.setCartItems(cartItem);
-            Product product = productService.findById(cartItem.getProductId());
             if (product != null){
                 newOrder.setTotalPrice(product.getPrice() * cartItem.getQuantity() +
                                          product.getPrice() * cartItem.getQuantity() * tax);
             }
-
             numberOfItemsInCart = 1;
-//          return orderRepository.save(newOrder);
              return saveOrder(newOrder);
         }
 
@@ -82,25 +91,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order removeCartItem(EndUser buyer, CartItem cartItem) {
         Order pendingOrder = getPendingOrder(buyer);
-//        Map<Long, Integer> cartItems = pendingOrder.getCartItems();
         List<CartItem> cartItems = pendingOrder.getCartItems();
         cartItems.remove(cartItem);
-//        cartItems.remove(cartItem.getProductId());
         pendingOrder.setCartItems(cartItems);
-
         if (!pendingOrder.getCartItems().isEmpty()) {
             double tax = 0.02;
             double price = 0;
-//            for (Long id : pendingOrder.getCartItems().keySet()) {
-//                Product product = productService.findById(id);
-//                price += (product.getPrice() * pendingOrder.getCartItems().get(id));
-//            }
             for (CartItem item: cartItems){
                 Product product = productService.findById(item.getProductId());
                 price += product.getPrice()*item.getQuantity();
             }
             pendingOrder.setTotalPrice(price + price * tax);
-//            return orderRepository.save(pendingOrder);
             return saveOrder(pendingOrder);
         } else {
             orderRepository.delete(pendingOrder);
@@ -108,12 +109,11 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
     public Order getPendingOrder(EndUser buyer){
-//            return orderRepository.findByBuyerNameAndOrderStatus(userFirstName, OrderStatus.PENDING);
         return orderRepository.findByBuyer_UserIdAndOrderStatus(buyer.getUserId(), OrderStatus.PENDING);
     }
 
-    //Product Related implementation
     @Override
     public List<Product> getAllProducts() {
         return productService.findAll();
@@ -121,8 +121,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Product> searchProduct(String search) {
-//        return productRespository.findAllByProductNameOrCategory_CategoryNameOrVendor_FirstName(search, search, search);
-//        return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
         return productService.searchProduct(search);
     }
 
@@ -139,7 +137,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order checkStock(Order order) {
         List<Product> stockErrors = new ArrayList<>();
-//        for (Long id: order.getCartItems().keySet()){
         for (CartItem item: order.getCartItems()){
             Product product = productService.findById(item.getProductId());
            if (product == null ){
@@ -185,6 +182,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public CartItem saveCartItem(CartItem cartItem) {
+        return cartItemRepository.save(cartItem);
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 //@RestController
-@RequestMapping("products/api/v1")
+@RequestMapping("inventory")
 public class CartProductController {
 
     @Autowired
@@ -48,4 +48,5 @@ public class CartProductController {
 //
 //        return new ResponseEntity<>(orderService.searchProduct(search), HttpStatus.OK);
 //    }
+
 }

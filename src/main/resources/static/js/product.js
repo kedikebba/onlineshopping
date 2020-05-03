@@ -1,6 +1,31 @@
 
 $(document).ready(function() {
     //$('.mdb-select').materialSelect();
+
+    // $(".add-to-cart").onload(function () {
+    //     $.ajax({
+    //             url: "/addToCart",
+    //             contentType: 'application/json',
+    //             dataType: 'json',
+    //             type: "post",
+    //             data: JSON.stringify({productId: 0, quantity: 0}),
+    //             success: function(data){
+    //                 console.log(data);
+    //                 $(".cartCount").text(data)
+    //                 $(".cartCount").html(data);
+    //
+    //             },
+    //             error: function (error) {
+    //                 console.log('error========================================')
+    //                 console.log(error);
+    //
+    //             }
+    //         }
+    //
+    //     );
+    //
+    // });
+
     var selected =1;
     $(".select-quantity").change(function () {
         selected = $(this).val();
@@ -10,12 +35,14 @@ $(document).ready(function() {
         product_id = $(this).attr("data");
 
         var contextRoot = "/" + window.location.pathname.split('/')[1];
+        // alert(contextRoot);
         $.ajax({
-                url: contextRoot+"/addtocart",
+                // url: contextRoot+"/addToCart",
+                url: "/addToCart",
                 contentType: 'application/json',
                 dataType: 'json',
                 type: "post",
-                data: JSON.stringify({product_id: product_id, quantity: selected}),
+                data: JSON.stringify({productId: product_id, quantity: selected}),
                 success: function(data){
                     console.log(data);
                     $(".cartCount").text(data)
@@ -59,19 +86,25 @@ $(document).ready(function() {
 
     $(".edit-cart").click(function(){
         product_id = $(this).attr("data");
-
         var contextRoot = "/" + window.location.pathname.split('/')[1];
+        // alert(contextRoot);
         $.ajax({
-                url: contextRoot+"/editcart/"+product_id+"/"+ selected,
+                // url: contextRoot+"/editCart/"+product_id+"/"+ selected,
+                // url: "/addToCart",
+                url: contextRoot+"/addToCart",
                 contentType: 'application/json',
                 dataType: 'json',
                 type: "put",
+                data: JSON.stringify({productId: product_id, quantity: selected}),
                 success: function(data){
+                    // alert("In Edit cart");
                     console.log(data);
-                    $(".cartCount").html(data)
+                    $(".cartCount").html(data);
+                    window.location.reload();
+
                 },
                 error: function (error) {
-                    console.log('error========================================')
+                    console.log('error========================================');
                     console.log(error);
 
                 }

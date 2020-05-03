@@ -30,4 +30,10 @@ public interface OrderService {
     Order generateOrderNumber(Order order);
 
     Order saveOrder(Order order);
+
+    List<Order> getAllOrders();
+
+    CartItem saveCartItem(CartItem cartItem);
+
+    Order getPendingOrder(EndUser buyer);
 }
