@@ -105,27 +105,22 @@ public class OrderController {
 
     }
 
-    @DeleteMapping("/removeItem")
-    public ResponseEntity<Cart> deleteCartItem(@RequestBody CartItem cartItem){
-       EndUser buyer = new EndUser();
-       //get the user from loggedInUser...
+    @DeleteMapping("/cart/removeItem")
+    public long deleteCartItem(@RequestBody CartItem cartItem){
+        System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.removeCartItem(buyer, cartItem);
 
-        if (order == null){
-            CartItem emptyItem = new CartItem();
-            List<CartItem> items = new ArrayList<>();
-            items.add(emptyItem);
-            emptyItem.setProductName("");
-            Cart cart = new Cart();
-            cart.setCartItems(items);
-            return new ResponseEntity<>(cart, HttpStatus.OK);
-        }
-//        Cart cart = getCartFromOrder(order);
-        Cart cart = new Cart();
-        cart.setCartItems(order.getCartItems());
-        cart.setTotalPrice(order.getTotalPrice());
+        ModelAndView mav = new ModelAndView();
+        if (order != null){
+            List<CartItem> cartItems = order.getCartItems();
+            mav.addObject("cartItems", cartItems);
+            mav.addObject("productItems", order.getCartItems());
+            mav.addObject("cartPage", true);
 
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+        }
+        mav.setViewName("cart");
+        return order.getCartItems().size();
     }
 
     @PostMapping("/checkout")

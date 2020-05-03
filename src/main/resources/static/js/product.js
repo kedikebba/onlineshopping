@@ -64,16 +64,20 @@ $(document).ready(function() {
         product_id = $(this).attr("data");
 
         var contextRoot = "/" + window.location.pathname.split('/')[1];
+        // alert(contextRoot);
         $.ajax({
-                url: contextRoot+"/deleteItems/"+product_id,
+                url: contextRoot+"/removeItem",
                 contentType: 'application/json',
                 dataType: 'json',
                 type: "delete",
+                data: JSON.stringify({productId: product_id}),
                 success: function(data){
+                    // alert("In Delete Item");
+                    window.location.reload();
                     console.log(data)
                 },
                 error: function (error) {
-                    console.log('error========================================')
+                    console.log('error========================================');
                     console.log(error);
 
                 }

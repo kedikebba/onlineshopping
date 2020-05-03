@@ -92,7 +92,15 @@ public class OrderServiceImpl implements OrderService {
     public Order removeCartItem(EndUser buyer, CartItem cartItem) {
         Order pendingOrder = getPendingOrder(buyer);
         List<CartItem> cartItems = pendingOrder.getCartItems();
-        cartItems.remove(cartItem);
+        for (int i=0; i<cartItems.size(); i++){
+            if (cartItem.getProductId() == cartItems.get(i).getProductId())
+                cartItems.remove(i);
+        }
+        deleteCartItem(cartItem);
+//        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+//        for (CartItem item: cartItems){
+//            System.out.println(item.getProductName());
+//        }
         pendingOrder.setCartItems(cartItems);
         if (!pendingOrder.getCartItems().isEmpty()) {
             double tax = 0.02;
@@ -192,6 +200,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public CartItem saveCartItem(CartItem cartItem) {
         return cartItemRepository.save(cartItem);
+    }
+
+    public void deleteCartItem(CartItem cartItem){
+        cartItemRepository.delete(cartItem);
     }
 
 }
