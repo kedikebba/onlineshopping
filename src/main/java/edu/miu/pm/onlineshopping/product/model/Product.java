@@ -38,8 +38,6 @@ public class Product implements  Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vendorId")
     private Vendor vendor;
-
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoryId")
     private Category category;

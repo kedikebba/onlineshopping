@@ -17,26 +17,26 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @GetMapping(value ="/categories")
     public List<Category> getAllCategories(){
         return (List<Category>) categoryService.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @GetMapping(value = "/category/{id}")
     public Category getCategoryById(@PathVariable("id") Long categoryId) {
         return categoryService.findById(categoryId);
     }
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @PostMapping(value = "/update_category", produces = "application/json")
     public Category updateCategory(@RequestBody Category category) {
         categoryService.save(category);
         return category;
     }
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @PostMapping(value = "/category", produces = "application/json")
     public Category save(@RequestBody Category category) {
         System.out.println(category);
@@ -44,7 +44,7 @@ public class CategoryController {
         return category;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200/")
+
     @DeleteMapping(value = "/category/{id}")
     public Category delete(@PathVariable("id") Long categoryId) {
         Category category = categoryService.findById(categoryId);

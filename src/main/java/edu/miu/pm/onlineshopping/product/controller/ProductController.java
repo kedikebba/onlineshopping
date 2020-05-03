@@ -22,20 +22,12 @@ public class ProductController {
 
     @Autowired
     private ICategoryService categoryService;
-//    @Autowired
-//    private VendorService vendorService;
+
 
     @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
-
-    // ************************************Waiting for VendorService Implementation **************************************
-//    @GetMapping(value = "/productbyvendor")
-//    public List<Product> getProductByVendor(Principal principal) {
-//        return productService.findAllByVendor(vendorService.loadVendorByUsername(principal.getName()));
-//
-//    }
 
     @GetMapping(value = "/approved_products")
     public List<Product> getApprovedProduct(@RequestHeader Map<String, String> header) {
@@ -47,20 +39,7 @@ public class ProductController {
         return productService.findById(productId);
     }
 
-    // ************************************Waiting for VendorService Implementation **************************************
 
-    //    @PostMapping(value = "/product", produces = "application/json")
-//    public Product save(@RequestBody ProductDetail product, Principal principal) {
-//
-//        Vendor vendor = vendorService.loadVendorByUsername(principal.getName());
-//        Product product1 = new Product(categoryService.findById(product.getCategoryId()));
-//        product.updateProduct(product1);
-//          product1.setVendor(vendor); //vendor of the product
-//        product1.setStatus("unapproved");
-//        productService.save(product1, vendor);
-//
-//        return product1;
-//    }
     @DeleteMapping(value = "/product/{id}")
     public Product delete(@PathVariable("id") Long productId) {
         Product product = productService.findById(productId);
