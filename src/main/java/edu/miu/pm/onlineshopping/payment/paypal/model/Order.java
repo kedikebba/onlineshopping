@@ -1,55 +1,58 @@
 package edu.miu.pm.onlineshopping.payment.paypal.model;
+
 public class Order {
-    private double price;
-    private String currency;
-    private String method;
-    private String intent;
-    private String description;
+	private String productName;
+	private double subtotal;
+	private double shipping;
+	private double tax;
+	private double total;
+	public Order(String productName, double subtotal, double shipping, double tax, double total) {
+		this.productName = productName;
+		this.subtotal = subtotal;
+		this.shipping = shipping;
+		this.tax = tax;
+		this.total = total;
+	}
+	public Order() {
 
-    public Order() {
-    }
-    public Order(double price, String currency, String method, String intent, String description) {
-        super();
-        this.price = price;
-        this.currency = currency;
-        this.method = method;
-        this.intent = intent;
-        this.description = description;
-    }
+	}
+	public String getProductName() {
+		return productName;
+	}
 
-    @Override
-    public String toString() {
-        return "Order [price=" + price + ", currency=" + currency + ", method=" + method + ", intent=" + intent
-                + ", description=" + description + "]";
-    }
-    public double getPrice() {
-        return price;
-    }
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    public String getCurrency() {
-        return currency;
-    }
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-    public String getMethod() {
-        return method;
-    }
-    public void setMethod(String method) {
-        this.method = method;
-    }
-    public String getIntent() {
-        return intent;
-    }
-    public void setIntent(String intent) {
-        this.intent = intent;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(float subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	public double getShipping() {
+		return shipping;
+	}
+
+	public void setShipping(float shipping) {
+		this.shipping = shipping;
+	}
+
+	public double getTax() {
+		return tax;
+	}
+
+	public void setTax(float tax) {
+		this.tax = tax;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
+	}
 }

@@ -1,70 +1,109 @@
 package edu.miu.pm.onlineshopping.payment.paypal.service;
 
-import com.paypal.api.payments.*;
-import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalRESTException;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.miu.pm.onlineshopping.payment.paypal.model.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class PaypalServiceImpl implements  PaypalService {
+import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Details;
+import com.paypal.api.payments.Item;
+import com.paypal.api.payments.ItemList;
+import com.paypal.api.payments.Payer;
+import com.paypal.api.payments.PayerInfo;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentExecution;
+import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Transaction;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.PayPalRESTException;
 
-    @Autowired
-    private APIContext apiContext;
+@Service
+public class PaypalServiceImpl implements PaypalService {
+	@Autowired
+	private APIContext apiContext;
 
-    @Override
-    public Payment createPayment(Double total, String currency, String method, String intent, String description,
-                                 String cancelUrl, String successUrl) throws PayPalRESTException {
+	/*
+	 * redirectURLs has only CancelUrl and ReturnUrl options, the later proceeds to
+	 * the actual payment paypal page, and the former abort the transaction
+	 * early
+	 */
 
-        //1. Creating payer:
-        Payer payer= new Payer();
-        payer.setPaymentMethod(method).toString();
-        PayerInfo payerInfo = new PayerInfo();
-        payerInfo.setFirstName("Addisu")
-                .setLastName("Marilign")
-                .setEmail("addisu.marilign@gmail.com");;
-        // .setPhone("6418198076");
-        payer.setPayerInfo(payerInfo);
+	public Payment createPayment(Order order, String cancelUrl, String reviewUrl)
+			throws PayPalRESTException {
 
+		// 1. Creating payer:
+		Payer payer = new Payer();
+		payer.setPaymentMethod("paypal");
+		PayerInfo payerInfo = new PayerInfo();
+		payerInfo.setFirstName("Addisu").setLastName("Marilign").setEmail("addisu.marilign@gmail.com");
+		payer.setPayerInfo(payerInfo);
 
-        Amount amount= new Amount();
-        total= new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        amount.setCurrency(currency);
+		// 2. Set Redirect URL
+		RedirectUrls redirectUrls = new RedirectUrls();
+		redirectUrls.setCancelUrl(cancelUrl);
+		redirectUrls.setReturnUrl(reviewUrl);
 
-        amount.setTotal(String.format("%.2f", total));
+		// 3. Set Details and Add PaymentDetails
+		// OrderDetail orderDetail = new OrderDetail();
+		Details details = new Details();
+		details.setSubtotal(String.valueOf(order.getSubtotal()));
+		details.setTax(String.valueOf(order.getTax()));
+		details.setShipping(String.valueOf(order.getShipping()));
 
-        Transaction transaction= new Transaction();
+		// 4. Set payment amount
+		Amount amount = new Amount();
+		amount.setCurrency("USD");
+		amount.setTotal(String.valueOf(order.getTotal()));
+		amount.setDetails(details);
 
-        transaction.setDescription(description);
-        transaction.setAmount(amount);
-        List<Transaction> transactions= new ArrayList<>();
-        transactions.add(transaction);
+		// 5. Set Transaction
+		Transaction transaction = new Transaction();
+		transaction.setDescription(
+				"Transaction Handled by OnlineShoppingCart for the item" + order.getProductName());
+		transaction.setAmount(amount);
 
+		ItemList itemList = new ItemList();
+		List<Item> items = new ArrayList<>();
 
-        Payment payment = new Payment();
-        payment.setIntent(intent.toString());
-        payment.setPayer(payer);
-        payment.setTransactions(transactions);
+		Item item = new Item();
+		item.setCurrency("USD");
+		item.setName(order.getProductName());
+		item.setPrice(String.valueOf(order.getSubtotal()));
+		item.setTax(String.valueOf(order.getTax()));
+		item.setQuantity("1");
 
-        RedirectUrls redirectUrls= new RedirectUrls();
-        redirectUrls.setCancelUrl(cancelUrl);
-        redirectUrls.setReturnUrl(successUrl);
-        payment.setRedirectUrls(redirectUrls);
-        return payment.create(apiContext);
-    }
+		items.add(item);
+		itemList.setItems(items);
+		transaction.setItemList(itemList);
+		List<Transaction> listTransaction = new ArrayList<>();
+		listTransaction.add(transaction);
 
-    @Override
-    public Payment excutePayment(String paymentId, String payerId) throws PayPalRESTException {
-        // TODO Auto-generated method stub
-        Payment payment= new Payment();
-        payment.setId(paymentId);
-        PaymentExecution  paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(payerId);
-        return payment.execute(apiContext, paymentExecution);
+		// 6. Create payment object:, set Intent to "authorize", add payer, set
+		// transactions, redirectUrls
+		Payment payment = new Payment();
+		payment.setIntent("authorize");
+		payment.setPayer(payer);
+		payment.setTransactions(listTransaction);
+		payment.setRedirectUrls(redirectUrls);
 
-    }
+		// 7. create payment by passing the apiContext bean which is created in the PaypalConfig file
+		return payment.create(apiContext);
+
+	}
+
+	@Override
+	public Payment excutePayment(String paymentId, String payerId) throws PayPalRESTException {
+
+		Payment payment = new Payment();
+
+		payment.setId(paymentId);
+		PaymentExecution paymentExecution = new PaymentExecution();
+		paymentExecution.setPayerId(payerId);
+		return payment.execute(apiContext, paymentExecution);
+
+	}
+
 }

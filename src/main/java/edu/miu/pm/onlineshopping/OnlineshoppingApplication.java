@@ -1,10 +1,6 @@
 package edu.miu.pm.onlineshopping;
 
 
-import edu.miu.pm.onlineshopping.email.MailService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-
 import edu.miu.pm.onlineshopping.payment.paypal.service.PaypalServiceImpl;
 
 import org.springframework.boot.SpringApplication;
