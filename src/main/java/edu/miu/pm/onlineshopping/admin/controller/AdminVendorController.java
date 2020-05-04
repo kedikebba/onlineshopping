@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.miu.pm.onlineshopping.admin.model.Status;
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.repository.VendorRepository;
 
 @RestController
-public class VendorController {
+public class AdminVendorController {
 	
 	@Autowired
 	private VendorRepository vendorRepository;
@@ -49,10 +50,9 @@ public class VendorController {
 		updateVendor.setAddress(vendor.getAddress());
 		updateVendor.setFirstName(vendor.getFirstName());
 		updateVendor.setLastName(vendor.getLastName());
-		updateVendor.setPassword(vendor.getPassword());
+		updateVendor.setAccount(vendor.getAccount());
 		updateVendor.setRegistrationFeeStatus(vendor.getRegistrationFeeStatus());
 		updateVendor.setRole(vendor.getRole());
-		updateVendor.setUserName(vendor.getUserName());
 		
 		vendorRepository.save(updateVendor);
 		
@@ -62,6 +62,41 @@ public class VendorController {
 	@DeleteMapping("/deleteVendor/{vendorId}")
 	public void deleteVendor(@PathVariable("vendorId") int vendorId) {
 		vendorRepository.deleteById(vendorId); 
+	}
+	
+	@PutMapping("/approveVendor")
+	public String approveVendor(@RequestBody Vendor vendor) {
+		if(vendor.getRegistrationFeeStatus()) {
+			Optional<Vendor> optionalVendor=vendorRepository.findById(vendor.getVendorId());
+			
+			Vendor updateVendor=optionalVendor.get();
+			updateVendor.setStatus(Status.ACTIVE);
+			return "Approved";
+			
+		}
+		
+		return "Not approved";
+	}
+	
+	@PutMapping("/rejectVendor")
+	public Vendor rejectVendor(@RequestBody Vendor vendor) {
+		
+			Optional<Vendor> optionalVendor=vendorRepository.findById(vendor.getVendorId());
+			
+			Vendor updateVendor=optionalVendor.get();
+			updateVendor.setStatus(Status.INACTIVE);
+			
+			return updateVendor;
+	}
+	
+	@GetMapping("/getInactiveVendors")
+	public List<Vendor> getInactiveVendors() {
+		return vendorRepository.getInactiveEndUsers();
+	}
+	
+	@GetMapping("/getInactiveVendor/{vendorId}")
+	public Vendor getInactiveVendor(@PathVariable("vendorId") int vendorId) {
+		return vendorRepository.getInactiveVendor(vendorId);
 	}
 
 }
