@@ -154,89 +154,91 @@ $(document).ready(function() {
 
     });
 
-    $("#complete-order").prop("disabled",true);
+    // $("#complete-order").prop("disabled",true);
+    //
+    // function occurrences(string, substring){
+    //     var n=0;
+    //     var pos=0;
+    //
+    //     while(true){
+    //         pos=string.indexOf(substring,pos);
+    //         if(pos!=-1){ n++; pos+=substring.length;}
+    //         else{break;}
+    //     }
+    //     return(n);
+    // }
+    // isSameAddress = false;
 
-    function occurrences(string, substring){
-        var n=0;
-        var pos=0;
-
-        while(true){
-            pos=string.indexOf(substring,pos);
-            if(pos!=-1){ n++; pos+=substring.length;}
-            else{break;}
-        }
-        return(n);
-    }
-    isSameAddress = false;
-
-    $(".address").change(function () {
-        address = $("#address").val();
-        address2 = $("#address2").val();
-
-        var count = occurrences(address,",");
-        var count2 = occurrences(address2,",");
-
-        if(count >= 2 && isSameAddress || (count >= 2 && count2 >= 2)){
-            $("#invalid-feedback").hide();
-            $("#invalid-feedback2").hide();
-            $("#complete-order").prop("disabled",false);
-        }
-
-        else{
-            if(count<2){
-                $("#invalid-feedback").show();
-            }
-            if(count2 < 2 && !isSameAddress){
-                $("#invalid-feedback2").show();
-            }
-
-            $("#complete-order").prop("disabled",true);
-
-        }
-    });
+    // $(".address").change(function () {
+    //     address = $("#address").val();
+    //     address2 = $("#address2").val();
+    //
+    //     var count = occurrences(address,",");
+    //     var count2 = occurrences(address2,",");
+    //
+    //     if(count >= 2 && isSameAddress || (count >= 2 && count2 >= 2)){
+    //         $("#invalid-feedback").hide();
+    //         $("#invalid-feedback2").hide();
+    //         $("#complete-order").prop("disabled",false);
+    //     }
+    //
+    //     else{
+    //         if(count<2){
+    //             $("#invalid-feedback").show();
+    //         }
+    //         if(count2 < 2 && !isSameAddress){
+    //             $("#invalid-feedback2").show();
+    //         }
+    //
+    //         $("#complete-order").prop("disabled",true);
+    //
+    //     }
+    // });
 
 
 
-    $("#same-address").change(function() {
-        // this will contain a reference to the checkbox
-        if (this.checked) {
-            //$("#address").val($("#address").val())
-            $("#billingAddressContainer").addClass("d-none");
-            $("#billingAddressContainer").removeClass("d-block");
-            isSameAddress = true;
-        } else {
-            //$("#address").val('')
-            $("#billingAddressContainer").removeClass("d-none");
-            $("#billingAddressContainer").addClass("d-block");
-            isSameAddress = false;
-        }
-
-    });
+    // $("#same-address").change(function() {
+    //     // this will contain a reference to the checkbox
+    //     if (this.checked) {
+    //         //$("#address").val($("#address").val())
+    //         $("#billingAddressContainer").addClass("d-none");
+    //         $("#billingAddressContainer").removeClass("d-block");
+    //         isSameAddress = true;
+    //     } else {
+    //         //$("#address").val('')
+    //         $("#billingAddressContainer").removeClass("d-none");
+    //         $("#billingAddressContainer").addClass("d-block");
+    //         isSameAddress = false;
+    //     }
+    //
+    // });
 
     $("#complete-order").click(function (event) {
 
-
-        order_id = $("#orderId").val();
-        address = $("#address").val();
-        if(isSameAddress){
-            address2 = address;
-        }
-        else{
-            address2 = $("#address2").val();
-        }
+        // order_id = $("#orderId").val();
+        // address = $("#address").val();
+        // if(isSameAddress){
+        //     address2 = address;
+        // }
+        // else{
+        //     address2 = $("#address2").val();
+        // }
 
         var contextRoot = "/" + window.location.pathname.split('/')[1];
         $.ajax({
-                url: contextRoot+ "/checkout/billing?billingAddress="+ address2 + "&shippingAddress="+address+"&orderId="+order_id,
+                url: contextRoot+ "/complete",
                 contentType: 'application/json',
                 dataType: 'json',
                 type: "get",
                 success: function(data){
-                    console.log(data)
+                    console.log(data);
+                    $(".success").html("Order successfully completed");
+                    $(".success").append("Order Number " + data.orderNumber);
                 },
                 error: function (error) {
                     console.log('error========================================')
                     console.log(error);
+                    $(".success").html("Unable to complete order");
                 }
             }
         );

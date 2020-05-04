@@ -123,22 +123,38 @@ public class OrderController {
         return order.getCartItems().size();
     }
 
-    @PostMapping("/checkout")
-    public ResponseEntity<Order> checkoutOrder(@RequestBody Cart cart){
-        //update order table - call editCart
-        EndUser buyer = new EndUser();
-        buyer.setFirstName("John");
-        Order order = null;
-        for (int i=0; i<cart.getCartItems().size(); i++){
-            order = orderService.addItemToCart(buyer, cart.getCartItems().get(i));
+    @GetMapping("/checkout")
+    public ModelAndView getCheckoutPage(){
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.getPendingOrder(buyer);
+
+        ModelAndView mav = new ModelAndView();
+        if (order != null){
+            List<CartItem> cartItems = order.getCartItems();
+            mav.addObject("cartItems", cartItems);
+            mav.addObject("productItems", order.getCartItems());
+            mav.addObject("order", order);
+
         }
+        mav.setViewName("checkout");
+        return mav;
+    }
+
+    @GetMapping("/checkout/complete")
+    public Order checkoutOrder(){
+        //update order table - call editCart
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.getPendingOrder(buyer);
+//        for (int i=0; i<cart.getCartItems().size(); i++){
+//            order = orderService.addItemToCart(buyer, cart.getCartItems().get(i));
+//        }
         //check stock
         order = orderService.checkStock(order);
 
         //if there is a problem with stock return Order object with isSufficientStockExist = true
         if (!order.getStockErrors().isEmpty()){
             order.setSufficientStockExist(true);
-            return new ResponseEntity<>(order, HttpStatus.BAD_REQUEST);
+            return order;
         }
         //if stock is ok - send payment module order object
         //if there is a problem with payment - return the order with the error in it
@@ -159,7 +175,7 @@ public class OrderController {
         order = orderService.saveOrder(order);
         //return the order
 
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        return order;
     }
 
     @GetMapping("/orders")
