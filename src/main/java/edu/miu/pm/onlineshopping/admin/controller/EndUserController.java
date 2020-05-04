@@ -87,15 +87,30 @@ public class EndUserController {
 		return endUserUpdate;
 	}
 	
-	/*@GetMapping("/getInactiveEndUsers")
+	@GetMapping("/getInactiveEndUsers")
 	public List<EndUser> getInactiveEndUsers() {
-		return endUserRepository.getInactiveEndUsers();
+		Status status=Status.INACTIVE;
+		return endUserRepository.findAllByStatus(status);
 	}
 	
-	@GetMapping("/getInactiveEndUser/{vendorId}")
-	public EndUser getInactiveEndUser(@PathVariable("vendorId") int vendorId) {
-		return endUserRepository.getInactiveEndUser(vendorId);
-	}*/
+	@GetMapping("/getInactiveEndUser/{userId}")
+	public EndUser getInactiveEndUser(@PathVariable("userId") int userId) {
+		Status status=Status.INACTIVE;
+		return endUserRepository.findByUserIdAndStatus(userId, status);
+	}
+	
+	@GetMapping("/getActiveEndUsers")
+	public List<EndUser> getActiveEndUsers() {
+		Status status=Status.ACTIVE;
+		return endUserRepository.findAllByStatus(status);
+	}
+	
+	@GetMapping("/getActiveEndUser/{userId}")
+	public EndUser getActiveEndUser(@PathVariable("userId") int userId) {
+		Status status=Status.ACTIVE;
+		return endUserRepository.findByUserIdAndStatus(userId, status);
+	}
+	
 	
 
 }

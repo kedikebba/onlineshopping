@@ -91,12 +91,26 @@ public class AdminVendorController {
 	
 	@GetMapping("/getInactiveVendors")
 	public List<Vendor> getInactiveVendors() {
-		return vendorRepository.getInactiveEndUsers();
+		Status status=Status.INACTIVE;
+		return vendorRepository.findAllByStatus(status);
 	}
 	
 	@GetMapping("/getInactiveVendor/{vendorId}")
 	public Vendor getInactiveVendor(@PathVariable("vendorId") int vendorId) {
-		return vendorRepository.getInactiveVendor(vendorId);
+		Status status=Status.INACTIVE;
+		return vendorRepository.findByVendorIdAndStatus(vendorId,status);
+	}
+	
+	@GetMapping("/getActiveVendors")
+	public List<Vendor> getActiveVendors() {
+		Status status=Status.ACTIVE;
+		return vendorRepository.findAllByStatus(status);
+	}
+	
+	@GetMapping("/getActiveVendor/{vendorId}")
+	public Vendor getActiveVendor(@PathVariable("vendorId") int vendorId) {
+		Status status=Status.ACTIVE;
+		return vendorRepository.findByVendorIdAndStatus(vendorId,status);
 	}
 
 }
