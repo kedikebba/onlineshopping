@@ -213,37 +213,37 @@ $(document).ready(function() {
     //
     // });
 
-    $("#complete-order").click(function (event) {
-
-        // order_id = $("#orderId").val();
-        // address = $("#address").val();
-        // if(isSameAddress){
-        //     address2 = address;
-        // }
-        // else{
-        //     address2 = $("#address2").val();
-        // }
-
-        var contextRoot = "/" + window.location.pathname.split('/')[1];
-        $.ajax({
-                url: contextRoot+ "/complete",
-                contentType: 'application/json',
-                dataType: 'json',
-                type: "post",
-                success: function(data){
-                    console.log(data);
-                    $(".success").html("Order successfully completed");
-                    $(".success").append("Order Number " + data.orderNumber);
-                },
-                error: function (error) {
-                    console.log('error========================================')
-                    console.log(error);
-                    $(".success").html("Unable to complete order");
-                }
-            }
-        );
-
-    });
+    // $("#complete-order").click(function (event) {
+    //
+    //     // order_id = $("#orderId").val();
+    //     // address = $("#address").val();
+    //     // if(isSameAddress){
+    //     //     address2 = address;
+    //     // }
+    //     // else{
+    //     //     address2 = $("#address2").val();
+    //     // }
+    //
+    //     var contextRoot = "/" + window.location.pathname.split('/')[1];
+    //     $.ajax({
+    //             url: contextRoot+ "/complete",
+    //             contentType: 'application/json',
+    //             dataType: 'json',
+    //             type: "post",
+    //             success: function(data){
+    //                 console.log(data);
+    //                 $(".success").html("Order successfully completed");
+    //                 $(".success").append("Order Number " + data.orderNumber);
+    //             },
+    //             error: function (error) {
+    //                 console.log('error========================================')
+    //                 console.log(error);
+    //                 $(".success").html("Unable to complete order");
+    //             }
+    //         }
+    //     );
+    //
+    // });
 
     $("#generate-pdf").click(function () {
         doc.save('a4.pdf');

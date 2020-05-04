@@ -3,10 +3,7 @@ package edu.miu.pm.onlineshopping.shoppingcart.controller;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import edu.miu.pm.onlineshopping.product.model.Product;
-import edu.miu.pm.onlineshopping.shoppingcart.model.Cart;
-import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
-import edu.miu.pm.onlineshopping.shoppingcart.model.Order;
-import edu.miu.pm.onlineshopping.shoppingcart.model.OrderStatus;
+import edu.miu.pm.onlineshopping.shoppingcart.model.*;
 import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +42,6 @@ public class OrderController {
 //    }
     @PostMapping("/addToCart")
     public long addProductToCart(@RequestBody CartItem cartItem){
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.addItemToCart(buyer, cartItem);
         if (order == null)
@@ -59,7 +55,6 @@ public class OrderController {
     }
     @PutMapping("/cart/addToCart")
     public long updateCart(@RequestBody CartItem cartItem){
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.addItemToCart(buyer, cartItem);
         if (order == null)
@@ -107,7 +102,6 @@ public class OrderController {
 
     @DeleteMapping("/cart/removeItem")
     public long deleteCartItem(@RequestBody CartItem cartItem){
-        System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.removeCartItem(buyer, cartItem);
 
@@ -134,6 +128,7 @@ public class OrderController {
             mav.addObject("cartItems", cartItems);
             mav.addObject("productItems", order.getCartItems());
             mav.addObject("order", order);
+            mav.addObject("payment", new Payment());
 
         }
         mav.setViewName("checkout");
@@ -141,13 +136,13 @@ public class OrderController {
     }
 
     @PostMapping("/checkout/complete")
-    public ModelAndView checkoutOrder(){
-        //update order table - call editCart
+    public ModelAndView checkoutOrder(@ModelAttribute Payment payment){
+//        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+        System.out.println(payment.getMethod());
+                //update order table - call editCart
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.getPendingOrder(buyer);
-//        for (int i=0; i<cart.getCartItems().size(); i++){
-//            order = orderService.addItemToCart(buyer, cart.getCartItems().get(i));
-//        }
+        order.setPayment(payment);
         //check stock
         order = orderService.checkStock(order);
 
@@ -160,6 +155,7 @@ public class OrderController {
             return mav;
         }
         //if stock is ok - send payment module order object
+
         //if there is a problem with payment - return the order with the error in it
 
         //if payment is ok - reduce quantity of product

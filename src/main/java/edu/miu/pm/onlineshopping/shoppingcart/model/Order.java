@@ -6,10 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Setter
 @Getter
@@ -49,7 +46,7 @@ public class Order {
     private LocalDate deliveryDate;
 
     @OneToOne
-    private PaymentStatus paymentStatus;
+    private Payment payment;
 
 //    public void setCartItems(CartItem cartItem){
 //        this.cartItems.put(cartItem.getProductId(), cartItem.getQuantity());

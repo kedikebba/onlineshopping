@@ -47,12 +47,33 @@
 
                 <div class="m-5">
                     <h4 class="mb-3"></h4>
-                    <form action='/checkout/complete' method='POST' id='checkout-form'>
-<!--                        <input type='hidden' th:value='${amount}' name='amount' />-->
-<!--                        <input type='hidden' th:value='${order.Id}' name='orderId' id="orderId"/>-->
-<!--                        &lt;!&ndash;                        <input type='hidden' th:if="${order.buyer}" th:value='${order.buyer.address}' name='buyerAddress' id="buyerAddress"/>&ndash;&gt;-->
-<!--                        <label>Price:<span th:text='${amount/100}' /></label>-->
-                        <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
+                    <form action='/checkout/complete' method='POST' id='checkout-form' th:object="${payment}">
+
+                        <h3>Select Payment Method</h3>
+                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{method}">
+
+<!--                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">-->
+<!--                            </option>-->
+                            <option th:value="MASTERCARD" th:text="MASTERCARD">
+                            </option>
+                            <option th:value="VISA" th:text="VISA">
+                            </option>
+                            <option th:value="AMERICAN-EXPRESS" th:text="AMERICAN-EXPRESS">
+                            </option>
+
+                        </select>
+                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{currency}">
+
+                            <!--                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">-->
+                            <!--                            </option>-->
+                            <option th:value="USD" th:text="USD">
+                            </option>
+                            <option th:value="GBP" th:text="GBP">
+                            </option>
+                            <option th:value="EURO" th:text="EURO">
+                            </option>
+
+                        </select>
 
 <!--                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>-->
                         <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>
