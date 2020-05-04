@@ -229,7 +229,7 @@ $(document).ready(function() {
                 url: contextRoot+ "/complete",
                 contentType: 'application/json',
                 dataType: 'json',
-                type: "get",
+                type: "post",
                 success: function(data){
                     console.log(data);
                     $(".success").html("Order successfully completed");

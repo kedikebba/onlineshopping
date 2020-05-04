@@ -152,12 +152,13 @@ public class OrderServiceImpl implements OrderService {
                order.setSufficientStockExist(false);
 
            }
-           else if ((product.getQuantity() - item.getQuantity() < 0)){
+           else if ((product.getQuantity() - item.getQuantity()) < 0){
                stockErrors.add(product);
                order.setSufficientStockExist(false);
             }
         }
-        order.setStockErrors(stockErrors);
+        if (!stockErrors.isEmpty())
+            order.setStockErrors(stockErrors);
 
         return order;
     }

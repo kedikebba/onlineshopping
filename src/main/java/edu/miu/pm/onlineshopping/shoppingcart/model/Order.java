@@ -43,7 +43,7 @@ public class Order {
     @ManyToOne
     @JoinColumn
     private EndUser buyer;
-    private boolean isSufficientStockExist;
+    private boolean isSufficientStockExist = true;
     @OneToMany
     private List<Product> stockErrors;
     private LocalDate deliveryDate;

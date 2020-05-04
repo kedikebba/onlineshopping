@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head">
+</head>
+
+<body>
+<header th:replace="fragments/top_bar :: navbar-default">
+</header>
+
+<div class="container success">
+
+<!--    <div th:if="${order.stockErrors != null}">-->
+<!--        <h1>Sorry, your order is not completed</h1>-->
+<!--        <h3>We don't have enough stock in the following products:</h3>-->
+<!--        <li class="list-group-item d-flex justify-content-between lh-condensed" th:each="error: ${order.stockErrors}">-->
+<!--            <div >-->
+<!--                <h6 class="my-0" th:text="${error.productName}">Product name</h6>-->
+<!--            </div>-->
+<!--        </li>-->
+
+<!--    </div>-->
+<!--    <div th:unless="${order.stockErrors}">-->
+    <div>
+        <h1>Congratulations! Your order successfully completed.</h1>
+        Order Number: <h3 th:text="${order.orderNumber}"></h3>
+        Total price: <h3 th:text="${order.totalPrice}"></h3>
+        Date: <h3 th:text="${order.orderCompletedDate}"></h3>
+        Ordered by: <h3 th:text="${order.buyer.firstName}"></h3>
+        Your order will be delivered on: <h3 th:text="${order.deliveryDate}"></h3>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

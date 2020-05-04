@@ -140,8 +140,8 @@ public class OrderController {
         return mav;
     }
 
-    @GetMapping("/checkout/complete")
-    public Order checkoutOrder(){
+    @PostMapping("/checkout/complete")
+    public ModelAndView checkoutOrder(){
         //update order table - call editCart
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.getPendingOrder(buyer);
@@ -154,7 +154,10 @@ public class OrderController {
         //if there is a problem with stock return Order object with isSufficientStockExist = true
         if (!order.getStockErrors().isEmpty()){
             order.setSufficientStockExist(true);
-            return order;
+            ModelAndView mav = new ModelAndView();
+            mav.addObject("order", order);
+            mav.setViewName("order_complete");
+            return mav;
         }
         //if stock is ok - send payment module order object
         //if there is a problem with payment - return the order with the error in it
@@ -175,7 +178,11 @@ public class OrderController {
         order = orderService.saveOrder(order);
         //return the order
 
-        return order;
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("order", order);
+        mav.setViewName("order_complete");
+
+        return mav;
     }
 
     @GetMapping("/orders")
@@ -188,25 +195,5 @@ public class OrderController {
         mav.setViewName("orders");
         return mav;
     }
-
-//    public Cart getCartFromOrder(Order order){
-////        List<Product> products = orderService.getProducts(order.getCartItems().keySet());
-//        List<Long> keyList = order.getCartItems().stream()
-//                                                .map(item -> item.getProductId())
-//                                                .collect(Collectors.toList());
-//        List<Product> products = orderService.getProducts(keyList);
-//        List<CartItem> cartItems = new ArrayList<>();
-//        for(Product product: products){
-//            CartItem item = new CartItem();
-//            item.setProductName(product.getProductName());
-//            item.setQuantity(order.getCartItems().get(product.getProductId()));
-//            cartItems.add(item);
-//        }
-//        Cart cart = new Cart();
-//        cart.setCartItems(cartItems);
-//        cart.setTotalPrice(order.getTotalPrice());
-//
-//        return cart;
-//    }
 
 }

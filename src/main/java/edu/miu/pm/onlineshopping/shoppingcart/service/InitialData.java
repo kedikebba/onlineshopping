@@ -1,6 +1,7 @@
 package edu.miu.pm.onlineshopping.shoppingcart.service;
 
 
+import edu.miu.pm.onlineshopping.admin.model.Address;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
@@ -37,6 +38,13 @@ public class InitialData implements ApplicationRunner {
     private void loadData(){
         EndUser user = new EndUser();
         user.setFirstName("John");
+        Address address = new Address();
+        address.setCity("Fairfield");
+        address.setEmail("john@shopping.com");
+        address.setPhoneNumber("6411112221212");
+        address.setState("Iowa");
+        address.setZipCode("52557");
+        user.setAddress(address);
         endUserService.saveUser(user);
 
         Vendor vendor1 = new Vendor();
