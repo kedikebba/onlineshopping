@@ -1,6 +1,9 @@
 package edu.miu.pm.onlineshopping.payment.paypal.model;
 
+/*Author:
+ * Addisu Marilign (Id 610135)*/
 public class Order {
+
     private double price;
     private String currency;
     private String method;
@@ -8,6 +11,8 @@ public class Order {
     private String description;
 
     public Order() {
+        super();
+        // TODO Auto-generated constructor stub
     }
     public Order(double price, String currency, String method, String intent, String description) {
         super();
@@ -16,12 +21,6 @@ public class Order {
         this.method = method;
         this.intent = intent;
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Order [price=" + price + ", currency=" + currency + ", method=" + method + ", intent=" + intent
-                + ", description=" + description + "]";
     }
     public double getPrice() {
         return price;

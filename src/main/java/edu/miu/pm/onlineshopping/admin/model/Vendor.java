@@ -1,10 +1,11 @@
 package edu.miu.pm.onlineshopping.admin.model;
 
-import edu.miu.pm.onlineshopping.product.model.Product;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Vendor {
@@ -14,22 +15,31 @@ public class Vendor {
 	
 	private String firstName;
 	private String lastName;
-	private String userName;
-	private String password;
+	
+	@OneToOne(cascade= {CascadeType.ALL})
+	private Account account;
 	
 	@OneToOne(cascade= {CascadeType.ALL})
 	private Address address;
 	
 	private boolean registrationFeeStatus;
 	private Role role=Role.VENDOR;
-
+	private Status status;
 	
 	public Vendor() {
 		super();
 	}
-
-	public int getVendorId() {
-		return vendorId;
+	
+	public Vendor(String firstName, String lastName, Account account, Address address, boolean registrationFeeStatus,
+			Role role) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.account = account;
+		this.address = address;
+		this.registrationFeeStatus = registrationFeeStatus;
+		this.role = role;
+		this.status=Status.INACTIVE;
 	}
 
 	public String getFirstName() {
@@ -48,20 +58,12 @@ public class Vendor {
 		this.lastName = lastName;
 	}
 
-	public String getUserName() {
-		return userName;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public Address getAddress() {
@@ -83,19 +85,29 @@ public class Vendor {
 	public Role getRole() {
 		return role;
 	}
-	
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
 
+	public int getVendorId() {
+		return vendorId;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "Vendor [vendorId=" + vendorId + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
-				+ userName + ", password=" + password + ", address=" + address + ", registrationFeeStatus="
-				+ registrationFeeStatus + ", role=" + role + "]";
+		return "Vendor [vendorId=" + vendorId + ", firstName=" + firstName + ", lastName=" + lastName + ", account="
+				+ account + ", address=" + address + ", registrationFeeStatus=" + registrationFeeStatus + ", role="
+				+ role + "]";
 	}
-	
-	
 
 
 }

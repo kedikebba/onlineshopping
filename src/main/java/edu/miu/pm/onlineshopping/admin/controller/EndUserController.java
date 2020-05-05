@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
+import edu.miu.pm.onlineshopping.admin.model.Status;
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.repository.EndUserRepository;
 
 
@@ -23,7 +25,7 @@ public class EndUserController {
 	@Autowired
 	private EndUserRepository endUserRepository;
 	
-	@PostMapping("/registerEnduser")
+	@PostMapping("/registerEndUser")
 	public EndUser saveEndUser(@RequestBody EndUser endUser) {
 		endUserRepository.save(endUser);
 		return endUser;
@@ -50,9 +52,8 @@ public class EndUserController {
 			endUserUpdate.setAddress(endUser.getAddress());
 			endUserUpdate.setFirstName(endUser.getFirstName());
 			endUserUpdate.setLastName(endUser.getLastName());
-			endUserUpdate.setPassword(endUser.getPassword());
+			endUserUpdate.setAccount(endUser.getAccount());
 			endUserUpdate.setRole(endUser.getRole());
-			endUserUpdate.setUserName(endUser.getUserName());
 			
 			endUserRepository.save(endUserUpdate);
 			
@@ -63,6 +64,53 @@ public class EndUserController {
 	public void deleteEndUser(@PathVariable("endUserId") int endUserId) {
 		endUserRepository.deleteById(endUserId);
 	}
+	
+	@PutMapping("/activeEndUser")
+	public EndUser activateEndUser(@RequestBody EndUser endUser) {
+		Optional<EndUser> optionalEndUser=endUserRepository.findById(endUser.getUserId());
+		
+		EndUser endUserUpdate=optionalEndUser.get();
+		
+		endUserUpdate.setStatus(Status.ACTIVE);
+		
+		return endUserUpdate;
+	}
+	
+	@PutMapping("/deactiveEndUser")
+	public EndUser deactivateEndUser(@RequestBody EndUser endUser) {
+		Optional<EndUser> optionalEndUser=endUserRepository.findById(endUser.getUserId());
+		
+		EndUser endUserUpdate=optionalEndUser.get();
+		
+		endUserUpdate.setStatus(Status.INACTIVE);
+		
+		return endUserUpdate;
+	}
+	
+	@GetMapping("/getInactiveEndUsers")
+	public List<EndUser> getInactiveEndUsers() {
+		Status status=Status.INACTIVE;
+		return endUserRepository.findAllByStatus(status);
+	}
+	
+	@GetMapping("/getInactiveEndUser/{userId}")
+	public EndUser getInactiveEndUser(@PathVariable("userId") int userId) {
+		Status status=Status.INACTIVE;
+		return endUserRepository.findByUserIdAndStatus(userId, status);
+	}
+	
+	@GetMapping("/getActiveEndUsers")
+	public List<EndUser> getActiveEndUsers() {
+		Status status=Status.ACTIVE;
+		return endUserRepository.findAllByStatus(status);
+	}
+	
+	@GetMapping("/getActiveEndUser/{userId}")
+	public EndUser getActiveEndUser(@PathVariable("userId") int userId) {
+		Status status=Status.ACTIVE;
+		return endUserRepository.findByUserIdAndStatus(userId, status);
+	}
+	
 	
 
 }
