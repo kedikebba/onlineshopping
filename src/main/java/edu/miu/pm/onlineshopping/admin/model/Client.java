@@ -17,8 +17,10 @@ public class Client {
 	
 	private String firstName;
 	private String lastName;
-	private String userName;
-	private String password;
+	
+	@OneToOne(cascade= {CascadeType.ALL})
+	private Account account;
+	
 	private Role role;
 	
 	@OneToOne(cascade= {CascadeType.ALL})
@@ -28,18 +30,13 @@ public class Client {
 		super();
 	}
 
-	public Client(String firstName, String lastName, String userName, String password, Role role, Address address) {
+	public Client(String firstName, String lastName, Account account, Role role, Address address) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userName = userName;
-		this.password = password;
+		this.account = account;
 		this.role = role;
 		this.address = address;
-	}
-
-	public int getClientId() {
-		return clientId;
 	}
 
 	public String getFirstName() {
@@ -58,20 +55,12 @@ public class Client {
 		this.lastName = lastName;
 	}
 
-	public String getUserName() {
-		return userName;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public Role getRole() {
@@ -90,12 +79,15 @@ public class Client {
 		this.address = address;
 	}
 
-	@Override
-	public String toString() {
-		return "Client [clientId=" + clientId + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
-				+ userName + ", password=" + password + ", role=" + role + ", address=" + address + "]";
+	public int getClientId() {
+		return clientId;
 	}
 
+	@Override
+	public String toString() {
+		return "Client [clientId=" + clientId + ", firstName=" + firstName + ", lastName=" + lastName + ", account="
+				+ account + ", role=" + role + ", address=" + address + "]";
+	}
 
 
 }
