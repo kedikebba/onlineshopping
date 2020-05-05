@@ -1,7 +1,12 @@
 package edu.miu.pm.onlineshopping.product.controller;
 
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
+import edu.miu.pm.onlineshopping.admin.repository.VendorRepository;
+import edu.miu.pm.onlineshopping.admin.service.VendorService;
+import edu.miu.pm.onlineshopping.product.model.Category;
 import edu.miu.pm.onlineshopping.product.model.Product;
+import edu.miu.pm.onlineshopping.product.model.ProductStatus;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import edu.miu.pm.onlineshopping.product.service.Imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +24,27 @@ public class ProductController {
     @Autowired
     private ICategoryService categoryService;
 
-//    @Autowired
-//    private UserServiceImplementation implementation;
-//
-//    @Autowired
-//    private UserServiceImplementation userService;
     @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
-
-//    @GetMapping(value = "/productbyvendor")
-//    public List<Product> getProductByVendor(Principal principal) {
-//        return productService.findByVendor(userService.loadUserByUsername(principal.getName()));
-//    }
-////
-//    @GetMapping(value = "/approved_products")
-//    public List<Product> getApprovedProduct(@RequestHeader Map<String, String> header) {
-//        return  productService.getApprovedProduct();
-//    }
-
     @GetMapping(value = "/product/{id}")
     public Product getProductById(@PathVariable("id") Long productId) {
+
         return productService.findById(productId);
     }
+    @PostMapping(value = "/product", produces = "application/json")
+    public Product save(@RequestBody Product product) {
+        productService.saveProduct(product);
+        return product;
+    }
+    @PostMapping(value = "/update_Product", produces = "application/json")
+    public Product updateProduct(@RequestBody Product product) {
+         productService.saveProduct(product);
+        return product;
+    }
 
-//    @PostMapping(value = "/product", produces = "application/json")
-//    public Product save(@RequestBody ProductRequest product, Principal principal) {
-//
-//       // User user = implementation.loadUserByUsername(principal.getName());
-//        Product product1 = new Product(categoryService.findById(product.getCategoryId()));
-//        product.updateProduct(product1);
-//        //  product1.setUser(user); //vendor of the product
-//       // product1.setStatus("unapproved");
-//       // productService.save(product1, user);
-//
-//        return product1;
-//    }
+
     @DeleteMapping(value = "/product/{id}")
     public Product delete(@PathVariable("id") Long productId) {
         Product product = productService.findById(productId);
@@ -65,12 +54,12 @@ public class ProductController {
     @GetMapping("/products/search")
     public List<Product> search(@RequestParam("productNumber") String productNumber, @RequestParam("productName") String productName,
                                 @RequestParam("minProductPrice") Double minProductPrice, @RequestParam("maxProductPrice")
-                                        Double maxProductPrice, @RequestParam("status") Integer status) {
+                                        Double maxProductPrice, @RequestParam("status") ProductStatus status) {
         boolean byProductNumber = productNumber != null && !productNumber.isEmpty();
         boolean byProductName = productName != null && !productName.isEmpty();
         boolean byMinPrice = minProductPrice != 0;
         boolean byMaxPrice = maxProductPrice != 0;
-        boolean byStatus = status == 1;
+        boolean byStatus = status == ProductStatus.ACTIVE;
 
         if (byProductNumber && byProductName && (byMinPrice || byMaxPrice)) {
             return productService.findByAll(productNumber, productName, minProductPrice, maxProductPrice, status);

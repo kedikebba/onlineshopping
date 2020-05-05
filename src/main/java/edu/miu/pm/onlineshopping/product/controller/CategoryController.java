@@ -2,6 +2,7 @@ package edu.miu.pm.onlineshopping.product.controller;
 
 
 import edu.miu.pm.onlineshopping.product.model.Category;
+import edu.miu.pm.onlineshopping.product.model.ProductStatus;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,26 +18,26 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @GetMapping(value ="/categories")
     public List<Category> getAllCategories(){
         return (List<Category>) categoryService.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @GetMapping(value = "/category/{id}")
     public Category getCategoryById(@PathVariable("id") Long categoryId) {
         return categoryService.findById(categoryId);
     }
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @PostMapping(value = "/update_category", produces = "application/json")
     public Category updateCategory(@RequestBody Category category) {
         categoryService.save(category);
         return category;
     }
 
-    @CrossOrigin(origins = "http://localhost:XXXX/")
+
     @PostMapping(value = "/category", produces = "application/json")
     public Category save(@RequestBody Category category) {
         System.out.println(category);
@@ -44,7 +45,7 @@ public class CategoryController {
         return category;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200/")
+
     @DeleteMapping(value = "/category/{id}")
     public Category delete(@PathVariable("id") Long categoryId) {
         Category category = categoryService.findById(categoryId);
@@ -54,10 +55,10 @@ public class CategoryController {
 
     @GetMapping("/categories/search")
     public List<Category> search(@RequestParam("categoryNumber") String categoryNumber, @RequestParam("categoryName") String categoryName,
-                                 @RequestParam("status") Integer status) {
+                                 @RequestParam("status") ProductStatus status) {
         boolean byCategoryNumber = categoryNumber != null && !categoryNumber.isEmpty();
         boolean byCategoryName = categoryName != null && !categoryName.isEmpty();
-        boolean byStatus = status == 1;
+        boolean byStatus = status == ProductStatus.ACTIVE;
 
         if (byCategoryName) {
             return categoryService.findByCategoryName(categoryName, status);

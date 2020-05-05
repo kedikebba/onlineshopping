@@ -1,6 +1,7 @@
 package edu.miu.pm.onlineshopping.product.service.Imp;
 
 import edu.miu.pm.onlineshopping.product.model.Category;
+import edu.miu.pm.onlineshopping.product.model.ProductStatus;
 import edu.miu.pm.onlineshopping.product.repository.ICategoryRepository;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,17 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<Category> findByCategoryName(String categoryName, Integer status) {
+    public Category updateCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public List<Category> findByCategoryName(String categoryName, ProductStatus status) {
         return categoryRepository.findByCategoryName(categoryName,status);
     }
 
     @Override
-    public List<Category> findByStatus(Integer status) {
+    public List<Category> findByStatus(ProductStatus status) {
         return categoryRepository.findByStatus(status);
     }
 }

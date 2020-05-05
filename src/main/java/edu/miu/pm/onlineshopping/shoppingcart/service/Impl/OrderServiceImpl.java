@@ -165,7 +165,7 @@ public class OrderServiceImpl implements OrderService {
             Product product = productService.findById(item.getProductId());
             if(product != null){
                 product.setQuantity(product.getQuantity() - item.getQuantity());
-                productService.saveProduct(product);
+                //productService.saveProduct(product);
             }
         }
     }
