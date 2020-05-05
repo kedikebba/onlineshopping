@@ -10,7 +10,7 @@ public class AdminHomeController {
 	
 	@RequestMapping("/home")
 	public ModelAndView homePage() {
-		ModelAndView mav=new ModelAndView("home");
+		ModelAndView mav=new ModelAndView("paymentpage");
 		return mav;
 	}
 }
