@@ -74,6 +74,8 @@ public class InitialData implements ApplicationRunner {
         p1.setCategory(c1);
         p1.setPrice(1000);
         p1.setQuantity(20);
+        p1.setStatus(1);
+        p1.setApprovedStatus(true);
         p1.setVendor(vendor1);
         productService.saveProduct(p1);
 
@@ -82,6 +84,8 @@ public class InitialData implements ApplicationRunner {
         p2.setCategory(c2);
         p2.setPrice(3000);
         p2.setQuantity(50);
+        p2.setStatus(1);
+        p2.setApprovedStatus(true);
         p2.setVendor(vendor2);
         productService.saveProduct(p2);
 
@@ -91,6 +95,8 @@ public class InitialData implements ApplicationRunner {
         p3.setPrice(50);
         p3.setQuantity(30);
         p3.setVendor(vendor2);
+        p3.setStatus(1);
+        p3.setApprovedStatus(true);
         productService.saveProduct(p3);
 
         Product p4 = new Product();
@@ -98,6 +104,8 @@ public class InitialData implements ApplicationRunner {
         p4.setCategory(c2);
         p4.setPrice(50);
         p4.setQuantity(30);
+        p4.setStatus(1);
+        p4.setApprovedStatus(true);
         p4.setVendor(vendor1);
         productService.saveProduct(p4);
 
@@ -106,6 +114,8 @@ public class InitialData implements ApplicationRunner {
         p5.setCategory(c1);
         p5.setPrice(50);
         p5.setQuantity(30);
+        p5.setStatus(1);
+        p5.setApprovedStatus(true);
         p5.setVendor(vendor1);
         productService.saveProduct(p5);
 
@@ -114,6 +124,8 @@ public class InitialData implements ApplicationRunner {
         p6.setCategory(c3);
         p6.setPrice(50);
         p6.setQuantity(30);
+        p6.setStatus(1);
+        p6.setApprovedStatus(true);
         p6.setVendor(vendor2);
         productService.saveProduct(p6);
 
@@ -122,6 +134,8 @@ public class InitialData implements ApplicationRunner {
         p7.setCategory(c4);
         p7.setPrice(50);
         p7.setQuantity(30);
+        p7.setStatus(1);
+        p7.setApprovedStatus(true);
         p7.setVendor(vendor3);
         productService.saveProduct(p7);
 
@@ -130,6 +144,8 @@ public class InitialData implements ApplicationRunner {
         p8.setCategory(c4);
         p8.setPrice(50);
         p8.setQuantity(30);
+        p8.setStatus(1);
+        p8.setApprovedStatus(true);
         p8.setVendor(vendor3);
         productService.saveProduct(p8);
 
@@ -138,6 +154,8 @@ public class InitialData implements ApplicationRunner {
         p9.setCategory(c4);
         p9.setPrice(50);
         p9.setQuantity(30);
+        p9.setStatus(1);
+        p9.setApprovedStatus(true);
         p9.setVendor(vendor3);
         productService.saveProduct(p9);
 

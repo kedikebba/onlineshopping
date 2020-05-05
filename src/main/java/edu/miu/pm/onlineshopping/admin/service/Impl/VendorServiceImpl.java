@@ -16,4 +16,9 @@ public class VendorServiceImpl implements VendorService {
     public Vendor saveVendor(Vendor vendor) {
         return vendorRepository.save(vendor);
     }
+
+    @Override
+    public Vendor getVendorByName(String name) {
+        return vendorRepository.findByFirstName(name);
+    }
 }

@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.product.service.Imp;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.repository.IProductRepository;
 import edu.miu.pm.onlineshopping.product.service.IProductDetailService;
@@ -112,4 +113,7 @@ public class ProductService implements  IProductService {
         return productRepository.save(product);
     }
 
+    public List<Product> getVendorProducts(Vendor vendor) {
+         return productRepository.findByVendorAndApprovedStatusIsTrue(vendor);
+    }
 }

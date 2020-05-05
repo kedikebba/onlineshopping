@@ -22,10 +22,9 @@ public class Payment {
     private Long id;
     private String method;
     private String currency;
+    private double shipping = 5.5;
     private boolean isCompleted;
     private boolean isErrorHappened;
     private TypeOfError typeOfError;
-
-    private String intent = "purchasing on ONline shopping app";
-    private String description = "Used to purchase items on online shopping application";
+    private double paymentAmount;
 }

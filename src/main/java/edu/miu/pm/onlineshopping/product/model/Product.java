@@ -6,8 +6,11 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Product implements  Serializable {
      @Id
@@ -24,8 +27,15 @@ public class Product implements  Serializable {
     private String description;
     private int quantity;
 
-    private String status;
-    private String productImage;
+    private int status;
+//    private String productImage;
+
+    private LocalDate submittedDate = LocalDate.now();
+    private boolean approvedStatus = false;
+    private boolean isAvailable = true;
+    private int soldQuantity;
+    @ManyToOne
+    private Vendor vendor;
 
     //Boolean approvedStatus - False
     //boolean isAvailable - Set when Qty >= 1 - True else False
@@ -33,9 +43,6 @@ public class Product implements  Serializable {
     //Vendor - ManyToOne
     //Date - Creation
 
-
-    @ManyToOne
-    private Vendor vendor;
 
 //    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
@@ -47,18 +54,18 @@ public class Product implements  Serializable {
 //        this.category = category;
 //    }
 
-    public Product(  String productNumber, String productName, double price, String description, int quantity, String status, String productPath,Category category) {
-
-        this.productNumber = productNumber;
-        this.productName = productName;
-        this.price = price;
-        this.description = description;
-        this.quantity = quantity;
-        this.status = status;
-        this.productImage = productPath;
-        this.category=category;
-
-    }
+//    public Product(  String productNumber, String productName, double price, String description, int quantity, String status, String productPath,Category category) {
+//
+//        this.productNumber = productNumber;
+//        this.productName = productName;
+//        this.price = price;
+//        this.description = description;
+//        this.quantity = quantity;
+//        this.status = status;
+//        this.productImage = productPath;
+//        this.category=category;
+//
+//    }
 
 //    public long getProductId() {
 //        return productId;
@@ -132,18 +139,18 @@ public class Product implements  Serializable {
 //        this.category = category;
 //    }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", productNumber='" + productNumber + '\'' +
-                ", productName='" + productName + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", quantity=" + quantity +
-                ", status='" + status + '\'' +
-                ", productImage='" + productImage + '\'' +
-                ", category=" + category +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Product{" +
+//                "productId=" + productId +
+//                ", productNumber='" + productNumber + '\'' +
+//                ", productName='" + productName + '\'' +
+//                ", price=" + price +
+//                ", description='" + description + '\'' +
+//                ", quantity=" + quantity +
+//                ", status='" + status + '\'' +
+//                ", productImage='" + productImage + '\'' +
+//                ", category=" + category +
+//                '}';
+//    }
 }

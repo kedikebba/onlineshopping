@@ -4,6 +4,7 @@ import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.shoppingcart.model.*;
+import edu.miu.pm.onlineshopping.shoppingcart.service.OrderPaymentService;
 import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private EndUserService endUserService;
+    @Autowired
+    private OrderPaymentService orderPaymentService;
 
 
 //    @PostMapping("/addToCart")
@@ -157,6 +160,7 @@ public class OrderController {
         //if stock is ok - send payment module order object
 
         //if there is a problem with payment - return the order with the error in it
+        payment = orderPaymentService.savePayment(payment);
 
         //if payment is ok - reduce quantity of product
         orderService.updateStock(order);
