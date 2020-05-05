@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 @Repository
 public interface IProductDetailRepository extends JpaRepository<ProductDetail,Long> {
     @Query("SELECT sum(d.quantity) FROM ProductDetail d where d.product.productId = ?1 group by d.product")
-    int getProductStockQuantity(Long productId);
+    public int getProductStockQuantity(Long productId);
     ProductDetail findByProduct(Product product);
 
 }

@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.product.model;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,33 +29,18 @@ public class ProductDetail {
     private  String description;
     @NotNull
     private int quantity;
-
     @OneToOne
     @JoinColumn(name = "productId", nullable = false)
     private  Product product;
+//    @ManyToOne()
+//    @JoinColumn(name = "vendorId", referencedColumnName="id",  nullable = false)
+//    private Vendor vendorId; //vendor of the product.
 
-
-    public ProductDetail(@NotNull @NotEmpty String detailName, String description, int quantity, Product product) {
+    public ProductDetail(@NotNull(message = "*Product detail name is required") String detailName, String description, @NotNull int quantity, Product product) {
         this.detailName = detailName;
         this.description = description;
         this.quantity = quantity;
         this.product = product;
 
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 }

@@ -19,10 +19,7 @@ import static org.apache.tomcat.util.http.fileupload.IOUtils.*;
 @RestController
 public class UploadController {
 
-
     public static final String UPLOADED_FOLDER = "src/main/resources/static/";
-
-    @CrossOrigin(origins = "http://localhost:XXXX/")
     @PostMapping(value = "/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadfile) {
 
