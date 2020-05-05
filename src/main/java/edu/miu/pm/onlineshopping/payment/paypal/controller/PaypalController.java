@@ -26,7 +26,7 @@ public class PaypalController {
 
     @GetMapping("/")
     public String home() {
-        return "paymentpage";
+        return "payments";
     }
 
     @PostMapping("/pay")
