@@ -1,115 +1,176 @@
 package edu.miu.pm.onlineshopping.shoppingcart.controller;
 
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
-import edu.miu.pm.onlineshopping.product.model.Product;
-import edu.miu.pm.onlineshopping.shoppingcart.model.Cart;
-import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
-import edu.miu.pm.onlineshopping.shoppingcart.model.Order;
-import edu.miu.pm.onlineshopping.shoppingcart.model.OrderStatus;
+import edu.miu.pm.onlineshopping.admin.service.EndUserService;
+import edu.miu.pm.onlineshopping.email.MailService;
+import edu.miu.pm.onlineshopping.shoppingcart.model.*;
 import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("order/api/v1")
+@RequestMapping
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private EndUserService endUserService;
+//    @Autowired
+//    private OrderPaymentService orderPaymentService;
+    @Autowired
+    private MailService mailService;
 
 
+//    @PostMapping("/addToCart")
+//    public ResponseEntity<Cart> addToCart(@RequestBody CartItem cartItem){
+//        EndUser buyer = new EndUser();
+//        buyer.setFirstName("John");
+//       Order order = orderService.addItemToCart(buyer, cartItem);
+//
+////       Cart cart = getCartFromOrder(order);
+//        Cart cart = new Cart();
+//        cart.setCartItems(order.getCartItems());
+//        cart.setTotalPrice(order.getTotalPrice());
+//
+//       return new ResponseEntity<>(cart, HttpStatus.OK);
+//    }
     @PostMapping("/addToCart")
-    public ResponseEntity<Cart> addToCart(@RequestBody CartItem cartItem){
-        EndUser buyer = new EndUser();
-        buyer.setFirstName("John");
-       Order order = orderService.addItemToCart(buyer, cartItem);
-
-//       Cart cart = getCartFromOrder(order);
+    public long addProductToCart(@RequestBody CartItem cartItem){
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.addItemToCart(buyer, cartItem);
+        if (order == null)
+            return 0;
         Cart cart = new Cart();
         cart.setCartItems(order.getCartItems());
         cart.setTotalPrice(order.getTotalPrice());
+        Long count = order.getCartItems().stream().map(item -> item.getProductId()).distinct().count();
 
-       return new ResponseEntity<>(cart, HttpStatus.OK);
-
-//       List<Product> products = productService.getProducts(order.getCartItems().keySet());
-//       List<CartItem> cartItems = new ArrayList<>();
-//       for(Product product: products){
-//           CartItem item = new CartItem();
-//           item.setProductName(product.getProductName());
-//           item.setQuantity(order.getCartItems().get(product.getId()));
-//           cartItems.add(item);
-//       }
-//       Cart cart = new Cart();
-//       cart.setCartItems(cartItems);
-//       cart.setTotalPrice(order.getTotalPrice());
-//
-//       return cart;
+        return count;
     }
-    @PutMapping("/editCart")
-    public ResponseEntity<Cart> editCart(@RequestBody Cart cart){
-        EndUser buyer = new EndUser();
-        buyer.setFirstName("John");
-        Order order = null;
-        for (int i=0; i<cart.getCartItems().size(); i++){
-            order = orderService.addItemToCart(buyer, cart.getCartItems().get(i));
-        }
-//        Cart responseCart = getCartFromOrder(order);
-        Cart responseCart = new Cart();
+    @PutMapping("/cart/addToCart")
+    public long updateCart(@RequestBody CartItem cartItem){
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.addItemToCart(buyer, cartItem);
+        if (order == null)
+            return 0;
+        Cart cart = new Cart();
         cart.setCartItems(order.getCartItems());
         cart.setTotalPrice(order.getTotalPrice());
-        return new ResponseEntity<>(responseCart, HttpStatus.OK);
+        Long count = order.getCartItems().stream().map(item -> item.getProductId()).distinct().count();
+
+        return count;
+    }
+    @GetMapping("/cart")
+    public ModelAndView getCart(){
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.getPendingOrder(buyer);
+        ModelAndView mav = new ModelAndView();
+        if (order != null){
+            List<CartItem> cartItems = order.getCartItems();
+            mav.addObject("cartItems", cartItems);
+            mav.addObject("productItems", order.getCartItems());
+            mav.addObject("cartPage", true);
+
+        }
+        mav.setViewName("cart");
+        return mav;
+    }
+
+    @PutMapping("/editCart")
+    public ModelAndView editCart(@RequestBody CartItem cartItem){
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.addItemToCart(buyer, cartItem);
+
+        ModelAndView mav = new ModelAndView();
+        if (order != null){
+            List<CartItem> cartItems = order.getCartItems();
+            mav.addObject("cartItems", cartItems);
+            mav.addObject("productItems", order.getCartItems());
+            mav.addObject("cartPage", true);
+
+        }
+        mav.setViewName("cart");
+        return mav;
 
     }
 
-    @DeleteMapping("/removeItem")
-    public ResponseEntity<Cart> deleteCartItem(@RequestBody CartItem cartItem){
-       EndUser buyer = new EndUser();
-       //get the user from loggedInUser...
+    @DeleteMapping("/cart/removeItem")
+    public long deleteCartItem(@RequestBody CartItem cartItem){
+        EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.removeCartItem(buyer, cartItem);
 
-        if (order == null){
-            CartItem emptyItem = new CartItem();
-            List<CartItem> items = new ArrayList<>();
-            items.add(emptyItem);
-            emptyItem.setProductName("");
-            Cart cart = new Cart();
-            cart.setCartItems(items);
-            return new ResponseEntity<>(cart, HttpStatus.OK);
-        }
-//        Cart cart = getCartFromOrder(order);
-        Cart cart = new Cart();
-        cart.setCartItems(order.getCartItems());
-        cart.setTotalPrice(order.getTotalPrice());
+        ModelAndView mav = new ModelAndView();
+        if (order != null){
+            List<CartItem> cartItems = order.getCartItems();
+            mav.addObject("cartItems", cartItems);
+            mav.addObject("productItems", order.getCartItems());
+            mav.addObject("cartPage", true);
 
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+        }
+        mav.setViewName("cart");
+        return order.getCartItems().size();
     }
 
-    @PostMapping("/checkout")
-    public ResponseEntity<Order> checkoutOrder(@RequestBody Cart cart){
-        //update order table - call editCart
-        EndUser buyer = new EndUser();
-        buyer.setFirstName("John");
-        Order order = null;
-        for (int i=0; i<cart.getCartItems().size(); i++){
-            order = orderService.addItemToCart(buyer, cart.getCartItems().get(i));
+    @GetMapping("/checkout")
+    public ModelAndView getCheckoutPage(){
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.getPendingOrder(buyer);
+
+        ModelAndView mav = new ModelAndView();
+        if (order != null){
+            List<CartItem> cartItems = order.getCartItems();
+            mav.addObject("cartItems", cartItems);
+            mav.addObject("productItems", order.getCartItems());
+            mav.addObject("order", order);
+
         }
+        mav.setViewName("checkout");
+        return mav;
+    }
+
+    @PostMapping("/checkout/execute")
+    public ModelAndView checkoutOrder() {
+//        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+//        System.out.println(payment.getMethod());
+        //update order table - call editCart
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.getPendingOrder(buyer);
+//        order.setPayment(payment);
         //check stock
         order = orderService.checkStock(order);
 
         //if there is a problem with stock return Order object with isSufficientStockExist = true
-        if (!order.getStockErrors().isEmpty()){
-            order.setSufficientStockExist(true);
-            return new ResponseEntity<>(order, HttpStatus.BAD_REQUEST);
+        if (!order.getStockErrors().isEmpty()) {
+            order.setSufficientStockExist(false);
+            ModelAndView mav = new ModelAndView();
+            mav.addObject("order", order);
+//            mav.setViewName("order_complete");
+
+            mav.setViewName("order_incomplete");
+            return mav;
         }
         //if stock is ok - send payment module order object
+        order.setSufficientStockExist(true);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("order", order);
+        order.setTotalPrice(order.getTotalPrice()+order.getShippingPrice());
+        mav.setViewName("payments");
+        return mav;
+    }
+
+    @PostMapping("/checkout/complete")
+    public ModelAndView completeCheckout(){
+
         //if there is a problem with payment - return the order with the error in it
+//        payment = orderPaymentService.savePayment(payment);
+        EndUser buyer = endUserService.getEndUserbyId(1);
+        Order order = orderService.getPendingOrder(buyer);
+        order.setTotalPrice(order.getTotalPrice()+order.getShippingPrice());
 
         //if payment is ok - reduce quantity of product
         orderService.updateStock(order);
@@ -125,29 +186,47 @@ public class OrderController {
         order.setDeliveryDate(LocalDate.now().plusDays(3));// 3 days delivery
         //save order to database
         order = orderService.saveOrder(order);
-        //return the order
+        //send mail to buyer
+        String[] recipients = {"getaneh.letike@gmail.com"};
+//        String message = "Congratulations! Your order successfully completed /n" +
+//                "Order Number:" + order.getOrderNumber() + "/n" +
+//                "Total price: " + order.getTotalPrice() + "/n" +
+//                "Date: " + order.getOrderCompletedDate() + "/n" +
+//                "Ordered by: " + order.getBuyer().getFirstName() + "/n" +
+//                "Payment Method: " + order.getMethod() + "/n" +
+//                "Your order will be delivered on: " + order.getDeliveryDate() + "/n";
 
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        String message =  " <h1>Congratulations! Your order successfully completed.</h1>" +
+        "<div>" +
+               "Order Number: <h3>" + order.getOrderNumber() +"</h3>" +
+                "Total price: <h3>" + order.getTotalPrice() + "</h3>" +
+               "Date: <h3>" + order.getOrderCompletedDate() +  "</h3>" +
+                "Ordered by: <h3>" + order.getBuyer().getFirstName() + "</h3>" +
+                "Payment Method: <h3>" + order.getMethod() + "</h3>" +
+                "Your order will be delivered on: <h3>" + order.getDeliveryDate() +  "</h3>" +
+        "<div>";
+
+        String[] attachments = {};
+//        sendMailText(String[] recipients, String subject, String message, String[] attachments)
+        mailService.sendMailText(recipients, "Order completed", message, attachments );
+
+        //return the order
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("order", order);
+        mav.setViewName("order_complete");
+
+        return mav;
     }
 
-//    public Cart getCartFromOrder(Order order){
-////        List<Product> products = orderService.getProducts(order.getCartItems().keySet());
-//        List<Long> keyList = order.getCartItems().stream()
-//                                                .map(item -> item.getProductId())
-//                                                .collect(Collectors.toList());
-//        List<Product> products = orderService.getProducts(keyList);
-//        List<CartItem> cartItems = new ArrayList<>();
-//        for(Product product: products){
-//            CartItem item = new CartItem();
-//            item.setProductName(product.getProductName());
-//            item.setQuantity(order.getCartItems().get(product.getProductId()));
-//            cartItems.add(item);
-//        }
-//        Cart cart = new Cart();
-//        cart.setCartItems(cartItems);
-//        cart.setTotalPrice(order.getTotalPrice());
-//
-//        return cart;
-//    }
+    @GetMapping("/orders")
+    public ModelAndView getOrders(){
+        //get the logged in user
+
+        ModelAndView mav = new ModelAndView();
+//        mav.addObject("orders", orderService.getOrders(user));
+        mav.addObject("orders", orderService.getAllOrders());
+        mav.setViewName("orders");
+        return mav;
+    }
 
 }

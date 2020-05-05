@@ -1,5 +1,5 @@
 package edu.miu.pm.onlineshopping.admin.service;
 
-public class RoleService {
+public interface RoleService {
 
 }

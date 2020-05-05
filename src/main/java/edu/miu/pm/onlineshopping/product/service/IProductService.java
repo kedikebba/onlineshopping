@@ -33,5 +33,4 @@ public interface IProductService {
     public List<Product> searchProduct(String search);
     public Product saveProduct(Product product);
 
-
 }

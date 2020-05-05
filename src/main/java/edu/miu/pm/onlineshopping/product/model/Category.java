@@ -9,12 +9,16 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-@Table(name="category")
-@Getter@Setter
+
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
+//@Table(name="category")
 public class Category implements  Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +32,6 @@ public class Category implements  Serializable {
 
     private int status; // 0- inactive,  1- active
 
-
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
 
@@ -38,6 +41,7 @@ public class Category implements  Serializable {
         this.status = status;
         this.modifiedDate = modifiedDate;
     }
+
 
 
 }

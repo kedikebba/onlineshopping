@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.product.repository;
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -54,9 +55,8 @@ public interface IProductRepository extends JpaRepository<Product,Long> {
             "and p.status = ?3 order by p.productName")
     List<Product> findByPrice(Double minProductPrice,Double maxProductPrice, Integer status);
 
-    //added by Getaneh - to use for search - Please Add it later
-    //List<Product> findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(String search1, String search2, String search3);
+    //added by Getaneh - to use for search
+    List<Product> findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(String search1, String search2, String search3);
 
+    List<Product> findByVendorAndApprovedStatusIsTrue(Vendor vendor);
 }
-
-

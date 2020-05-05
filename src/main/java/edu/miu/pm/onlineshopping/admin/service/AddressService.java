@@ -1,5 +1,9 @@
 package edu.miu.pm.onlineshopping.admin.service;
 
-public class AddressService {
+import edu.miu.pm.onlineshopping.admin.model.Address;
+
+public interface AddressService {
+
+    Address saveAddress(Address address);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Repository
@@ -14,5 +15,7 @@ public interface IProductDetailRepository extends JpaRepository<ProductDetail,Lo
     @Query("SELECT sum(d.quantity) FROM ProductDetail d where d.product.productId = ?1 group by d.product")
     int getProductStockQuantity(Long productId);
     ProductDetail findByProduct(Product product);
+
+
 
 }

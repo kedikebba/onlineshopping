@@ -18,4 +18,6 @@ public interface VendorRepository extends JpaRepository<Vendor,Integer> {
 	public Vendor findByVendorIdAndStatus(int vendorId,Status status);
 	
 
+    Vendor findByFirstName(String name);
+
 }

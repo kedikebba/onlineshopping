@@ -1,11 +1,15 @@
 package edu.miu.pm.onlineshopping.product.controller;
 
 
+import edu.miu.pm.onlineshopping.admin.model.Vendor;
+import edu.miu.pm.onlineshopping.admin.service.VendorService;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import edu.miu.pm.onlineshopping.product.service.Imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
@@ -15,9 +19,10 @@ import java.util.Map;
 public class ProductController {
     @Autowired
     private ProductService productService;
-
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private VendorService vendorService;
 
 //    @Autowired
 //    private UserServiceImplementation implementation;
@@ -27,6 +32,16 @@ public class ProductController {
     @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productService.findAll();
+    }
+
+    @GetMapping("/vendor")
+    public ModelAndView getVendorHomePage(){
+        Vendor vendor = vendorService.getVendorByName("Abebe");
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("products", productService.getVendorProducts(vendor));
+        mav.addObject("vendor", vendor);
+        mav.setViewName("vendor_product_list");
+        return mav;
     }
 
 //    @GetMapping(value = "/productbyvendor")

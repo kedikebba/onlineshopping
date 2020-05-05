@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head">
+</head>
+
+<body>
+<header th:replace="fragments/top_bar :: navbar-default">
+</header>
+
+<div class="container success">
+
+    <div>
+        <h1>Congratulations! Your order successfully completed.</h1>
+        <div class="container">
+        Order Number: <h3 th:text="${order.orderNumber}"></h3>
+        Total price: <h3 th:text="${order.totalPrice}"></h3>
+        Date: <h3 th:text="${order.orderCompletedDate}"></h3>
+        Ordered by: <h3 th:text="${order.buyer.firstName}"></h3>
+        Payment Method: <h3 th:text="${order.method}"></h3>
+        Your order will be delivered on: <h3 th:text="${order.deliveryDate}"></h3>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

@@ -32,7 +32,7 @@ public class PaypalController {
     @PostMapping("/pay")
     public String payment(@ModelAttribute("order") Order order) {
         try {
-            Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
+            Payment payment = service.createPayment(order.getTotalPrice(), order.getCurrency(), order.getMethod(),
                     order.getIntent(), order.getDescription(), "http://localhost:9090/" + CANCEL_URL,
                     "http://localhost:9090/" + SUCCESS_URL);
             for(Links link:payment.getLinks()) {
@@ -59,7 +59,8 @@ public class PaypalController {
             Payment payment = service.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-                return "success";
+//                return "success";
+                return "confirm-complete";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());

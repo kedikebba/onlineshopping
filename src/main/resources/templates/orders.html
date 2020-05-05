@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head">
+
+</head>
+<body>
+<header th:replace="fragments/top_bar :: navbar-default">
+</header>
+
+
+<div class="container">
+    <h1>Your Orders</h1>
+    <div class="row col-md-7 table-responsive">
+        <table id="customerTable" class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Order Number</th>
+                <th>Product Name and Quantity</th>
+                <th>Order Date</th>
+                <th>Delivery Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order, rowStat: ${orders}"
+                th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                <td th:text="${order.orderNumber}">Order Number</td>
+                <td>
+                    <div th:each="product: ${order.cartItems}">
+                         <span th:text="${product.productName}"></span> &nbsp &nbsp
+                         <span th:text="${product.quantity}"></span>
+                    </div>
+                </td>
+<!--                <tr th:each="product: ${order.cartItems}">-->
+<!--                    <td th:text="${product.productName}">jdbc:url1</td>-->
+<!--                    <td th:text="${product.quantity}">jdbc:url1</td>-->
+<!--                </tr>-->
+
+                <td th:text="${order.orderCompletedDate}">Order completed Date</td>
+                <td th:text="${order.deliveryDate}">Order Delivery Date</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

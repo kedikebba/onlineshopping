@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head">
+</head>
+
+<body>
+<header th:replace="fragments/top_bar :: navbar-default">
+</header>
+
+<div class="container">
+
+        <div>
+            <h1>Sorry, your order is not completed</h1>
+            <h3>We don't have enough stock in the following products:</h3>
+            <li class="list-group-item d-flex justify-content-between lh-condensed" th:each="error: ${order.stockErrors}">
+                <div >
+                    <h6 class="my-0" th:text="${error.productName}">Product name</h6>
+                </div>
+            </li>
+
+        </div>
+    <button  class="btn btn-primary btn-lg btn-block"><a href="/cart">Go To Cart</a></button>
+
+
+
+
+
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

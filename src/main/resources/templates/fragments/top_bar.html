@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<div th:fragment="navbar-default">
+    <!--Navbar -->
+    <!-- Top left menu -->
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/home">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+                aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/inventory/list}">Products
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/orders}">Orders
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+            </ul>
+
+            <!--Navbar/Top Right/Search -->
+            <ul class="navbar-nav ml-auto nav-flex-icons" th:unless="${user!=null && user.role.id==3} ">
+
+                <form th:action="@{/inventory/search}">
+                    <input type="text" th:name="search"/>
+                    <button type="submit">Search</button>
+                </form>
+
+
+
+                <!-- Button trigger modal-->
+<!--                <li class="nav-item mr-3">-->
+<!--                    <a th:href="@{/login}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">-->
+<!--                        <span  class="">Login</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item mr-3">-->
+<!--                    <a th:href="@{/register}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">-->
+<!--                        <span  class="">Register</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
+
+
+<!--            <ul class="navbar-nav ml-auto nav-flex-icons" th:if="${user!=null && user.role.id==3} ">-->
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <!-- Button trigger modal-->
+                <li class="nav-item mr-3" th:if="${cartPage}">
+                    <a class="nav-link btn-block btn btn-warning waves-effect waves-light" th:href="@{/checkout}">
+                        <span  class="">Checkout</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item"></li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light">
+                        <i class="fas fa-shopping-cart" data-toggle="modal" data-target="#modalAbandonedCart" aria-hidden="true"></i>
+                        <span th:if="${productItems}" th:text="${productItems.size()}" class="counter cartCount"></span>
+                        <span th:unless="${productItems}" class="counter cartCount"></span>
+
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light">
+                        <i class="fas fa-bell"></i>
+                        <span class="counter"></span>
+                    </a>
+                </li>
+                <li class="nav-item avatar dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" width="25px" class="rounded-circle z-depth-0"
+                             alt="avatar image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                         aria-labelledby="navbarDropdownMenuLink-55">
+                        <a th:href="@{/logout}" class="dropdown-item" href="#">Log out</a>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+    </nav>
+    <!--/.Navbar -->
+
+    <!-- Modal: Products in the cart-->
+    <div class="modal fade right" id="modalAbandonedCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-side modal-top-right modal-notify modal-info" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading">Products in the cart
+                    </p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body" th:if="${productItems}">
+
+                    <div class="row">
+                        <div class="col-3">
+                            <p></p>
+                            <p class="text-center"><i class="fas fa-shopping-cart fa-4x"></i></p>
+                        </div>
+
+                        <div class="col-9">
+                            <p>
+                                <span class="">You have </span>
+                                <span class="cartCount" th:text="${productItems.size()}"></span>
+                                <span class=""> items in the cart</span>
+                            </p>
+<!--                            <p>Do you need more time to make a purchase decision?</p>-->
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" class="btn btn-info" th:href="@{/cart}">Go to cart</a>
+                    <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Modal: Products in the cart-->
+
+
+
+</div>
+
+</body>
+</html>
