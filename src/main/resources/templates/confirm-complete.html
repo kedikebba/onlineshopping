@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head">
+</head>
+
+<body>
+<header th:replace="fragments/top_bar :: navbar-default">
+</header>
+
+<div class="m-5">
+    <h4 class="mb-3"></h4>
+    <form action='/checkout/complete' method='POST'>
+        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>
+    </form>
+
+</div>
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

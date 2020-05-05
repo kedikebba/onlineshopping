@@ -4,7 +4,7 @@ package edu.miu.pm.onlineshopping.payment.paypal.model;
  * Addisu Marilign (Id 610135)*/
 public class Order {
 
-    private double price;
+    private double totalPrice;
     private String currency;
     private String method;
     private String intent;
@@ -14,19 +14,19 @@ public class Order {
         super();
         // TODO Auto-generated constructor stub
     }
-    public Order(double price, String currency, String method, String intent, String description) {
+    public Order(double totalPrice, String currency, String method, String intent, String description) {
         super();
-        this.price = price;
+        this.totalPrice = totalPrice;
         this.currency = currency;
         this.method = method;
         this.intent = intent;
         this.description = description;
     }
-    public double getPrice() {
-        return price;
+    public double getTotalPrice() {
+        return totalPrice;
     }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
     public String getCurrency() {
         return currency;

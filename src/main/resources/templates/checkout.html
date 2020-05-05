@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: head">
+</head>
+
+<body>
+<header th:replace="fragments/top_bar :: navbar-default">
+</header>
+
+
+<div class="container success">
+<!--    <div class="py-1 text-center text-white bg-dark">-->
+        <div class="py-1">
+<!--        <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+        <h2>Checkout Page</h2>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8 bg-white order-md-1 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge badge-secondary badge-pill"></span>
+            </h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed" th:each="cartItem: ${cartItems}">
+                    <div >
+                        <h6 class="my-0" th:text="${cartItem.productName}">Product name</h6>
+<!--                        <small class="text-muted">Brief description</small>-->
+                    </div>
+                    <span class="text-muted" th:text="'$'+ ${cartItem.productPrice * cartItem.quantity}">$12</span>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (USD)</span>
+                    <strong th:text="${order.totalPrice}">$20</strong>
+                </li>
+            </ul>
+
+
+        </div>
+        <div class="col-md-8 order-md-2">
+            <div class="card">
+<!--                <div class="card-header">-->
+<!--                    Checkout-->
+<!--                </div>-->
+
+                <div class="m-5">
+                    <h4 class="mb-3"></h4>
+                    <form action='/checkout/execute' method='POST' id='checkout-form'>
+
+<!--                        <h3>Select Payment Method</h3>-->
+<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{method}">-->
+
+<!--&lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
+<!--&lt;!&ndash;                            </option>&ndash;&gt;-->
+<!--                            <option th:value="MASTERCARD" th:text="MASTERCARD">-->
+<!--                            </option>-->
+<!--                            <option th:value="VISA" th:text="VISA">-->
+<!--                            </option>-->
+<!--                            <option th:value="AMERICAN-EXPRESS" th:text="AMERICAN-EXPRESS">-->
+<!--                            </option>-->
+
+<!--                        </select>-->
+<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{currency}">-->
+
+<!--                            &lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            </option>&ndash;&gt;-->
+<!--                            <option th:value="USD" th:text="USD">-->
+<!--                            </option>-->
+<!--                            <option th:value="GBP" th:text="GBP">-->
+<!--                            </option>-->
+<!--                            <option th:value="EURO" th:text="EURO">-->
+<!--                            </option>-->
+
+<!--                        </select>-->
+
+<!--                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>-->
+                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">PLACE ORDER</button>
+                    </form>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>
