@@ -48,9 +48,8 @@ public class ClientController {
 		updateClient.setAddress(client.getAddress());
 		updateClient.setFirstName(client.getFirstName());
 		updateClient.setLastName(client.getLastName());
-		updateClient.setPassword(client.getPassword());
+		updateClient.setAccount(client.getAccount());
 		updateClient.setRole(client.getRole());
-		updateClient.setUserName(client.getUserName());
 		
 		clientRepository.save(updateClient);
 		

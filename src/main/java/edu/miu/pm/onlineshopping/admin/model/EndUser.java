@@ -16,28 +16,29 @@ public class EndUser {
 	
 	private String firstName;
 	private String lastName;
-	private String userName;
-	private String password;
+	
+	@OneToOne(cascade= {CascadeType.ALL})
+	private Account account;
+	
 	private Role role=Role.ENDUSER;
 	
 	@OneToOne(cascade= {CascadeType.ALL})
 	private Address address;
 	
+	private Status status=Status.ACTIVE;
+	
 	public EndUser() {
 		super();
 	}
-	
-	public EndUser(String firstName, String lastName, String userName, String password, Address address) {
+
+	public EndUser(String firstName, String lastName, Account account, Role role, Address address,Status status) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userName = userName;
-		this.password = password;
+		this.account = account;
+		this.role = role;
 		this.address = address;
-	}
-
-	public int getUserId() {
-		return userId;
+		this.status = status;
 	}
 
 	public String getFirstName() {
@@ -56,28 +57,12 @@ public class EndUser {
 		this.lastName = lastName;
 	}
 
-	public String getUserName() {
-		return userName;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public Role getRole() {
@@ -88,10 +73,30 @@ public class EndUser {
 		this.role = role;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "EndUser [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
-				+ userName + ", password=" + password + ", role=" + role + ", address=" + address + "]";
+		return "EndUser [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", account="
+				+ account + ", role=" + role + ", address=" + address + ", status=" + status + "]";
 	}
 	
 
