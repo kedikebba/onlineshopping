@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -22,8 +23,11 @@ public class Order {
     @Column(name = "Order_Number")
     private String orderNumber;
 
-    @Column(name = "Total_Price")
+//    @Column(name = "Total_Price")
     private double totalPrice;
+    private double shippingPrice = 5.5;
+    private String method = "Paypal";
+    private String currency = "USD";
 
 //    @ElementCollection
 //    @CollectionTable(name = "productId_quantity_map",
@@ -42,11 +46,11 @@ public class Order {
     private EndUser buyer;
     private boolean isSufficientStockExist = true;
     @OneToMany
-    private List<Product> stockErrors;
+    private List<Product> stockErrors = new ArrayList<>();
     private LocalDate deliveryDate;
 
-    @OneToOne
-    private Payment payment;
+//    @OneToOne
+//    private Payment payment;
 
 //    public void setCartItems(CartItem cartItem){
 //        this.cartItems.put(cartItem.getProductId(), cartItem.getQuantity());

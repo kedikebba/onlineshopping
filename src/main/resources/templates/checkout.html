@@ -47,36 +47,36 @@
 
                 <div class="m-5">
                     <h4 class="mb-3"></h4>
-                    <form action='/checkout/complete' method='POST' id='checkout-form' th:object="${payment}">
+                    <form action='/checkout/execute' method='POST' id='checkout-form'>
 
-                        <h3>Select Payment Method</h3>
-                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{method}">
+<!--                        <h3>Select Payment Method</h3>-->
+<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{method}">-->
 
-<!--                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">-->
+<!--&lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
+<!--&lt;!&ndash;                            </option>&ndash;&gt;-->
+<!--                            <option th:value="MASTERCARD" th:text="MASTERCARD">-->
 <!--                            </option>-->
-                            <option th:value="MASTERCARD" th:text="MASTERCARD">
-                            </option>
-                            <option th:value="VISA" th:text="VISA">
-                            </option>
-                            <option th:value="AMERICAN-EXPRESS" th:text="AMERICAN-EXPRESS">
-                            </option>
+<!--                            <option th:value="VISA" th:text="VISA">-->
+<!--                            </option>-->
+<!--                            <option th:value="AMERICAN-EXPRESS" th:text="AMERICAN-EXPRESS">-->
+<!--                            </option>-->
 
-                        </select>
-                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{currency}">
+<!--                        </select>-->
+<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{currency}">-->
 
-                            <!--                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">-->
-                            <!--                            </option>-->
-                            <option th:value="USD" th:text="USD">
-                            </option>
-                            <option th:value="GBP" th:text="GBP">
-                            </option>
-                            <option th:value="EURO" th:text="EURO">
-                            </option>
+<!--                            &lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            </option>&ndash;&gt;-->
+<!--                            <option th:value="USD" th:text="USD">-->
+<!--                            </option>-->
+<!--                            <option th:value="GBP" th:text="GBP">-->
+<!--                            </option>-->
+<!--                            <option th:value="EURO" th:text="EURO">-->
+<!--                            </option>-->
 
-                        </select>
+<!--                        </select>-->
 
 <!--                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>-->
-                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>
+                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">PLACE ORDER</button>
                     </form>
 
                 </div>
@@ -88,30 +88,6 @@
     </div>
 
 </div>
-
-
-<!--<script>-->
-<!--    // Example starter JavaScript for disabling form submissions if there are invalid fields-->
-<!--    (function() {-->
-<!--        'use strict';-->
-
-<!--        window.addEventListener('load', function() {-->
-<!--            // Fetch all the forms we want to apply custom Bootstrap validation styles to-->
-<!--            var forms = document.getElementsByClassName('needs-validation');-->
-
-<!--            // Loop over them and prevent submission-->
-<!--            var validation = Array.prototype.filter.call(forms, function(form) {-->
-<!--                form.addEventListener('submit', function(event) {-->
-<!--                    if (form.checkValidity() === false) {-->
-<!--                        event.preventDefault();-->
-<!--                        event.stopPropagation();-->
-<!--                    }-->
-<!--                    form.classList.add('was-validated');-->
-<!--                }, false);-->
-<!--            });-->
-<!--        }, false);-->
-<!--    })();-->
-<!--</script>-->
 
 
 <div th:replace="fragments/footer :: footer">
