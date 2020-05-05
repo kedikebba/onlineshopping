@@ -19,11 +19,7 @@ public class OnlineshoppingApplication {
 		SpringApplication.run(OnlineshoppingApplication.class, args);
 	}
 
-	@Bean
-	public PaypalServiceImpl getPaypalServiceImplBean(){
 
-		return new PaypalServiceImpl();
-	}
 
 
 }
