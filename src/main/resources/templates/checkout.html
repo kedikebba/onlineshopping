@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head">
@@ -9,9 +12,7 @@
 
 
 <div class="container success">
-<!--    <div class="py-1 text-center text-white bg-dark">-->
         <div class="py-1">
-<!--        <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
         <h2>Checkout Page</h2>
     </div>
 
@@ -41,41 +42,11 @@
         </div>
         <div class="col-md-8 order-md-2">
             <div class="card">
-<!--                <div class="card-header">-->
-<!--                    Checkout-->
-<!--                </div>-->
 
                 <div class="m-5">
                     <h4 class="mb-3"></h4>
                     <form action='/checkout/execute' method='POST' id='checkout-form'>
 
-<!--                        <h3>Select Payment Method</h3>-->
-<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{method}">-->
-
-<!--&lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
-<!--&lt;!&ndash;                            </option>&ndash;&gt;-->
-<!--                            <option th:value="MASTERCARD" th:text="MASTERCARD">-->
-<!--                            </option>-->
-<!--                            <option th:value="VISA" th:text="VISA">-->
-<!--                            </option>-->
-<!--                            <option th:value="AMERICAN-EXPRESS" th:text="AMERICAN-EXPRESS">-->
-<!--                            </option>-->
-
-<!--                        </select>-->
-<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{currency}">-->
-
-<!--                            &lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            </option>&ndash;&gt;-->
-<!--                            <option th:value="USD" th:text="USD">-->
-<!--                            </option>-->
-<!--                            <option th:value="GBP" th:text="GBP">-->
-<!--                            </option>-->
-<!--                            <option th:value="EURO" th:text="EURO">-->
-<!--                            </option>-->
-
-<!--                        </select>-->
-
-<!--                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>-->
                         <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">PLACE ORDER</button>
                     </form>
 

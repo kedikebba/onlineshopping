@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head">
@@ -17,19 +20,6 @@
             <div class="d-flex flex-row justify-content-lg-start flex-wrap">
                 <!-- Card Regular -->
                 <div class="card card-cascade m-3 product" th:if="${cartItems}" th:each="cartItem : ${cartItems}" th:id="'card'+${cartItem.productId}">
-
-                    <!-- Card image -->
-<!--                    <div class="view view-cascade overlay">-->
-<!--                        <span th:if="${product.images}">-->
-<!--                            <img class="card-img-top" th:src="${product.images[0].imageURL}" alt="Card image cap">-->
-<!--                        </span>-->
-<!--                        <span th:unless="${product.images}">-->
-<!--                            <img class="card-img-top" th:src="${/images/products/no-image-available.png}" alt="Card image cap">-->
-<!--                        </span>-->
-<!--                        <a>-->
-<!--                            <div class="mask rgba-white-slight"></div>-->
-<!--                        </a>-->
-<!--                    </div>-->
 
                     <!-- Card content -->
                     <div class="card-body card-body-cascade text-center">
@@ -69,12 +59,6 @@
                                                  data-ride="carousel">
                                                 <!--Slides-->
                                                 <div class="carousel-inner" role="listbox">
-
-<!--                                                    <div class="carousel-item" th:each="image,iStat : ${product.images}" th:class="${iStat.index}==0 ? 'carousel-item active' : 'carousel-item'">-->
-<!--                                                        <img class="d-block w-100"-->
-<!--                                                             th:src="${image.imageURL}"-->
-<!--                                                             alt="Product Image">-->
-<!--                                                    </div>-->
 
                                                 </div>
                                                 <!--/.Slides-->

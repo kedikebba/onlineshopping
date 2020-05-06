@@ -18,4 +18,6 @@ public interface ICategoryRepository extends JpaRepository<Category,Long> {
     @Query("SELECT p FROM Category p WHERE  " +
             "p.status = ?1 order by p.categoryName")
     public List<Category> findByStatus(Integer status);
+
+    Category findByCategoryName(String categoryName);
 }
