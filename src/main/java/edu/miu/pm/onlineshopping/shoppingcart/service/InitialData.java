@@ -30,7 +30,7 @@ public class InitialData implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        loadData();
+        //loadData();
         System.out.println("Loading Initial data");
 
     }
