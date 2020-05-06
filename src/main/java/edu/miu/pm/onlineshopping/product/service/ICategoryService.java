@@ -17,4 +17,6 @@ public interface ICategoryService {
     public List<Category> findByCategoryName(String categoryName, Integer status);
 
     public List<Category> findByStatus(Integer status);
+
+    public Category getCategoryByName(String categoryName);
 }

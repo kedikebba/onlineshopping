@@ -6,6 +6,9 @@ import lombok.*;
 import javax.persistence.Entity;
 import java.util.List;
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Setter
 @Getter
 @NoArgsConstructor

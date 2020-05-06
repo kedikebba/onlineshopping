@@ -6,10 +6,13 @@ import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@EnableTransactionManagement
 public class CategoryService implements ICategoryService {
 
 
@@ -26,6 +29,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Transactional
     public Category save(Category category) {
         return categoryRepository.save(category);
     }
@@ -36,6 +40,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Transactional
     public void delete(Long categoryId) {
          categoryRepository.deleteById(categoryId);
     }
@@ -48,5 +53,11 @@ public class CategoryService implements ICategoryService {
     @Override
     public List<Category> findByStatus(Integer status) {
         return categoryRepository.findByStatus(status);
+    }
+
+    @Override
+    @Transactional
+    public Category getCategoryByName(String categoryName) {
+        return categoryRepository.findByCategoryName(categoryName);
     }
 }

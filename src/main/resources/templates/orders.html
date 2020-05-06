@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head">
@@ -30,10 +33,6 @@
                          <span th:text="${product.quantity}"></span>
                     </div>
                 </td>
-<!--                <tr th:each="product: ${order.cartItems}">-->
-<!--                    <td th:text="${product.productName}">jdbc:url1</td>-->
-<!--                    <td th:text="${product.quantity}">jdbc:url1</td>-->
-<!--                </tr>-->
 
                 <td th:text="${order.orderCompletedDate}">Order completed Date</td>
                 <td th:text="${order.deliveryDate}">Order Delivery Date</td>

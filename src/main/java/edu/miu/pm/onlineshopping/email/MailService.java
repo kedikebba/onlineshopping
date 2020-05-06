@@ -16,6 +16,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * e.g  using
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@EnableTransactionManagement
 public class MailService {
 	
 	private static final boolean ISHTML = true;
@@ -94,7 +97,7 @@ public class MailService {
 		
 		mailSender.send(mimeMessagePreparator);
 	}
-		
+	@Transactional
 	public void sendMailText(String[] recipients, String subject, String message, String[] attachments) {
 		MimeMessagePreparator mimeMessagePreparator = new MimeMessagePreparator() {
 			

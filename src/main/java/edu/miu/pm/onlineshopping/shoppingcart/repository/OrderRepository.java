@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-//    List<Order> findAllByBuyer_FirstNameAndOrderStatus(String UserFirstName, Enum Orderstatus);
-//    List<Order> findAllByBuyerNameAndOrderStatus(String UserFirstName, Enum Orderstatus);
-//    Order findByBuyerNameAndOrderStatus(String UserFirstName, Enum Orderstatus);
     Order findByBuyer_UserIdAndOrderStatus(int userId, Enum Orderstatus);
 }

@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -22,25 +25,16 @@ public class Order {
     private long id;
     @Column(name = "Order_Number")
     private String orderNumber;
-
-//    @Column(name = "Total_Price")
     private double totalPrice;
     private double shippingPrice = 5.5;
     private String method = "Paypal";
     private String currency = "USD";
 
-//    @ElementCollection
-//    @CollectionTable(name = "productId_quantity_map",
-//            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")})
-//    @MapKeyColumn(name = "product_id")
-//    @Column(name = "quantity")
-//    private Map<Long, Integer> cartItems = new HashMap<>();
-
     @OneToMany
     private List<CartItem> cartItems;
-
     private LocalDate orderCompletedDate;
     private Enum orderStatus = OrderStatus.PENDING;
+
     @ManyToOne
     @JoinColumn
     private EndUser buyer;
@@ -48,13 +42,6 @@ public class Order {
     @OneToMany
     private List<Product> stockErrors = new ArrayList<>();
     private LocalDate deliveryDate;
-
-//    @OneToOne
-//    private Payment payment;
-
-//    public void setCartItems(CartItem cartItem){
-//        this.cartItems.put(cartItem.getProductId(), cartItem.getQuantity());
-//    }
 
 
 }

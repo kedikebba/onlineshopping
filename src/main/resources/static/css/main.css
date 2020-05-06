@@ -1,3 +1,6 @@
+/*     Author:
+       Getaneh Yilma Letike, Id: 610112       ---------*/
+
 * {box-sizing: border-box}
 
 /* Full-width input fields */
@@ -64,7 +67,7 @@ button:hover {
 .pageHeade {
     color: white;
     background-color: #4285F4;
-    text-align: center;
+    /*text-align: center;*/
     padding-top: 20px;
     padding-bottom: 20px;
 }

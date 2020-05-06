@@ -7,10 +7,13 @@ import edu.miu.pm.onlineshopping.product.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@EnableTransactionManagement
 public class ProductDetailService implements IProductDetailService {
 
     private IProductDetailRepository productDetailRepository;
@@ -26,6 +29,7 @@ public class ProductDetailService implements IProductDetailService {
     }
 
     @Override
+    @Transactional
     public ProductDetail save(ProductDetail productDetail) {
         return productDetailRepository.save(productDetail);
     }
@@ -36,6 +40,7 @@ public class ProductDetailService implements IProductDetailService {
     }
 
     @Override
+    @Transactional
     public void delete(Long productDetailId) {
      productDetailRepository.deleteById(productDetailId);
     }

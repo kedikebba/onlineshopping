@@ -1,14 +1,19 @@
 package edu.miu.pm.onlineshopping.product.service.Imp;
 
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
+import edu.miu.pm.onlineshopping.admin.repository.VendorRepository;
+import edu.miu.pm.onlineshopping.admin.service.VendorService;
+import edu.miu.pm.onlineshopping.product.model.Category;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.repository.IProductRepository;
+import edu.miu.pm.onlineshopping.product.service.ICategoryService;
 import edu.miu.pm.onlineshopping.product.service.IProductDetailService;
 import edu.miu.pm.onlineshopping.product.service.IProductService;
 import lombok.NoArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @NoArgsConstructor
@@ -17,9 +22,13 @@ public class ProductService implements  IProductService {
 
     @Autowired
     private IProductRepository productRepository;
-
     @Autowired
     private IProductDetailService productDetailService;
+    @Autowired
+    private VendorService vendorService;
+    @Autowired
+    private ICategoryService categoryService;
+
 
 //    @Autowired
 //    public ProductService(IProductRepository productRepository) {
@@ -102,18 +111,44 @@ public class ProductService implements  IProductService {
 //        return product;
 //    }
 
-    //Added by Getaneh
+    //---------------------------- Added by Getaneh --------------------------//
     @Override
     public List<Product> searchProduct(String search) {
         return productRepository.findAllByProductNameContainsOrCategory_CategoryNameContainsOrVendor_FirstNameContains(search, search, search);
     }
 
     @Override
+    @Transactional
     public Product saveProduct(Product product) {
+        Vendor vendor = vendorService.getVendorByName(product.getVendor().getFirstName());
+        if (vendor != null){
+            product.setVendor(vendor);
+        }
+
+        Category category = categoryService.getCategoryByName(product.getCategory().getCategoryName());
+        if (category != null){
+            product.setCategory(category);
+        }
+        product.setStatus(1);
+        product.setApprovedStatus(true);
         return productRepository.save(product);
+    }
+
+    @Override
+    public Product getByProductNameAndCategory(String productName, String categoryName) {
+        return productRepository.findByProductNameAndCategory_CategoryName(productName, categoryName);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProductById(long id) {
+        productRepository.deleteById(id);
     }
 
     public List<Product> getVendorProducts(Vendor vendor) {
          return productRepository.findByVendorAndApprovedStatusIsTrue(vendor);
     }
+
+
+    //----------------------------End of Added by Getaneh --------------------------//
 }
