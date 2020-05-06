@@ -29,10 +29,12 @@ public class Order {
     private double shippingPrice = 5.5;
     private String method = "Paypal";
     private String currency = "USD";
+
     @OneToMany
     private List<CartItem> cartItems;
     private LocalDate orderCompletedDate;
     private Enum orderStatus = OrderStatus.PENDING;
+
     @ManyToOne
     @JoinColumn
     private EndUser buyer;
