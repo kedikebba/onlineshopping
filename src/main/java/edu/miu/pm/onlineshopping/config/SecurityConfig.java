@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		.authorizeRequests().anyRequest().permitAll()
         .and()
-                .formLogin().defaultSuccessUrl("/home").and()
+        .formLogin().defaultSuccessUrl("/home").and()
         .csrf()
         .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable();
     }

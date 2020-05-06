@@ -3,29 +3,36 @@ package edu.miu.pm.onlineshopping.admin.controller;
 import java.util.List;
 import java.util.Optional;
 
+import edu.miu.pm.onlineshopping.admin.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import edu.miu.pm.onlineshopping.admin.model.Status;
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.repository.VendorRepository;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class AdminVendorController {
 	
 	@Autowired
 	private VendorRepository vendorRepository;
-	
+
+	@GetMapping("/registerVendor")
+	public ModelAndView registerVendorP() {
+		ModelAndView mav=new ModelAndView("regist");
+		return mav;
+	}
+
 	@PostMapping("/registerVendor")
-	public Vendor registerVendor(@RequestBody Vendor vendor) {
+	@ResponseBody
+	public Vendor registerVendor(@RequestParam String user_name,
+								 @RequestParam String passowrd) {
+
+
+		Vendor vendor = new Vendor();
+		vendor.setAccount(new Account(user_name,passowrd));
 		vendorRepository.save(vendor);
-		
 		return vendor;
 	}
 	

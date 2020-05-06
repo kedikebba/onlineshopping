@@ -3,20 +3,12 @@ package edu.miu.pm.onlineshopping.admin.controller;
 import java.util.List;
 import java.util.Optional;
 
+import edu.miu.pm.onlineshopping.admin.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import edu.miu.pm.onlineshopping.admin.model.EndUser;
-import edu.miu.pm.onlineshopping.admin.model.Status;
-import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.repository.EndUserRepository;
-
+import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
@@ -24,10 +16,23 @@ public class EndUserController {
 	
 	@Autowired
 	private EndUserRepository endUserRepository;
+
+	@GetMapping("/registerEndUser")
+	public ModelAndView registerVendorP() {
+		ModelAndView mav=new ModelAndView("enduserregist");
+		return mav;
+	}
 	
 	@PostMapping("/registerEndUser")
-	public EndUser saveEndUser(@RequestBody EndUser endUser) {
+	public EndUser saveEndUser(@RequestParam String user_name,
+							   @RequestParam String passowrd) {
+
+
+		EndUser endUser = new EndUser();
+		endUser.setAccount(new Account(user_name,passowrd));
 		endUserRepository.save(endUser);
+		endUserRepository.save(endUser);
+
 		return endUser;
 	}
 	
