@@ -12,12 +12,18 @@ import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Service
+@EnableTransactionManagement
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
@@ -32,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order addItemToCart(EndUser user, CartItem cartItem) {
         int numberOfItemsInCart = 0;
         double tax = 0.02;
@@ -89,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order removeCartItem(EndUser buyer, CartItem cartItem) {
         Order pendingOrder = getPendingOrder(buyer);
         List<CartItem> cartItems = pendingOrder.getCartItems();
@@ -97,10 +105,6 @@ public class OrderServiceImpl implements OrderService {
                 cartItems.remove(i);
         }
         deleteCartItem(cartItem);
-//        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-//        for (CartItem item: cartItems){
-//            System.out.println(item.getProductName());
-//        }
         pendingOrder.setCartItems(cartItems);
         if (!pendingOrder.getCartItems().isEmpty()) {
             double tax = 0.02;
@@ -118,6 +122,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order getPendingOrder(EndUser buyer){
         return orderRepository.findByBuyer_UserIdAndOrderStatus(buyer.getUserId(), OrderStatus.PENDING);
     }
@@ -164,9 +169,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void updateStock(Order order) {
 
-//        for (Long id: order.getCartItems().keySet()){
         for (CartItem item: order.getCartItems()){
             Product product = productService.findById(item.getProductId());
             if(product != null){
@@ -189,20 +194,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }
 
     @Override
+    @Transactional
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
     @Override
+    @Transactional
     public CartItem saveCartItem(CartItem cartItem) {
         return cartItemRepository.save(cartItem);
     }
 
+    @Transactional
     public void deleteCartItem(CartItem cartItem){
         cartItemRepository.delete(cartItem);
     }

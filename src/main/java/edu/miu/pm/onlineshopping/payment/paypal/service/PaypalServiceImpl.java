@@ -16,15 +16,20 @@ import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
+
 /*Author:
  * Addisu Marilign (Id 610135)*/
 @Service
+@EnableTransactionManagement
 public class PaypalServiceImpl implements PaypalService {
 
     @Autowired
     private APIContext apiContext;
 
 
+    @Transactional
     public Payment createPayment(
             Double total,
             String currency,
@@ -60,6 +65,7 @@ public class PaypalServiceImpl implements PaypalService {
         return payment.create(apiContext);
     }
 
+    @Transactional
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
         Payment payment = new Payment();
         payment.setId(paymentId);

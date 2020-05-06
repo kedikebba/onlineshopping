@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.admin.model.Status;
 
+////////////////     Contributor:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
 
 @Repository
 public interface EndUserRepository extends JpaRepository<EndUser,Integer>{
