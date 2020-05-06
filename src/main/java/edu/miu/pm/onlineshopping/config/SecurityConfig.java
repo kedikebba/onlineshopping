@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,8 +20,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
     	//User information is kept in memory
 		//When identifying role roler, ROLLER_ prefix will be added by default
-        auth.inMemoryAuthentication().withUser("user").password("user").roles("USER").and()
-        	.withUser("test").password("test").roles("TEST");
+        auth.inMemoryAuthentication().withUser("user").password("user").roles("ADMIN").and()
+        	.withUser("test").password("test").roles("ADMIN");
+    }
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 	
 	@Override
@@ -28,8 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		.authorizeRequests().antMatchers("/","/home").permitAll() //Can be accessed without identity authentication
 		.and()
-		.authorizeRequests().anyRequest().authenticated() //Other requests must have identity authentication
+		.authorizeRequests().anyRequest().permitAll()
         .and()
+                .formLogin().defaultSuccessUrl("/home").and()
         .csrf()
         .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable();
     }
