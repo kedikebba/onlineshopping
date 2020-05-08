@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 ////////////////     Contributor:               ///////
 ////---              Getaneh Yilma Letike, Id: 610112       ---------//
 
@@ -24,8 +26,12 @@ public class EndUserServiceImpl implements EndUserService {
     }
 
     @Override
-    @Transactional
     public EndUser getEndUserbyId(int id) {
         return endUserRepository.findById(id).get();
+    }
+
+    @Override
+    public List<EndUser> getAllEndUsers() {
+        return endUserRepository.findAll();
     }
 }

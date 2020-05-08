@@ -12,8 +12,9 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int accountId;
 	
-	private String userName;
+	private String email;
 	private String password;
+//	private String rePassword;
 	
 	public Account() {
 		super();
@@ -21,16 +22,16 @@ public class Account {
 
 	public Account(String userName, String password) {
 		super();
-		this.userName = userName;
+		this.email = userName;
 		this.password = password;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setEmail(String userName) {
+		this.email = userName;
 	}
 
 	public String getPassword() {
@@ -47,7 +48,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", userName=" + userName + ", password=" + password + "]";
+		return "Account [accountId=" + accountId + ", email=" + email + ", password=" + password + "]";
 	}
 	
 

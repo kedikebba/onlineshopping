@@ -1,6 +1,8 @@
 package edu.miu.pm.onlineshopping.shoppingcart.controller;
 
+import edu.miu.pm.onlineshopping.admin.model.Address;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
+import edu.miu.pm.onlineshopping.admin.service.AddressService;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import edu.miu.pm.onlineshopping.email.MailService;
 import edu.miu.pm.onlineshopping.shoppingcart.model.*;
@@ -23,6 +25,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private EndUserService endUserService;
+    @Autowired
+    private AddressService addressService;
     @Autowired
     private MailService mailService;
 
@@ -122,8 +126,8 @@ public class OrderController {
     }
 
     @PostMapping("/checkout/execute")
-    public ModelAndView checkoutOrder() {
-
+    public ModelAndView checkoutOrder(@ModelAttribute("order") Order orderWithAddress) {
+        orderService.saveOrder(orderWithAddress);
         //update order table - call editCart
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.getPendingOrder(buyer);

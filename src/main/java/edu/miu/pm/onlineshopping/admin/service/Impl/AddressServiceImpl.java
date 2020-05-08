@@ -19,4 +19,9 @@ public class AddressServiceImpl implements AddressService {
     public Address saveAddress(Address address) {
         return addressRepository.save(address);
     }
+
+    @Override
+    public Address getAddress(String street, String state, String city, String zipCode) {
+        return addressRepository.findByStreetAndStateAndCityAndZipCode(street, state, city, zipCode);
+    }
 }
