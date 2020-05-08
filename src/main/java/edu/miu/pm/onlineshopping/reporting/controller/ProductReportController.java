@@ -22,6 +22,7 @@ public class ProductReportController {
 
     @GetMapping("/getProducts")
     public List<Product> getProducts() {
+       // System.out.println("hello");
         return productRepository.findAll();
 
     }
