@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
@@ -35,23 +38,8 @@
                     <button type="submit">Search</button>
                 </form>
 
-
-
-                <!-- Button trigger modal-->
-<!--                <li class="nav-item mr-3">-->
-<!--                    <a th:href="@{/login}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">-->
-<!--                        <span  class="">Login</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li class="nav-item mr-3">-->
-<!--                    <a th:href="@{/register}"  class="nav-link btn-block btn btn-dark waves-effect waves-light">-->
-<!--                        <span  class="">Register</span>-->
-<!--                    </a>-->
-<!--                </li>-->
             </ul>
 
-
-<!--            <ul class="navbar-nav ml-auto nav-flex-icons" th:if="${user!=null && user.role.id==3} ">-->
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <!-- Button trigger modal-->
                 <li class="nav-item mr-3" th:if="${cartPage}">
@@ -60,9 +48,23 @@
                     </a>
                 </li>
 
-
                 <li class="nav-item"></li>
-
+<!--                <li class="nav-item active" th:unless="${user}>-->
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/register}">Register
+<!--                        <span class="sr-only">(current)</span>-->
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/vendor/register}">Register As Vendor
+                        <!--                        <span class="sr-only">(current)</span>-->
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/login}">Login
+                        <!--                        <span class="sr-only">(current)</span>-->
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link waves-effect waves-light">
@@ -73,13 +75,12 @@
                     </a>
                 </li>
 
-
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light">
-                        <i class="fas fa-bell"></i>
-                        <span class="counter"></span>
-                    </a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link waves-effect waves-light">-->
+<!--                        <i class="fas fa-bell"></i>-->
+<!--                        <span class="counter"></span>-->
+<!--                    </a>-->
+<!--                </li>-->
                 <li class="nav-item avatar dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
@@ -130,7 +131,6 @@
                                 <span class="cartCount" th:text="${productItems.size()}"></span>
                                 <span class=""> items in the cart</span>
                             </p>
-<!--                            <p>Do you need more time to make a purchase decision?</p>-->
 
                         </div>
                     </div>

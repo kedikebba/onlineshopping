@@ -16,10 +16,10 @@ public class Vendor {
 	private String firstName;
 	private String lastName;
 	
-	@OneToOne(cascade= {CascadeType.ALL})
+	@OneToOne(cascade= CascadeType.ALL)
 	private Account account;
 	
-	@OneToOne(cascade= {CascadeType.ALL})
+	@OneToOne(cascade= CascadeType.ALL)
 	private Address address;
 	
 	private boolean registrationFeeStatus;

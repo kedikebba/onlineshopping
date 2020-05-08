@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head">
@@ -9,9 +12,7 @@
 
 
 <div class="container success">
-<!--    <div class="py-1 text-center text-white bg-dark">-->
         <div class="py-1">
-<!--        <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
         <h2>Checkout Page</h2>
     </div>
 
@@ -41,41 +42,27 @@
         </div>
         <div class="col-md-8 order-md-2">
             <div class="card">
-<!--                <div class="card-header">-->
-<!--                    Checkout-->
-<!--                </div>-->
 
                 <div class="m-5">
                     <h4 class="mb-3"></h4>
-                    <form action='/checkout/execute' method='POST' id='checkout-form'>
+                    <form action='/checkout/execute' method='POST' id='checkout-form' th:object="${order}">
+                        <div class="container">
+                            <h1>Add Your Billing Address:</h1>
+                            <label for="street"><b>street</b></label>
+<!--                            <input type="text" placeholder="Enter Street" name="street" th:text="${billingAddress != null} ? ${billingAddress.street}" th:field="*{billingAddress.street}" id="street" required>-->
+                            <input type="text" placeholder="Enter Street" name="street" th:field="*{billingAddress.street}" id="street" required>
 
-<!--                        <h3>Select Payment Method</h3>-->
-<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{method}">-->
+                            <label for="state"><b>State</b></label>
+                            <input type="text" placeholder="Enter State" name="state" th:text="${billingAddress != null} ? ${billingAddress.street}" th:field="*{billingAddress.state}" id="state" required>
 
-<!--&lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
-<!--&lt;!&ndash;                            </option>&ndash;&gt;-->
-<!--                            <option th:value="MASTERCARD" th:text="MASTERCARD">-->
-<!--                            </option>-->
-<!--                            <option th:value="VISA" th:text="VISA">-->
-<!--                            </option>-->
-<!--                            <option th:value="AMERICAN-EXPRESS" th:text="AMERICAN-EXPRESS">-->
-<!--                            </option>-->
+                            <label for="city"><b>City</b></label><br>
+                            <input type="text" name="City" id="city" th:text="${billingAddress != null} ? ${billingAddress.city}" th:field="*{billingAddress.city}" required></input><br>
 
-<!--                        </select>-->
-<!--                        <select class="md-form mdb-select colorful-select dropdown-primary" required th:field="*{currency}">-->
+                            <label for="zipCode"><b>Zip Code</b></label><br>
+                            <input type="text" name="billingAddress" id="zipCode" th:text="${billingAddress != null} ? ${billingAddress.zipCode}" th:field="*{billingAddress.zipCode}" required><br>
 
-<!--                            &lt;!&ndash;                            <option th:each="i : ${#numbers.sequence(1, cartItem.quantityInStock)}" th:value="${i}" th:text="${i}">&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            </option>&ndash;&gt;-->
-<!--                            <option th:value="USD" th:text="USD">-->
-<!--                            </option>-->
-<!--                            <option th:value="GBP" th:text="GBP">-->
-<!--                            </option>-->
-<!--                            <option th:value="EURO" th:text="EURO">-->
-<!--                            </option>-->
+                        </div>
 
-<!--                        </select>-->
-
-<!--                        <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">COMPLETE ORDER</button>-->
                         <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">PLACE ORDER</button>
                     </form>
 

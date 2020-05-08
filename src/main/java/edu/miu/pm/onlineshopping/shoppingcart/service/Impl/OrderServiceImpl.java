@@ -1,6 +1,8 @@
 package edu.miu.pm.onlineshopping.shoppingcart.service.Impl;
 
+import edu.miu.pm.onlineshopping.admin.model.Address;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
+import edu.miu.pm.onlineshopping.admin.service.AddressService;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.service.IProductService;
 import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
@@ -12,26 +14,35 @@ import edu.miu.pm.onlineshopping.shoppingcart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Service
+@EnableTransactionManagement
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
     private IProductService productService;
     private CartItemRepository cartItemRepository;
+    private AddressService addressService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService, CartItemRepository cartItemRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService, CartItemRepository cartItemRepository, AddressService addressService) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.cartItemRepository = cartItemRepository;
+        this.addressService = addressService;
     }
 
     @Override
+    @Transactional
     public Order addItemToCart(EndUser user, CartItem cartItem) {
         int numberOfItemsInCart = 0;
         double tax = 0.02;
@@ -89,6 +100,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order removeCartItem(EndUser buyer, CartItem cartItem) {
         Order pendingOrder = getPendingOrder(buyer);
         List<CartItem> cartItems = pendingOrder.getCartItems();
@@ -97,10 +109,6 @@ public class OrderServiceImpl implements OrderService {
                 cartItems.remove(i);
         }
         deleteCartItem(cartItem);
-//        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-//        for (CartItem item: cartItems){
-//            System.out.println(item.getProductName());
-//        }
         pendingOrder.setCartItems(cartItems);
         if (!pendingOrder.getCartItems().isEmpty()) {
             double tax = 0.02;
@@ -118,6 +126,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order getPendingOrder(EndUser buyer){
         return orderRepository.findByBuyer_UserIdAndOrderStatus(buyer.getUserId(), OrderStatus.PENDING);
     }
@@ -164,9 +173,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void updateStock(Order order) {
 
-//        for (Long id: order.getCartItems().keySet()){
         for (CartItem item: order.getCartItems()){
             Product product = productService.findById(item.getProductId());
             if(product != null){
@@ -189,20 +198,36 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order saveOrder(Order order) {
+        Address address = null;
+        if (order.getBillingAddress() != null) {
+            address = addressService.getAddress(order.getBillingAddress().getStreet(), order.getBillingAddress().getState(),
+                    order.getBillingAddress().getCity(), order.getBillingAddress().getZipCode());
+        }
+        if (address != null){
+            order.setBillingAddress(address);
+        }
+        else if (order.getBillingAddress() != null){
+            addressService.saveAddress(order.getBillingAddress());
+        }
+
         return orderRepository.save(order);
     }
 
     @Override
+    @Transactional
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
     @Override
+    @Transactional
     public CartItem saveCartItem(CartItem cartItem) {
         return cartItemRepository.save(cartItem);
     }
 
+    @Transactional
     public void deleteCartItem(CartItem cartItem){
         cartItemRepository.delete(cartItem);
     }

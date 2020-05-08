@@ -3,17 +3,27 @@ package edu.miu.pm.onlineshopping.product.controller;
 
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.service.VendorService;
+import edu.miu.pm.onlineshopping.product.model.Category;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
+import edu.miu.pm.onlineshopping.product.service.Imp.CategoryService;
 import edu.miu.pm.onlineshopping.product.service.Imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+////////////////     Contributor:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
 
 @RestController
 public class ProductController {
@@ -24,25 +34,96 @@ public class ProductController {
     @Autowired
     private VendorService vendorService;
 
-//    @Autowired
-//    private UserServiceImplementation implementation;
-//
-//    @Autowired
-//    private UserServiceImplementation userService;
+
     @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
 
-    @GetMapping("/vendor")
+    //---------------------------- Added by Getaneh --------------------------//
+
+    @GetMapping(value = {"/vendor", "/delete/vendor", "/addProduct/vendor", "/editProduct/vendor"})
     public ModelAndView getVendorHomePage(){
-        Vendor vendor = vendorService.getVendorByName("Abebe");
+        Vendor vendor = vendorService.getVendorByName("Mary");
         ModelAndView mav = new ModelAndView();
         mav.addObject("products", productService.getVendorProducts(vendor));
         mav.addObject("vendor", vendor);
         mav.setViewName("vendor_product_list");
         return mav;
     }
+
+    @GetMapping("/addProduct")
+    public ModelAndView displayAddProductForm(){
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("newProduct", new Product());
+        List<Category> categories = productService.findAll().stream()
+                                                .map(product -> product.getCategory())
+                                                .distinct()
+                                                .collect(Collectors.toList());
+        mav.addObject("categories", categories);
+        Vendor vendor = vendorService.getVendorByName("Mary");
+        mav.addObject("vendor", vendor);
+        mav.setViewName("add_product_form");
+        return mav;
+    }
+
+    @PostMapping("/addProduct")
+    public RedirectView addProduct(@ModelAttribute("newProduct") Product newProduct) throws IOException {
+        Category category = categoryService.getCategoryByName(newProduct.getCategory().getCategoryName());
+        if (category == null){
+            categoryService.save(newProduct.getCategory());
+        } else {
+            newProduct.setCategory(category);
+        }
+
+
+        Product productInStock = productService.getByProductNameAndCategory(newProduct.getProductName(), newProduct.getCategory().getCategoryName());
+        if (productInStock != null){
+            productInStock.setQuantity(productInStock.getQuantity() + newProduct.getQuantity());
+
+            productService.saveProduct(productInStock);
+        } else {
+            productService.saveProduct(newProduct);
+        }
+
+        return new RedirectView("vendor");
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView showEditProductPage(@PathVariable(name = "id") long id) {
+
+        ModelAndView mav = new ModelAndView();
+        Product product = productService.findById(id);
+        mav.addObject("product", product);
+        Vendor vendor = vendorService.getVendorByName("Mary");
+        mav.addObject("vendor", vendor);
+        List<Category> categories = productService.findAll().stream()
+                .map(prod -> prod.getCategory())
+                .distinct()
+                .collect(Collectors.toList());
+        mav.addObject("categories", categories);
+        mav.setViewName("edit_product");
+
+        return mav;
+    }
+
+    @PostMapping(value = "/editProduct")
+    public RedirectView editProduct(@ModelAttribute("product") Product product) throws IOException {
+
+        productService.saveProduct(product);
+
+        return new RedirectView("vendor");
+    }
+
+    @PostMapping("/delete/{id}")
+    public RedirectView deleteProduct(@PathVariable(name = "id") long id) {
+        productService.deleteProductById(id);
+
+        return new RedirectView("vendor");
+    }
+
+    //----------------------------End of Added by Getaneh --------------------------//
 
 //    @GetMapping(value = "/productbyvendor")
 //    public List<Product> getProductByVendor(Principal principal) {

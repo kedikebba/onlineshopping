@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,9 +14,11 @@
 <body>
 
 <div class="pageHeade">
+    <a th:href="@{/vendor}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Home &nbsp &nbsp</a>
         <span th:text="Welcome + ' ' + ${vendor.firstName}"> </span>
+    <a th:href="@{/productReport/{pdf}}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Report/PDF &nbsp &nbsp</a>
+    <a th:href="@{/productReport/{html}}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Report/??? &nbsp &nbsp</a>
 
-    <a th:href="@{/logout}" class="btn btn-white btn-outline-white" style="margin-left: 800px; color: white">Log out</a>
 </div>
     <div th:fragment="productList" class="container">
     <a th:href="@{/addProduct}" class="btn btn-info">Add Product</a>
@@ -30,7 +35,6 @@
             <th scope="col">Date Entered</th>
             <th scope="col">Available Amount</th>
             <th scope="col">Approved Status</th>
-<!--            <th scope="col">Product Image</th>-->
             <th scope="col"></th>
         </tr>
         </thead>
@@ -38,36 +42,26 @@
         <tr th:each="product, i : ${products}">
             <th scope="row" th:text="${i.index + 1}"></th>
             <td th:text="${product.productName}"></td>
-<!--            <td th:text="${product.category.categoryName}"></td>-->
             <td th:text="${product.category.categoryName}"></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.submittedDate}"></td>
             <td th:text="${product.quantity - product.soldQuantity}"></td>
             <td th:text="${product.approvedStatus}"></td>
-<!--            <td th:text="${product.images.get(0)}"></td>-->
-<!--            <td th:text="${product.images.get(0).imageURL}"></td>-->
-<!--            <td><img th:src="${product.images.get(0).imageURL}"></td>-->
-<!--            <td><img th:src="@{/product.images.get(0).image}"></td>-->
-<!--            <td><img th:src="@{/productImage?id=${product.id}}"></td>-->
-<!--            <td><img th:src="${product.images.get(0).imageURL}" width="128" height="128"></td>-->
-
-<!--            <td th:text="${product.reviewList.get(0)}"></td>-->
             <td>
-<!--                <input type="button" value="Update" class="btn-info">-->
                 <a th:href="@{'/edit/' + ${product.productId}}" class="btn btn-secondary">Edit</a>&nbsp;&nbsp;
+            </td>
+            <td>
 <!--                <input type="button" value="Delete" onclick="deleteProduct();" class="btn-danger">-->
-                <a th:href="@{'/delete/' + ${product.productId}}" class=" btn btn-danger">Delete</a>
+                <form action="#" th:action="@{'/delete/' + ${product.productId}}" th:object="${product}" method="post" enctype="multipart/form-data">
+<!--                <a th:href="@{'/delete/' + ${product.productId}}" class=" btn btn-danger">Delete</a>-->
+                    <input type="submit" value="Delete"  class=" btn btn-danger">
+                </form>
             </td>
         </tr>
         </tbody>
-    </table>
-<!--    <img src="images/products/fikir.jpg">-->
+    </table>>
 </div>
 
-<!--<div th:replace="/shared/footer"></div>-->
-
-<!--</body>-->
-<!--</html>-->
 <div th:replace="fragments/footer :: footer">
 </div>
 

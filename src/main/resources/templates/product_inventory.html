@@ -1,3 +1,6 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head">
@@ -23,10 +26,8 @@
                         <h4 class="card-title"><strong th:text="${product.productName}"></strong></h4>
 
                          Description
-                        <p class="card-text" th:text="${product.productName}">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Voluptatibus, ex, recusandae. Facere modi sunt, quod quibusdam.
+                        <p class="card-text" th:text="${product.productName}">Product Description
                         </p>
-
 
                     </div>
 
@@ -34,6 +35,9 @@
                     <div class="card-footer text-muted text-center">
                         <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#modalQuickView' + ${product.productId}">
                             See Product Detail
+                        </button>
+                        <button  th:data="${product.productId}" class="btn btn-primary add-to-cart" data-dismiss="modal">Add to cart
+                            <i class="fas fa-cart-plus ml-2"  aria-hidden="true"></i>
                         </button>
                     </div>
 

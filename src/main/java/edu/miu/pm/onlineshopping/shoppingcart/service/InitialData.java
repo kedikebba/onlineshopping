@@ -2,8 +2,10 @@ package edu.miu.pm.onlineshopping.shoppingcart.service;
 
 
 import edu.miu.pm.onlineshopping.admin.model.Address;
+import edu.miu.pm.onlineshopping.admin.model.Client;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
+import edu.miu.pm.onlineshopping.admin.service.ClientService;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import edu.miu.pm.onlineshopping.admin.service.VendorService;
 import edu.miu.pm.onlineshopping.product.model.Category;
@@ -16,6 +18,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+// This was written before the UI for Product module is done, to populate DB - to test the cart module //
+
 @Component
 public class InitialData implements ApplicationRunner {
 
@@ -27,15 +33,22 @@ public class InitialData implements ApplicationRunner {
     private IProductService productService;
     @Autowired
     private EndUserService endUserService;
+    @Autowired
+    private ClientService clientService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        //loadData();
-        System.out.println("Loading Initial data");
+
+//        loadData();
+
 
     }
 
     private void loadData(){
+        Client admin = new Client();
+        admin.setFirstName("Administrator");
+        clientService.saveClient(admin);
+
         EndUser user = new EndUser();
         user.setFirstName("John");
         Address address = new Address();
@@ -52,6 +65,7 @@ public class InitialData implements ApplicationRunner {
         Vendor vendor2 = new Vendor();
         vendor2.setFirstName("Shibiru");
         Vendor vendor3 = new Vendor();
+        vendor3.setFirstName("John");
         vendorService.saveVendor(vendor1);
         vendorService.saveVendor(vendor2);
         vendorService.saveVendor(vendor3);

@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import edu.miu.pm.onlineshopping.admin.model.Status;
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
+
+////////////////     Contributor:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Repository
 public interface VendorRepository extends JpaRepository<Vendor,Integer> {
 	

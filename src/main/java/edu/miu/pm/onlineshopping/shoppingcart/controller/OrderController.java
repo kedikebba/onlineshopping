@@ -1,6 +1,8 @@
 package edu.miu.pm.onlineshopping.shoppingcart.controller;
 
+import edu.miu.pm.onlineshopping.admin.model.Address;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
+import edu.miu.pm.onlineshopping.admin.service.AddressService;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import edu.miu.pm.onlineshopping.email.MailService;
 import edu.miu.pm.onlineshopping.shoppingcart.model.*;
@@ -12,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.util.List;
 
+////////////////     Author:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @RestController
 @RequestMapping
 public class OrderController {
@@ -20,25 +25,12 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private EndUserService endUserService;
-//    @Autowired
-//    private OrderPaymentService orderPaymentService;
+    @Autowired
+    private AddressService addressService;
     @Autowired
     private MailService mailService;
 
 
-//    @PostMapping("/addToCart")
-//    public ResponseEntity<Cart> addToCart(@RequestBody CartItem cartItem){
-//        EndUser buyer = new EndUser();
-//        buyer.setFirstName("John");
-//       Order order = orderService.addItemToCart(buyer, cartItem);
-//
-////       Cart cart = getCartFromOrder(order);
-//        Cart cart = new Cart();
-//        cart.setCartItems(order.getCartItems());
-//        cart.setTotalPrice(order.getTotalPrice());
-//
-//       return new ResponseEntity<>(cart, HttpStatus.OK);
-//    }
     @PostMapping("/addToCart")
     public long addProductToCart(@RequestBody CartItem cartItem){
         EndUser buyer = endUserService.getEndUserbyId(1);
@@ -134,13 +126,12 @@ public class OrderController {
     }
 
     @PostMapping("/checkout/execute")
-    public ModelAndView checkoutOrder() {
-//        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-//        System.out.println(payment.getMethod());
+    public ModelAndView checkoutOrder(@ModelAttribute("order") Order orderWithAddress) {
+        orderService.saveOrder(orderWithAddress);
         //update order table - call editCart
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.getPendingOrder(buyer);
-//        order.setPayment(payment);
+
         //check stock
         order = orderService.checkStock(order);
 
@@ -149,8 +140,6 @@ public class OrderController {
             order.setSufficientStockExist(false);
             ModelAndView mav = new ModelAndView();
             mav.addObject("order", order);
-//            mav.setViewName("order_complete");
-
             mav.setViewName("order_incomplete");
             return mav;
         }
@@ -167,7 +156,6 @@ public class OrderController {
     public ModelAndView completeCheckout(){
 
         //if there is a problem with payment - return the order with the error in it
-//        payment = orderPaymentService.savePayment(payment);
         EndUser buyer = endUserService.getEndUserbyId(1);
         Order order = orderService.getPendingOrder(buyer);
         order.setTotalPrice(order.getTotalPrice()+order.getShippingPrice());
@@ -188,26 +176,25 @@ public class OrderController {
         order = orderService.saveOrder(order);
         //send mail to buyer
         String[] recipients = {"getaneh.letike@gmail.com"};
-//        String message = "Congratulations! Your order successfully completed /n" +
-//                "Order Number:" + order.getOrderNumber() + "/n" +
-//                "Total price: " + order.getTotalPrice() + "/n" +
-//                "Date: " + order.getOrderCompletedDate() + "/n" +
-//                "Ordered by: " + order.getBuyer().getFirstName() + "/n" +
-//                "Payment Method: " + order.getMethod() + "/n" +
-//                "Your order will be delivered on: " + order.getDeliveryDate() + "/n";
+        String message = "Congratulations! Your order successfully completed /n" +
+                "Order Number:" + order.getOrderNumber() + " /n" +
+                "Total price: " + order.getTotalPrice() + " /n" +
+                "Date: " + order.getOrderCompletedDate() + " /n" +
+                "Ordered by: " + order.getBuyer().getFirstName() + " /n" +
+                "Payment Method: " + order.getMethod() + "/n" +
+                "Your order will be delivered on: " + order.getDeliveryDate() + " /n";
 
-        String message =  " <h1>Congratulations! Your order successfully completed.</h1>" +
-        "<div>" +
-               "Order Number: <h3>" + order.getOrderNumber() +"</h3>" +
-                "Total price: <h3>" + order.getTotalPrice() + "</h3>" +
-               "Date: <h3>" + order.getOrderCompletedDate() +  "</h3>" +
-                "Ordered by: <h3>" + order.getBuyer().getFirstName() + "</h3>" +
-                "Payment Method: <h3>" + order.getMethod() + "</h3>" +
-                "Your order will be delivered on: <h3>" + order.getDeliveryDate() +  "</h3>" +
-        "<div>";
+//        String message =  " <h1>Congratulations! Your order successfully completed.</h1>" +
+//        "<div>" +
+//               "Order Number: <h3>" + order.getOrderNumber() +"</h3>" +
+//                "Total price: <h3>" + order.getTotalPrice() + "</h3>" +
+//               "Date: <h3>" + order.getOrderCompletedDate() +  "</h3>" +
+//                "Ordered by: <h3>" + order.getBuyer().getFirstName() + "</h3>" +
+//                "Payment Method: <h3>" + order.getMethod() + "</h3>" +
+//                "Your order will be delivered on: <h3>" + order.getDeliveryDate() +  "</h3>" +
+//        "<div>";
 
         String[] attachments = {};
-//        sendMailText(String[] recipients, String subject, String message, String[] attachments)
         mailService.sendMailText(recipients, "Order completed", message, attachments );
 
         //return the order

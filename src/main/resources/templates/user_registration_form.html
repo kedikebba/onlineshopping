@@ -1,0 +1,70 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/product.css}">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" th:src="@{js/product.js}" src="js/product.js"></script>
+</head>
+<body>
+
+<div class="pageHeade">
+    <a th:href="@{/home}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Home &nbsp &nbsp</a>
+
+
+    <!--    <a th:href="@{/logout}" class="btn btn-white btn-outline-white" style="margin-left: 800px; color: white">Log out</a>-->
+</div>
+
+<div class="container">
+
+    <form action="#" th:action="@{/registerEndUser}"  th:object="${newUser}" method="post" style="border:1px solid #ccc">
+        <div class="container">
+            <h1>User Registration</h1>
+
+            <label for="firstName"><b>First Name</b></label>
+            <input type="text" placeholder="Enter First Name" name="title" th:field="*{firstName}" id="firstName" required>
+            <label for="lastName"><b>Last Name</b></label>
+            <input type="text" placeholder="Enter Last Name" name="title" th:field="*{lastName}" id="lastName" required>
+            <label for="email"><b>Email</b></label><br>
+            <input type="text" name="email" placeholder="Enter Email" id="email" th:field="*{account.email}" required></input><br>
+
+            <label for="password"><b>Password</b></label><br>
+            <input type="password" name="password" placeholder="Enter Password" id="password" th:field="*{account.password}" required><br>
+
+<!--            <label for="rePassword"><b>Confirm your password</b></label>-->
+<!--            <input type="password" placeholder="Enter Price" name="price" th:field="*{account.rePassword}" id="rePassword" required>-->
+
+            <label for="street"><b>street</b></label>
+            <!--                            <input type="text" placeholder="Enter Street" name="street" th:text="${billingAddress != null} ? ${billingAddress.street}" th:field="*{billingAddress.street}" id="street" required>-->
+            <input type="text" placeholder="Enter Street" name="street" th:field="*{address.street}" id="street" required>
+
+            <label for="state"><b>State</b></label>
+            <input type="text" placeholder="Enter State" name="state" th:field="*{address.state}" id="state" required>
+
+            <label for="city"><b>City</b></label><br>
+            <input type="text" name="City" placeholder="Enter City" id="city" th:field="*{address.city}" required></input><br>
+
+            <label for="zipCode"><b>Zip Code</b></label><br>
+            <input type="text" name="zipCode" placeholder="Enter Zip Code" id="zipCode" th:field="*{address.zipCode}" required><br>
+
+
+            <div class="clearfix">
+                <input type="submit" value="Register"  class="signupbtn btn-primary">
+                <input type="reset" value="Reset"  class="signupbtn btn-warning">
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

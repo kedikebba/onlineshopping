@@ -1,0 +1,73 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/product.css}">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" th:src="@{js/product.js}" src="js/product.js"></script>
+</head>
+<body>
+
+<div class="pageHeade">
+    <a th:href="@{/vendor}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Home &nbsp &nbsp</a>
+    <span th:text="Welcome + ' ' + ${vendor.firstName}"> </span>
+
+<!--    <a th:href="@{/logout}" class="btn btn-white btn-outline-white" style="margin-left: 800px; color: white">Log out</a>-->
+</div>
+
+<div th:fragment="addProductForm" class="container">
+
+    <form action="#" th:action="@{/addProduct}"  th:object="${newProduct}" method="post" enctype="multipart/form-data" style="border:1px solid #ccc">
+        <div class="container">
+            <h1>Add Product</h1>
+
+            <label for="productName"><b>Product Name</b></label>
+            <input type="text" placeholder="Enter Product Name" name="productName" th:field="*{productName}" id="productName" required>
+
+            <label for="productCategory"><b>Category Name</b></label>
+            <input type="text" placeholder="Enter Category Name" name="productCategory" th:field="*{category.categoryName}" id="productCategory" required>
+<!--            <div>-->
+<!--                <label for="productCategory"><b>Category Name &nbsp &nbsp</b></label>-->
+<!--            <select class="md-form mdb-select colorful-select dropdown-primary" th:field="*{category.categoryName}" id="productCategory" required>-->
+<!--                <option value="">Select Product Category</option>-->
+
+<!--                <option th:each="category : ${categories}"-->
+<!--                        th:value="${category.categoryName}"-->
+<!--                        th:text="${category.categoryName}">Category-->
+<!--                </option>-->
+
+<!--            </select>-->
+<!--            </div>-->
+
+            <label for="productDesc"><b>Product Description</b></label><br>
+            <textarea name="description" id="productDesc" th:field="*{description}" required></textarea><br>
+
+            <label for="copies"><b>Quantity</b></label><br>
+            <input name="numberOfCopies" id="copies" th:field="*{quantity}" required><br>
+
+            <label for="price"><b>Price</b></label>
+            <input type="text" placeholder="Enter Price" name="price" th:field="*{price}" id="price" required>
+            <label for="price"><b>Vendor Name</b></label>
+            <input type="text" placeholder="Enter Your Name" name="discountPrice" th:field="*{vendor.firstName}" id="vendor" required>
+
+
+            <div class="clearfix">
+                <input type="submit" value="Add Produt"  class="signupbtn btn-primary">
+                <input type="reset" value="Reset"  class="signupbtn btn-warning">
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>
