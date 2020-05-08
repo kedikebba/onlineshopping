@@ -2,8 +2,10 @@ package edu.miu.pm.onlineshopping.shoppingcart.service;
 
 
 import edu.miu.pm.onlineshopping.admin.model.Address;
+import edu.miu.pm.onlineshopping.admin.model.Client;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.admin.model.Vendor;
+import edu.miu.pm.onlineshopping.admin.service.ClientService;
 import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import edu.miu.pm.onlineshopping.admin.service.VendorService;
 import edu.miu.pm.onlineshopping.product.model.Category;
@@ -31,6 +33,8 @@ public class InitialData implements ApplicationRunner {
     private IProductService productService;
     @Autowired
     private EndUserService endUserService;
+    @Autowired
+    private ClientService clientService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -40,6 +44,10 @@ public class InitialData implements ApplicationRunner {
     }
 
     private void loadData(){
+        Client admin = new Client();
+        admin.setFirstName("Administrator");
+        clientService.saveClient(admin);
+
         EndUser user = new EndUser();
         user.setFirstName("John");
         Address address = new Address();

@@ -6,6 +6,7 @@ import edu.miu.pm.onlineshopping.admin.service.VendorService;
 import edu.miu.pm.onlineshopping.product.model.Category;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.service.ICategoryService;
+import edu.miu.pm.onlineshopping.product.service.Imp.CategoryService;
 import edu.miu.pm.onlineshopping.product.service.Imp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -33,11 +34,7 @@ public class ProductController {
     @Autowired
     private VendorService vendorService;
 
-//    @Autowired
-//    private UserServiceImplementation implementation;
-//
-//    @Autowired
-//    private UserServiceImplementation userService;
+
     @GetMapping(value = "/products")
     public List<Product> getAllProducts() {
         return productService.findAll();
@@ -47,7 +44,7 @@ public class ProductController {
 
     @GetMapping(value = {"/vendor", "/delete/vendor", "/addProduct/vendor", "/editProduct/vendor"})
     public ModelAndView getVendorHomePage(){
-        Vendor vendor = vendorService.getVendorByName("Abebe");
+        Vendor vendor = vendorService.getVendorByName("Mary");
         ModelAndView mav = new ModelAndView();
         mav.addObject("products", productService.getVendorProducts(vendor));
         mav.addObject("vendor", vendor);
@@ -65,7 +62,7 @@ public class ProductController {
                                                 .distinct()
                                                 .collect(Collectors.toList());
         mav.addObject("categories", categories);
-        Vendor vendor = vendorService.getVendorByName("Abebe");
+        Vendor vendor = vendorService.getVendorByName("Mary");
         mav.addObject("vendor", vendor);
         mav.setViewName("add_product_form");
         return mav;
@@ -73,6 +70,13 @@ public class ProductController {
 
     @PostMapping("/addProduct")
     public RedirectView addProduct(@ModelAttribute("newProduct") Product newProduct) throws IOException {
+        Category category = categoryService.getCategoryByName(newProduct.getCategory().getCategoryName());
+        if (category == null){
+            categoryService.save(newProduct.getCategory());
+        } else {
+            newProduct.setCategory(category);
+        }
+
 
         Product productInStock = productService.getByProductNameAndCategory(newProduct.getProductName(), newProduct.getCategory().getCategoryName());
         if (productInStock != null){
@@ -92,7 +96,7 @@ public class ProductController {
         ModelAndView mav = new ModelAndView();
         Product product = productService.findById(id);
         mav.addObject("product", product);
-        Vendor vendor = vendorService.getVendorByName("Abebe");
+        Vendor vendor = vendorService.getVendorByName("Mary");
         mav.addObject("vendor", vendor);
         List<Category> categories = productService.findAll().stream()
                 .map(prod -> prod.getCategory())

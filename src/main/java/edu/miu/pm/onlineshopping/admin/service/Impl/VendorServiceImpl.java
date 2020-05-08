@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 ////////////////     Contributor:               ///////
 ////---              Getaneh Yilma Letike, Id: 610112       ---------//
 
@@ -28,5 +30,15 @@ public class VendorServiceImpl implements VendorService {
     @Transactional
     public Vendor getVendorByName(String name) {
         return vendorRepository.findByFirstName(name);
+    }
+
+    @Override
+    public List<Vendor> getAllVendors() {
+        return vendorRepository.findAll();
+    }
+
+    @Override
+    public Vendor getVendorById(int id) {
+        return vendorRepository.findById(id).get();
     }
 }

@@ -1,6 +1,8 @@
 package edu.miu.pm.onlineshopping.shoppingcart.service.Impl;
 
+import edu.miu.pm.onlineshopping.admin.model.Address;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
+import edu.miu.pm.onlineshopping.admin.service.AddressService;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import edu.miu.pm.onlineshopping.product.service.IProductService;
 import edu.miu.pm.onlineshopping.shoppingcart.model.CartItem;
@@ -29,12 +31,14 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private IProductService productService;
     private CartItemRepository cartItemRepository;
+    private AddressService addressService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService, CartItemRepository cartItemRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, IProductService productService, CartItemRepository cartItemRepository, AddressService addressService) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.cartItemRepository = cartItemRepository;
+        this.addressService = addressService;
     }
 
     @Override
@@ -196,6 +200,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order saveOrder(Order order) {
+        Address address = null;
+        if (order.getBillingAddress() != null) {
+            address = addressService.getAddress(order.getBillingAddress().getStreet(), order.getBillingAddress().getState(),
+                    order.getBillingAddress().getCity(), order.getBillingAddress().getZipCode());
+        }
+        if (address != null){
+            order.setBillingAddress(address);
+        }
+        else if (order.getBillingAddress() != null){
+            addressService.saveAddress(order.getBillingAddress());
+        }
+
         return orderRepository.save(order);
     }
 

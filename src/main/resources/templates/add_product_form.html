@@ -28,20 +28,22 @@
             <h1>Add Product</h1>
 
             <label for="productName"><b>Product Name</b></label>
-            <input type="text" placeholder="Enter Product Name" name="title" th:field="*{productName}" id="productName" required>
+            <input type="text" placeholder="Enter Product Name" name="productName" th:field="*{productName}" id="productName" required>
 
-            <div>
-                <label for="productCategory"><b>Category Name &nbsp &nbsp</b></label>
-            <select class="md-form mdb-select colorful-select dropdown-primary" th:field="*{category.categoryName}" id="productCategory" required>
-                <option value="">Select Product Category</option>
+            <label for="productCategory"><b>Category Name</b></label>
+            <input type="text" placeholder="Enter Category Name" name="productCategory" th:field="*{category.categoryName}" id="productCategory" required>
+<!--            <div>-->
+<!--                <label for="productCategory"><b>Category Name &nbsp &nbsp</b></label>-->
+<!--            <select class="md-form mdb-select colorful-select dropdown-primary" th:field="*{category.categoryName}" id="productCategory" required>-->
+<!--                <option value="">Select Product Category</option>-->
 
-                <option th:each="category : ${categories}"
-                        th:value="${category.categoryName}"
-                        th:text="${category.categoryName}">Category
-                </option>
+<!--                <option th:each="category : ${categories}"-->
+<!--                        th:value="${category.categoryName}"-->
+<!--                        th:text="${category.categoryName}">Category-->
+<!--                </option>-->
 
-            </select>
-            </div>
+<!--            </select>-->
+<!--            </div>-->
 
             <label for="productDesc"><b>Product Description</b></label><br>
             <textarea name="description" id="productDesc" th:field="*{description}" required></textarea><br>

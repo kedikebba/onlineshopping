@@ -3,30 +3,90 @@ package edu.miu.pm.onlineshopping.admin.controller;
 import java.util.List;
 import java.util.Optional;
 
+import edu.miu.pm.onlineshopping.admin.model.*;
+import edu.miu.pm.onlineshopping.admin.repository.AccountRepository;
+import edu.miu.pm.onlineshopping.admin.service.AddressService;
+import edu.miu.pm.onlineshopping.admin.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import edu.miu.pm.onlineshopping.admin.model.Status;
-import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.repository.VendorRepository;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class AdminVendorController {
 	
 	@Autowired
 	private VendorRepository vendorRepository;
+	@Autowired
+	private VendorService vendorService;
+	@Autowired
+	private AccountRepository accountRepository;
+	@Autowired
+	private AddressService addressService;
+
+
+	//------------Added by Getaneh--------------------------//
+
+	@GetMapping("/vendor/register")
+	public ModelAndView getEndUserRegisterForm() {
+
+		Account account = new Account();
+		Address address = new Address();
+		Vendor newVendor =  new Vendor();
+		newVendor.setAccount(account);
+		newVendor.setAddress(address);
+
+		ModelAndView mav = new ModelAndView("vendor_registration_form");
+		mav.addObject("newVendor", newVendor);
+
+		return mav;
+	}
+
+	@PostMapping("/activate/{vendorId}")
+	public RedirectView activateVendor(@PathVariable("vendorId") int id){
+		Vendor vendor = vendorService.getVendorById(id);
+		vendor.setStatus(Status.ACTIVE);
+		vendor = vendorService.saveVendor(vendor);
+
+		RedirectView rv = new RedirectView();
+		rv.setUrl("admin");
+
+		return rv;
+	}
+	@PostMapping("/deactivate/{vendorId}")
+	public RedirectView deactivateVendor(@PathVariable("vendorId") int id){
+		Vendor vendor = vendorService.getVendorById(id);
+		vendor.setStatus(Status.INACTIVE);
+		vendor = vendorService.saveVendor(vendor);
+
+		RedirectView rv = new RedirectView();
+		rv.setUrl("admin");
+
+		return rv;
+	}
+
+	//------------End of Added by Getaneh--------------------------//
 	
 	@PostMapping("/registerVendor")
-	public Vendor registerVendor(@RequestBody Vendor vendor) {
+	public RedirectView registerVendor(@ModelAttribute("newVendor") Vendor vendor) {
+		accountRepository.save(vendor.getAccount());
+		Address address = null;
+		if (vendor.getAddress() != null) {
+			address = addressService.getAddress(vendor.getAddress().getStreet(), vendor.getAddress().getState(),
+					vendor.getAddress().getCity(), vendor.getAddress().getZipCode());
+		}
+		if (address != null){
+			vendor.setAddress(address);
+		}
+		else if (vendor.getAddress() != null){
+			addressService.saveAddress(vendor.getAddress());
+		}
 		vendorRepository.save(vendor);
-		
-		return vendor;
+
+		return new RedirectView("home");
+
 	}
 	
 	@GetMapping("/getVendors")

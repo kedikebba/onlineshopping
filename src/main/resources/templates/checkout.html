@@ -45,7 +45,23 @@
 
                 <div class="m-5">
                     <h4 class="mb-3"></h4>
-                    <form action='/checkout/execute' method='POST' id='checkout-form'>
+                    <form action='/checkout/execute' method='POST' id='checkout-form' th:object="${order}">
+                        <div class="container">
+                            <h1>Add Your Billing Address:</h1>
+                            <label for="street"><b>street</b></label>
+<!--                            <input type="text" placeholder="Enter Street" name="street" th:text="${billingAddress != null} ? ${billingAddress.street}" th:field="*{billingAddress.street}" id="street" required>-->
+                            <input type="text" placeholder="Enter Street" name="street" th:field="*{billingAddress.street}" id="street" required>
+
+                            <label for="state"><b>State</b></label>
+                            <input type="text" placeholder="Enter State" name="state" th:text="${billingAddress != null} ? ${billingAddress.street}" th:field="*{billingAddress.state}" id="state" required>
+
+                            <label for="city"><b>City</b></label><br>
+                            <input type="text" name="City" id="city" th:text="${billingAddress != null} ? ${billingAddress.city}" th:field="*{billingAddress.city}" required></input><br>
+
+                            <label for="zipCode"><b>Zip Code</b></label><br>
+                            <input type="text" name="billingAddress" id="zipCode" th:text="${billingAddress != null} ? ${billingAddress.zipCode}" th:field="*{billingAddress.zipCode}" required><br>
+
+                        </div>
 
                         <button type="submit"  class="btn btn-primary btn-lg btn-block" id="complete-order">PLACE ORDER</button>
                     </form>

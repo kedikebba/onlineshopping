@@ -36,6 +36,9 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#modalQuickView' + ${product.productId}">
                             See Product Detail
                         </button>
+                        <button  th:data="${product.productId}" class="btn btn-primary add-to-cart" data-dismiss="modal">Add to cart
+                            <i class="fas fa-cart-plus ml-2"  aria-hidden="true"></i>
+                        </button>
                     </div>
 
                     <!-- Modal: modalQuickView -->

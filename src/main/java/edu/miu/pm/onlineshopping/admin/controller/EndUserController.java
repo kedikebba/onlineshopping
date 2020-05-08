@@ -3,20 +3,16 @@ package edu.miu.pm.onlineshopping.admin.controller;
 import java.util.List;
 import java.util.Optional;
 
+import edu.miu.pm.onlineshopping.admin.model.*;
+import edu.miu.pm.onlineshopping.admin.repository.AccountRepository;
+import edu.miu.pm.onlineshopping.admin.service.AddressService;
+import edu.miu.pm.onlineshopping.admin.service.EndUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import edu.miu.pm.onlineshopping.admin.model.EndUser;
-import edu.miu.pm.onlineshopping.admin.model.Status;
-import edu.miu.pm.onlineshopping.admin.model.Vendor;
 import edu.miu.pm.onlineshopping.admin.repository.EndUserRepository;
-
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 @RestController
@@ -24,11 +20,71 @@ public class EndUserController {
 	
 	@Autowired
 	private EndUserRepository endUserRepository;
+	@Autowired
+	private EndUserService endUserService;
+	@Autowired
+	AccountRepository accountRepository;
+	@Autowired
+	AddressService addressService;
+
+	//------------Added by Getaneh--------------------------//
+
+	@GetMapping("/register")
+	public ModelAndView getEndUserRegisterForm() {
+		Account account = new Account();
+		Address address = new Address();
+		EndUser newUser =  new EndUser();
+		newUser.setAccount(account);
+		newUser.setAddress(address);
+		ModelAndView mav = new ModelAndView("user_registration_form");
+		mav.addObject("newUser", newUser);
+
+		return mav;
+	}
+	@PostMapping("/activate-user/{userId}")
+	public RedirectView activateUser(@PathVariable("userId") int id){
+		EndUser user = endUserService.getEndUserbyId(id);
+		user.setStatus(Status.ACTIVE);
+		endUserService.saveUser(user);
+
+		RedirectView rv = new RedirectView();
+		rv.setUrl("admin");
+
+		return rv;
+	}
+	@PostMapping("/deactivate-user/{userId}")
+	public RedirectView deactivateVendor(@PathVariable("userId") int id){
+		EndUser user = endUserService.getEndUserbyId(id);
+		user.setStatus(Status.INACTIVE);
+		endUserService.saveUser(user);
+
+		RedirectView rv = new RedirectView();
+		rv.setUrl("admin");
+
+		return rv;
+	}
+
+	//------------End of Added by Getaneh--------------------------//
+
 	
 	@PostMapping("/registerEndUser")
-	public EndUser saveEndUser(@RequestBody EndUser endUser) {
+	public RedirectView saveEndUser(@ModelAttribute("newUser") EndUser endUser) {
+		accountRepository.save(endUser.getAccount());
+		Address address = null;
+		if (endUser.getAddress() != null) {
+			address = addressService.getAddress(endUser.getAddress().getStreet(), endUser.getAddress().getState(),
+					endUser.getAddress().getCity(), endUser.getAddress().getZipCode());
+		}
+		if (address != null){
+			endUser.setAddress(address);
+		}
+		else if (endUser.getAddress() != null){
+			addressService.saveAddress(endUser.getAddress());
+		}
+
 		endUserRepository.save(endUser);
-		return endUser;
+
+		return new RedirectView("home");
 	}
 	
 	@GetMapping("/getEndusers")

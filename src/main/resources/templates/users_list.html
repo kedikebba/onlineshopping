@@ -1,0 +1,104 @@
+
+<!--       Author:                              -->
+<!--      Getaneh Yilma Letike, Id: 610112      -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ONline Shopping User List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" th:src="@{js/product.js}" src="js/registration.js"></script>
+</head>
+<body>
+
+<div class="pageHeade">
+    <a th:href="@{/admin}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Home &nbsp &nbsp</a>
+    <span th:text="Welcome + ' ' + Administrator"> </span>
+<!--Vendors-->
+</div>
+<!--Vendors-->
+<div class="container">
+    <h3>List of Vendors:</h3>
+    <table class="table table-secondary">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Registration Fee</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="vendor, i : ${vendors}">
+            <th scope="row" th:text="${i.index + 1}"></th>
+            <td th:text="${vendor.firstName}"></td>
+            <td th:text="${vendor.lastName}"></td>
+            <td th:text="${vendor.account.email}"></td>
+            <td th:text="${vendor.role}"></td>
+            <td th:text="${vendor.registrationFeeStatus}"></td>
+            <td th:text="${vendor.status} ?: 'Not Approved'"></td>
+            <td>
+<!--                <a th:href="@{'/edit/' + ${vendor.vendorId}}" class="btn btn-secondary">APPROVE</a>&nbsp;&nbsp;-->
+
+            <form action="#" th:action="@{'/activate/' + ${vendor.vendorId}}" th:object="${vendor}" method="post" enctype="multipart/form-data">
+                <input type="submit" value="APPROVE"  class=" btn btn-secondary">
+            </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{'/deactivate/' + ${vendor.vendorId}}" th:object="${vendor}" method="post" enctype="multipart/form-data">
+                    <input type="submit" value="DEACTIVATE"  class=" btn btn-danger">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>>
+</div>
+<!--End Users-->
+<div class="container">
+    <h3>List of End Users:</h3>
+    <table class="table table-secondary">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, i : ${endUsers}">
+            <th scope="row" th:text="${i.index + 1}"></th>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.account.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td th:text="${user.status}"></td>
+            <td>
+                <form action="#" th:action="@{'/activate-user/' + ${user.userId}}" th:object="${user}" method="post" enctype="multipart/form-data">
+                    <input type="submit" value="ACTIVATE"  class=" btn btn-secondary">
+                </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{'/deactivate-user/' + ${user.userId}}" th:object="${user}" method="post" enctype="multipart/form-data">
+                    <input type="submit" value="DEACTIVATE"  class=" btn btn-danger">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>>
+</div>
+
+<div th:replace="fragments/footer :: footer">
+</div>
+
+</body>
+</html>

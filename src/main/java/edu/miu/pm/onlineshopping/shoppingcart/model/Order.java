@@ -1,5 +1,6 @@
 package edu.miu.pm.onlineshopping.shoppingcart.model;
 
+import edu.miu.pm.onlineshopping.admin.model.Address;
 import edu.miu.pm.onlineshopping.admin.model.EndUser;
 import edu.miu.pm.onlineshopping.product.model.Product;
 import lombok.*;
@@ -38,6 +39,8 @@ public class Order {
     @ManyToOne
     @JoinColumn
     private EndUser buyer;
+    @OneToOne
+    private Address billingAddress;
     private boolean isSufficientStockExist = true;
     @OneToMany
     private List<Product> stockErrors = new ArrayList<>();

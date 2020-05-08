@@ -5,13 +5,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+////////////////     Contributor:               ///////
+////---              Getaneh Yilma Letike, Id: 610112       ---------//
+
 @Entity
 public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int addressId;
-	
+	private String street;
 	private String state;
 	private String city;
 	private String zipCode;
@@ -35,6 +38,13 @@ public class Address {
 	}
 
 
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
 	public int getAddressId() {
 		return addressId;
@@ -83,6 +93,19 @@ public class Address {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	@Override
+	public boolean equals(Object obj){
+		if(obj == null)
+			return false;
+		if(obj.getClass() != this.getClass())
+			return false;
+		Address address = (Address) obj;
+		return (address.getStreet().equals(this.getStreet()) &&
+				address.getState().equals(this.getState()) &&
+				address.getCity().equals(this.getCity()) &&
+				address.getZipCode().equals(this.getZipCode()));
 	}
 
 
