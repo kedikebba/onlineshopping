@@ -18,7 +18,7 @@ public class HomeController {
 	@Autowired
 	private OrderService orderService;
 	
-	@RequestMapping("/home")
+	@RequestMapping(value = {"/","/home"})
 	public ModelAndView homePage() {
 //		ModelAndView mav=new ModelAndView("home");
 		ModelAndView mav = new ModelAndView();

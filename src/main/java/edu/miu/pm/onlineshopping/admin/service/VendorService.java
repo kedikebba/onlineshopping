@@ -12,4 +12,6 @@ public interface VendorService {
     List<Vendor> getAllVendors();
 
     Vendor getVendorById(int id);
+
+    Vendor getVendorByEmail(String email);
 }

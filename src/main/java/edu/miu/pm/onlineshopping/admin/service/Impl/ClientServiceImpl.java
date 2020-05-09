@@ -22,4 +22,9 @@ public class ClientServiceImpl implements ClientService {
     public Client saveClient(Client admin) {
         return clientRepository.save(admin);
     }
+
+    @Override
+    public Client getAdminByEmail(String email) {
+        return clientRepository.findByAccount_Email(email);
+    }
 }

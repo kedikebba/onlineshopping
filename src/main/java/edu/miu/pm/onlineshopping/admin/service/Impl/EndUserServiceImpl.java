@@ -34,4 +34,9 @@ public class EndUserServiceImpl implements EndUserService {
     public List<EndUser> getAllEndUsers() {
         return endUserRepository.findAll();
     }
+
+    @Override
+    public EndUser getEndUserByEmail(String email) {
+        return endUserRepository.findByAccount_Email(email);
+    }
 }

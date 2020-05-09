@@ -9,4 +9,6 @@ public interface ClientService {
     List<Client> getAllClients();
 
     Client saveClient(Client admin);
+
+    Client getAdminByEmail(String email);
 }

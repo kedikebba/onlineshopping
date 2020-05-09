@@ -10,4 +10,6 @@ public interface EndUserService {
     public EndUser getEndUserbyId(int id);
 
     List<EndUser> getAllEndUsers();
+
+    EndUser getEndUserByEmail(String email);
 }

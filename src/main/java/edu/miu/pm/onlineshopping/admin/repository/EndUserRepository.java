@@ -2,6 +2,7 @@ package edu.miu.pm.onlineshopping.admin.repository;
 
 import java.util.List;
 
+import edu.miu.pm.onlineshopping.admin.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +21,8 @@ public interface EndUserRepository extends JpaRepository<EndUser,Integer>{
 	public List<EndUser> findAllByStatus(@Param("status") Status status);
 	
 	public EndUser findByUserIdAndStatus(int userId,Status status);
+
+	EndUser findByAccount_Email(String email);
 	
 
 }

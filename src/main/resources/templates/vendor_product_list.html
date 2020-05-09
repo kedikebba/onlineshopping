@@ -16,8 +16,8 @@
 <div class="pageHeade">
     <a th:href="@{/vendor}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Home &nbsp &nbsp</a>
         <span th:text="Welcome + ' ' + ${vendor.firstName}"> </span>
-    <a th:href="@{/productReport/{pdf}}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Report/PDF &nbsp &nbsp</a>
-    <a th:href="@{/productReport/{html}}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Report/??? &nbsp &nbsp</a>
+    <a th:href="@{/productReport/pdf}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Report/PDF &nbsp &nbsp</a>
+    <a th:href="@{/productReport/html}" class="btn btn-white btn-outline-white" style="margin-left: 80px; color: white">Report/html &nbsp &nbsp</a>
 
 </div>
     <div th:fragment="productList" class="container">

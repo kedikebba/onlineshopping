@@ -24,4 +24,6 @@ public interface VendorRepository extends JpaRepository<Vendor,Integer> {
 
     Vendor findByFirstName(String name);
 
+    Vendor findByAccount_Email(String email);
+
 }
