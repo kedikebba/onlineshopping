@@ -6,4 +6,6 @@ import edu.miu.pm.onlineshopping.admin.model.Client;
 
 public interface ClientRepository extends JpaRepository<Client,Integer> {
 
+    Client findByAccount_Email(String email);
+
 }

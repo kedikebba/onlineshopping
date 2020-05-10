@@ -41,4 +41,9 @@ public class VendorServiceImpl implements VendorService {
     public Vendor getVendorById(int id) {
         return vendorRepository.findById(id).get();
     }
+
+    @Override
+    public Vendor getVendorByEmail(String email) {
+        return vendorRepository.findByAccount_Email(email);
+    }
 }

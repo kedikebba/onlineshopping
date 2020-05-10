@@ -22,7 +22,8 @@ public class ProductReportingService {
     private IProductRepository productRepository;
 
     public String exportProductReport(String reportFormat) throws FileNotFoundException, JRException {
-        String path = "C:\\Users\\13196\\JasperReport";
+//        String path = "C:\\Users\\13196\\JasperReport";
+        String path = "C:\\Users\\user\\Desktop";
 
         //importing the product  POJO mentioned in the product module
         //how to differentiate it from the one that is mentioned inside the shopping cart

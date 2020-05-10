@@ -180,6 +180,7 @@ public class OrderServiceImpl implements OrderService {
             Product product = productService.findById(item.getProductId());
             if(product != null){
                 product.setQuantity(product.getQuantity() - item.getQuantity());
+                product.setSoldQuantity(item.getQuantity());
                 productService.saveProduct(product);
             }
         }

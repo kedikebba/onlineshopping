@@ -44,7 +44,7 @@ public class ProductController {
 
     @GetMapping(value = {"/vendor", "/delete/vendor", "/addProduct/vendor", "/editProduct/vendor"})
     public ModelAndView getVendorHomePage(){
-        Vendor vendor = vendorService.getVendorByName("Mary");
+        Vendor vendor = vendorService.getVendorById(1);
         ModelAndView mav = new ModelAndView();
         mav.addObject("products", productService.getVendorProducts(vendor));
         mav.addObject("vendor", vendor);
@@ -62,7 +62,7 @@ public class ProductController {
                                                 .distinct()
                                                 .collect(Collectors.toList());
         mav.addObject("categories", categories);
-        Vendor vendor = vendorService.getVendorByName("Mary");
+        Vendor vendor = vendorService.getVendorById(1);
         mav.addObject("vendor", vendor);
         mav.setViewName("add_product_form");
         return mav;
@@ -96,7 +96,7 @@ public class ProductController {
         ModelAndView mav = new ModelAndView();
         Product product = productService.findById(id);
         mav.addObject("product", product);
-        Vendor vendor = vendorService.getVendorByName("Mary");
+        Vendor vendor = vendorService.getVendorById(1);
         mav.addObject("vendor", vendor);
         List<Category> categories = productService.findAll().stream()
                 .map(prod -> prod.getCategory())
